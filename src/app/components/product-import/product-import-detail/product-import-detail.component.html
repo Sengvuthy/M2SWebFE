@@ -1,0 +1,56 @@
+<div class="receipt">
+    <!-- Header -->
+    <h4 class="center">PRODUCT IMPORT</h4>
+
+    <!-- ImportId + Date on same row -->
+    <div class="row-between">
+        <p>ImportId: {{ info.importId }}</p>
+        <p>Date: {{ info.importDate | date:'dd-MMM-yy' }} {{ info.importTime?.substring(0,5) }}</p>
+    </div>
+
+    <!-- Importer + Supplier on same row -->
+    <div class="row-between">
+        <p>Importer: {{ info.importerName }}</p>
+        <p>Supplier: {{ info.supplierName }}</p>
+    </div>
+    <hr>
+
+    <!-- Items Table -->
+    <table class="item-table">
+        <thead>
+            <tr>
+                <th>Qty</th>
+                <th>Product</th>
+                <th class="text-end">Price</th>
+                <th class="text-end">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let it of items">
+                <td>{{ it.importUnit }}</td>
+                <td>{{ it.productName }}</td>
+                <td class="text-end">
+                    {{ it.buyPrice | currency:'USD':'symbol':'1.2-2' }}
+                </td>
+                <td class="text-end">
+                    {{ (it.buyAmount ?? (it.buyPrice * it.importUnit)) | currency:'USD':'symbol':'1.2-2' }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    <div class="summary-box">
+        <div class="right-totals text-end">
+            <p><b>Total:</b> {{ getTotal() | currency:'USD':'symbol':'1.2-2' }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Action buttons (hidden on print) -->
+<div class="no-print actions">
+    <p class="center text-muted" *ngIf="countdown > 0">
+        Returning to Product Imports Form in {{ countdown }} seconds...
+    </p>
+    <button class="btn btn-primary btn-sm me-2" (click)="print()">Print</button>
+    <button class="btn btn-outline-secondary btn-sm" (click)="router.navigate(['/product-import'])">Back</button>
+</div>

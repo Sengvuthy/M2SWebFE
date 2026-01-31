@@ -1,0 +1,67 @@
+<div class="receipt">
+  <!-- Header -->
+  <h4 class="center">SUPERIOR SHOP</h4>
+
+  <!-- Invoice + Date on same row -->
+  <div class="row-between">
+    <p>Invoice: {{ info.invoice }}</p>
+    <p>Date: {{ info.saleDate | date:'dd-MMM-yy' }} {{ info.saleTime?.substring(0,5) }}</p>
+  </div>
+
+  <!-- Cashier + Customer on same row -->
+  <div class="row-between">
+    <p>Cashier: {{ info.sellerName }}</p>
+    <p>Customer: {{ info.customerName }}</p>
+  </div>
+  <hr>
+
+  <!-- Items Table -->
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>Qty</th>
+        <th>Product</th>
+        <th class="text-end">Price</th>
+        <th class="text-end">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let it of items">
+        <td>{{ it.numberOfUnit }}</td>
+        <td>{{ it.productName }}</td>
+        <td class="text-end">
+          {{ it.unitPrice | currency:'USD':'symbol':'1.2-2' }}
+        </td>
+        <td class="text-end">
+          {{
+          it.soldAmount > 0
+          ? it.soldAmount
+          : (it.unitPrice * it.numberOfUnit * (1 - (it.discount || 0)/100))
+          | currency:'USD':'symbol':'1.2-2'
+          }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+  <div class="summary-box">
+    <div class="left-note">
+      <p><small>Goods sold are neither returnable nor refundable</small></p>
+    </div>
+    <div class="right-totals text-end">
+      <p><b>Total:</b> {{ getTotal() | currency:'USD':'symbol':'1.2-2' }}</p>
+      <p><b>Receive:</b> {{ receivedAmount | currency:'USD':'symbol':'1.2-2' }}</p>
+      <p><b>Change:</b> {{ changeAmount | currency:'USD':'symbol':'1.2-2' }}</p>
+    </div>
+  </div>
+  <p class="center">Thank you for shopping!</p>
+</div>
+
+<!-- Action buttons (hidden on print) -->
+<div class="no-print actions">
+  <p class="center text-muted" *ngIf="countdown > 0">
+    Returning to Sales Form in {{ countdown }} seconds...
+  </p>
+  <button class="btn btn-primary btn-sm me-2" (click)="print()">Print</button>
+  <button class="btn btn-outline-secondary btn-sm" (click)="router.navigate(['/sales'])">Back</button>
+</div>

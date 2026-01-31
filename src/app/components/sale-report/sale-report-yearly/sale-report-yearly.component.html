@@ -1,0 +1,81 @@
+<div class="card card-gradient p-3">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-end flex-wrap">
+
+      <!-- 🔍 Year Picker + Action Buttons -->
+      <div class="d-flex align-items-end gap-2 flex-wrap">
+        <div class="d-flex flex-column">
+          <label>Year:</label>
+          <select [(ngModel)]="yearlyYear" class="form-select">
+            <option [value]="2026">2026</option>
+            <option [value]="2027">2027</option>
+            <option [value]="2028">2028</option>
+            <option [value]="2029">2029</option>
+            <option [value]="2030">2030</option>
+          </select>
+        </div>
+
+        <button class="btn btn-success btn-sm" (click)="searchYearly()">Search Yearly</button>
+        <button class="btn btn-outline-secondary btn-sm" (click)="clearResults()">Clear</button>
+      </div>
+
+      <!-- 📥 Import Button -->
+      <div>
+        <button class="btn btn-primary btn-sm" (click)="importYearly()">Import Yearly</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⏳ Loading -->
+<div *ngIf="isLoading" class="text-center p-3">Loading yearly summary...</div>
+
+<!-- 📊 Yearly Summary Card -->
+<div *ngIf="!isLoading && yearlySummary" class="header-flat">
+  <h5 class="card-title text-center mb-3">
+    Yearly Summary for {{ yearlySummary.reportYear }}
+  </h5>
+
+  <table class="table table-bordered text-center mb-3">
+    <thead class="table-light">
+      <tr>
+        <th>Total Sales Amount</th>
+        <th>Total Transactions</th>
+        <th>Total Units Sold</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ yearlySummary.totalSalesAmount | currency:'USD' }}</td>
+        <td>{{ yearlySummary.totalTransactions }}</td>
+        <td>{{ yearlySummary.totalUnitsSold }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 📅 Monthly Summaries inside Yearly -->
+  <h6 class="mt-3">Monthly Summaries</h6>
+  <table class="table table-sm table-striped text-center">
+    <thead>
+      <tr>
+        <th>Month</th>
+        <th>Sales Amount</th>
+        <th>Transactions</th>
+        <th>Units Sold</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of yearlySummary.monthlySummaries">
+        <td>{{ getMonthLabel(m.reportMonth) }}</td>
+        <td>{{ m.totalSalesAmount | currency:'USD' }}</td>
+        <td>{{ m.totalTransactions }}</td>
+        <td>{{ m.totalUnitsSold }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 🚫 No Summary Found -->
+<div *ngIf="!isLoading && !yearlySummary" class="text-center">
+  No yearly summary available
+</div>

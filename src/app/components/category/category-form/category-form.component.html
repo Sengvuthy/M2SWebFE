@@ -1,0 +1,36 @@
+<div class="card card-gradient p-3">
+  <div class="card-body">
+    <div class="m-sm-3">
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="mb-3">
+          <label class="form-label">Category Name</label>
+          <input
+            class="form-control form-control-lg"
+            type="text"
+            formControlName="name"
+            placeholder="Enter category name"
+            [class.is-invalid]="form.controls['name'].invalid && form.controls['name'].touched"
+          />
+          <div class="invalid-feedback" *ngIf="form.controls['name'].errors?.['required']">
+            Category name is required.
+          </div>
+          <div class="invalid-feedback" *ngIf="form.controls['name'].errors?.['minlength']">
+            Category name must be at least 2 characters.
+          </div>
+        </div>
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button
+            type="submit"
+            class="jelly-btn-sky"
+            [disabled]="isSubmitted || form.invalid"
+          >
+            {{ originalId ? 'Update Category' : 'Create Category' }}
+          </button>
+          <button type="button" class="jelly-btn-sky" (click)="cancel()">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

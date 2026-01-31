@@ -1,0 +1,73 @@
+<div class="card card-gradient p-3">
+  <form [formGroup]="form" (ngSubmit)="save()">
+
+    <!-- 🔹 Product Details -->
+    <div class="d-flex flex-column gap-2">
+
+      <!-- Supplier Dropdown -->
+      <div class="d-flex align-items-center">
+        <label class="mb-0 fw-medium" style="width: 140px;">Supplier *</label>
+        <select class="form-select flex-grow-1" formControlName="supplierId">
+          <option [ngValue]="null">-- Select Supplier --</option>
+          <option *ngFor="let s of suppliers" [ngValue]="s.id">{{ s.name }}</option>
+        </select>
+      </div>
+      
+      <!-- Barcode -->
+      <div class="d-flex align-items-center">
+        <label class="mb-0 fw-medium" style="width: 140px;">Barcode *</label>
+        <input type="text" class="form-control" formControlName="barcode" />
+      </div>
+
+      <!-- Name -->
+      <div class="d-flex align-items-center">
+        <label class="mb-0 fw-medium" style="width: 140px;">Product Name *</label>
+        <input type="text" class="form-control" formControlName="name" />
+      </div>
+
+      <!-- Category Dropdown -->
+      <div class="d-flex align-items-center">
+        <label class="mb-0 fw-medium" style="width: 140px;">Category *</label>
+        <select class="form-select flex-grow-1" formControlName="categoryId">
+          <option [ngValue]="null">-- Select Category --</option>
+          <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.name }}</option>
+        </select>
+      </div>
+
+      <!-- Available Unit -->
+      <div class="d-flex align-items-center">
+        <label class="mb-0 fw-medium" style="width: 140px;">Available Units</label>
+        <input type="number" class="form-control" formControlName="availableUnit" />
+      </div>
+
+      <!-- Buy Price -->
+      <div class="d-flex align-items-center">
+        <label class="mb-0 fw-medium" style="width: 140px;">Buy Price</label>
+        <input type="number" class="form-control" formControlName="buyPrice" step="0.01" />
+      </div>
+
+      <!-- Sale Price -->
+      <div class="d-flex align-items-center">
+        <label class="mb-0 fw-medium" style="width: 140px;">Sale Price</label>
+        <input type="number" class="form-control" formControlName="salePrice" step="0.01" />
+      </div>
+
+      <!-- Image Upload -->
+      <div class="d-flex align-items-start">
+        <label class="mb-0 fw-medium" style="width: 140px;">Image</label>
+        <div class="flex-grow-1">
+          <input type="file" class="form-control" (change)="upload($event)" />
+          <div *ngIf="form.value.imagePath" class="mt-2">
+            <img [src]="form.value.imagePath" alt="Product image" class="img-thumbnail" style="max-height: 150px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 Actions -->
+    <div class="mt-3 text-end">
+      <button type="submit" class="btn btn-success btn-lg me-2" [disabled]="isSubmitting">💾 Save</button>
+      <button type="button" class="btn btn-secondary btn-lg" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>

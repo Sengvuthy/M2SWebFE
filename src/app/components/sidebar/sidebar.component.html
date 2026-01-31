@@ -1,0 +1,133 @@
+<nav id="sidebar" class="sidebar js-sidebar">
+  <div class="sidebar-content js-simplebar" style="height: 100vh; overflow-y: auto;">
+    <a class="sidebar-brand" href="#">
+      <span class="align-middle">SUPERIOR SHOP</span>
+    </a>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-header">Pages</li>
+
+      <!-- Sales -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/sales">
+          <i data-feather="bar-chart-2" class="align-middle"></i>
+          <span class="align-middle">Sales</span>
+        </a>
+      </li>
+
+      <!-- Category -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/category">
+          <i data-feather="layers" class="align-middle"></i>
+          <span class="align-middle">Category</span>
+        </a>
+      </li>
+
+      <!-- Product -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/product">
+          <i data-feather="package" class="align-middle"></i>
+          <span class="align-middle">Product</span>
+        </a>
+      </li>
+
+      <!-- Product Import -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/product-import">
+          <i data-feather="upload" class="align-middle"></i>
+          <span class="align-middle">Product Import</span>
+        </a>
+      </li>
+
+      <!-- Supplier -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/supplier">
+          <i data-feather="truck" class="align-middle"></i>
+          <span class="align-middle">Supplier</span>
+        </a>
+      </li>
+
+      <!-- Expense -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/expense">
+          <i data-feather="credit-card" class="align-middle"></i>
+          <span class="align-middle">Expense</span>
+        </a>
+      </li>
+
+      <!-- Sale Reports -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/sale-report">
+          <i data-feather="file-text" class="align-middle"></i>
+          <span class="align-middle">Sale Reports</span>
+        </a>
+      </li>
+
+      <!-- Customer -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/customer">
+          <i data-feather="users" class="align-middle"></i>
+          <span class="align-middle">Customer</span>
+        </a>
+      </li>
+
+      <!-- User -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/user">
+          <i data-feather="user" class="align-middle"></i>
+          <span class="align-middle">User</span>
+        </a>
+      </li>
+
+      <!-- Seller -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/seller">
+          <i data-feather="shopping-bag" class="align-middle"></i>
+          <span class="align-middle">Seller</span>
+        </a>
+      </li>
+
+      <!-- Role -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/role">
+          <i data-feather="shield" class="align-middle"></i>
+          <span class="align-middle">Role</span>
+        </a>
+      </li>
+
+      <!-- Permission -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/permission">
+          <i data-feather="lock" class="align-middle"></i>
+          <span class="align-middle">Permission</span>
+        </a>
+      </li>
+
+      <!-- User_Role -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/user-role">
+          <i data-feather="user-check" class="align-middle"></i>
+          <span class="align-middle">User Role</span>
+        </a>
+      </li>
+
+      <!-- Role_Permission -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/role-permission">
+          <i data-feather="key" class="align-middle"></i>
+          <span class="align-middle">Role Permission</span>
+        </a>
+      </li>
+
+      <li class="sidebar-header mt-4">Account</li>
+
+      <!-- Logout -->
+      <li class="sidebar-item">
+        <a class="sidebar-link text-danger fw-bold logout-link" (click)="signOut()" style="cursor: pointer;">
+          <i data-feather="log-out" class="align-middle me-2"></i>
+          <span class="align-middle">Log Out</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

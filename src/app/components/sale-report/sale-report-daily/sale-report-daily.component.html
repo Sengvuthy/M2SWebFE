@@ -1,0 +1,55 @@
+<div class="card card-gradient p-3">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-end flex-wrap">
+
+      <!-- 🔍 Date Picker + Load/Clear Buttons -->
+      <div class="d-flex align-items-end gap-2 flex-wrap">
+        <div class="d-flex flex-column">
+          <label>Select Date:</label>
+          <input type="date" [(ngModel)]="dailyDate" class="form-control" />
+        </div>
+
+        <button class="btn btn-success btn-sm" (click)="loadDailySummary()">Search Daily Summary</button>
+        <button class="btn btn-outline-secondary btn-sm" (click)="clearSummary()">Clear</button>
+      </div>
+
+      <!-- 📥 Import Button -->
+      <div>
+        <button class="btn btn-primary btn-sm" (click)="triggerImport()">Import from Excel</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ⏳ Loading -->
+<div *ngIf="isLoading" class="text-center p-3">Loading summary...</div>
+
+<!-- 📊 Daily Summary Card -->
+<div *ngIf="!isLoading && dailySummary" class="header-flat">
+  <h5 class="card-title text-center mb-3">
+    Daily Summary on {{ dailySummary.reportDate | date:'dd-MMM-yyyy' }}
+  </h5>
+
+  <table class="table table-bordered text-center">
+    <thead class="table-light">
+      <tr>
+        <th>Total Sales Amount</th>
+        <th>Total Transactions</th>
+        <th>Total Units Sold</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ dailySummary.totalSalesAmount | currency:'USD' }}</td>
+        <td>{{ dailySummary.totalTransactions }}</td>
+        <td>{{ dailySummary.totalUnitsSold }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 🚫 No Summary Found -->
+<div *ngIf="!isLoading && !dailySummary" class="text-center">
+  No summary available
+</div>

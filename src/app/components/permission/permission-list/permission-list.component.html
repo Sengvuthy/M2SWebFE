@@ -1,0 +1,77 @@
+<div class="header-flat">
+
+  <!-- ⏳ Loading Indicator -->
+  <div *ngIf="isLoading" class="text-center p-3">
+    Loading permissions...
+  </div>
+
+  <!-- 📋 Permission Table -->
+  <div *ngIf="!isLoading" class="col-12 d-flex">
+    <div class="card flex-fill">
+
+      <!-- ⭐ Header Row -->
+      <div class="d-flex justify-content-between align-items-center px-3 py-1 rounded shadow-sm mb-1 header-flat">
+        <button class="btn btn-success btn-sm" (click)="goToCreatePermission()">
+          Create Permission
+        </button>
+        <h5 class="text-center flex-grow-1 mb-0" style="font-size: 1rem;">Permission List</h5>
+        <div class="d-flex gap-2 ms-3">
+          <button class="btn btn-warning btn-sm" style="background-color: #f58718;" (click)="importPermissions()">
+            Import Permissions
+          </button>
+        </div>
+      </div>
+
+      <table class="table table-hover my-0 table-flat">
+        <thead>
+          <tr style="font-size: 0.9rem;">
+            <th (click)="sort('id')" style="cursor:pointer; width: 15%;">
+              ID
+              <span *ngIf="sortBy === 'id'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+            </th>
+            <th (click)="sort('permissionName')" style="cursor:pointer; width: 35%;">
+              Permission Name
+              <span *ngIf="sortBy === 'permissionName'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+            </th>
+            <th style="width: 30%;">Description</th>
+            <th class="text-center" style="width: 20%;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of permissions" style="font-size: 0.9rem;">
+            <td style="padding: 0.3rem 0.5rem;">{{ p.id }}</td>
+            <td style="padding: 0.3rem 0.5rem;">{{ p.permissionName }}</td>
+            <td style="padding: 0.3rem 0.5rem;">{{ p.description }}</td>
+            <td class="text-center" style="padding: 0.3rem 0.5rem;">
+              <button class="btn btn-primary btn-sm me-2" (click)="editPermission(p.id)">Edit</button>
+              <button class="btn btn-danger btn-sm" (click)="deletePermission(p.id)">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="permissions.length === 0">
+            <td colspan="4" class="text-center">No permissions found</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 📑 Pagination -->
+      <div class="card-footer text-center py-1 footer-flat">
+        <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()" style="padding: 0.3rem 0.5rem;">
+          Previous
+        </button>
+        <ng-container *ngFor="let p of pageNumbers">
+          <button
+            class="btn mx-1"
+            [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
+            (click)="goToPage(p)"
+            style="padding: 0.3rem 0.5rem;"
+          >
+            {{ p }}
+          </button>
+        </ng-container>
+        <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()" style="padding: 0.3rem 0.5rem;">
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

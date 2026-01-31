@@ -1,0 +1,60 @@
+<div class="card card-gradient p-3">
+  <div class="card-body">
+    <div class="m-sm-3">
+      <form [formGroup]="sellerForm" (ngSubmit)="saveSeller()">
+
+        <!-- Seller Name -->
+        <div class="mb-3">
+          <label class="form-label">Seller Name</label>
+          <input
+            class="form-control form-control-lg"
+            type="text"
+            formControlName="name"
+            placeholder="Enter seller name"
+            [class.is-invalid]="sellerForm.controls['name'].invalid && sellerForm.controls['name'].touched"
+          />
+          <div class="invalid-feedback" *ngIf="sellerForm.controls['name'].errors?.['required']">
+            Seller name is required.
+          </div>
+          <div class="invalid-feedback" *ngIf="sellerForm.controls['name'].errors?.['minlength']">
+            Name must be at least 2 characters.
+          </div>
+        </div>
+
+        <!-- Employee Code -->
+        <div class="mb-3">
+          <label class="form-label">Employee Code</label>
+          <input
+            class="form-control form-control-lg"
+            type="text"
+            formControlName="employeeCode"
+            placeholder="Enter employee code"
+          />
+        </div>
+
+        <!-- Phone -->
+        <div class="mb-3">
+          <label class="form-label">Phone</label>
+          <input
+            class="form-control form-control-lg"
+            type="text"
+            formControlName="phone"
+            placeholder="Enter phone number"
+            [class.is-invalid]="sellerForm.controls['phone'].invalid && sellerForm.controls['phone'].touched"
+          />
+          <div class="invalid-feedback" *ngIf="sellerForm.controls['phone'].errors?.['pattern']">
+            Phone number must be 9–15 digits.
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button type="submit" class="jelly-btn-sky" [disabled]="isSubmitted || sellerForm.invalid">
+            {{ sellerId ? 'Update Seller' : 'Create Seller' }}
+          </button>
+          <button type="button" class="jelly-btn-sky" (click)="cancel()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

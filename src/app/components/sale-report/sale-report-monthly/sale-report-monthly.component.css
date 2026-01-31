@@ -1,0 +1,124 @@
+/* sale-report-list.component.css
+/* 🌈 Card container */
+.card {
+  background: linear-gradient(to bottom right, #7dc0fa);
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 🔹 Section headers */
+h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 0.75rem;
+}
+
+/* 🟦 Labels */
+label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* 🟩 Inputs */
+.form-control {
+  border-radius: 0.5rem;
+  border: 1px solid #ced4da;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
+}
+
+/* 🟨 Preview table */
+.preview-table {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.preview-table th {
+  background-color: #007bff;
+  color: white;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.preview-table td {
+  background-color: #f9f9f9;
+  font-size: 0.85rem;
+}
+
+/* 🟪 Side panels */
+.product-details,
+.financial-summary {
+  background-color: #fefefe;
+  border: 1px solid #dee2e6;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* 🟫 Buttons */
+.jelly-btn-sky {
+  background: linear-gradient(to bottom, #6fb1fc, #1e90ff);
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jelly-btn-sky:hover {
+  transform: scale(1.05);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5),
+    0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* 📱 Responsive tweaks */
+@media (max-width: 768px) {
+  .form-main {
+    flex-direction: column;
+  }
+
+  .product-details,
+  .financial-summary {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
+/* 🟦 Dropdown styling */
+.custom-dropdown {
+  border-radius: 0.5rem;
+  overflow: hidden; /* keeps rounded corners */
+  max-height: 400px; /* prevent dropdown from growing too tall */
+  overflow-y: auto;  /* scroll if too many items */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* floating effect */
+}
+
+.custom-dropdown .list-group-item {
+  background-color: #e9efe9; /* base background */
+  border: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.custom-dropdown .list-group-item:hover,
+.custom-dropdown .list-group-item.active {
+  background-color: #9f9f9e; /* highlight color */
+  color: #fff;               /* text contrast */
+  cursor: pointer;
+}
+
+.custom-dropdown .list-group-item.active {
+  background-color: #929491;
+  color: #fff;
+}

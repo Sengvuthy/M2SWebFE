@@ -1,0 +1,66 @@
+<div class="card card-gradient p-3">
+  <div class="card-body">
+    <div class="m-sm-3">
+      <form [formGroup]="userForm" (ngSubmit)="saveUser()">
+
+        <div class="mb-3">
+          <label class="form-label">User name</label>
+          <input class="form-control form-control-lg" type="text" formControlName="username"
+                 placeholder="Enter your username" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input class="form-control form-control-lg" type="password" formControlName="password"
+                 placeholder="Enter password" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Phone number</label>
+          <input class="form-control form-control-lg" type="text" formControlName="phoneNumber"
+                 placeholder="Enter your phone number" />
+        </div>
+
+        <!-- ✅ Primary Role -->
+        <div class="mb-3">
+          <label class="form-label">Primary Role (required)</label>
+          <select class="form-select" formControlName="role1" required>
+            <option value="">-- Select Role --</option>
+            <option *ngFor="let role of roles" [value]="role.roleName">
+              {{ role.roleName }} - {{ role.description }}
+            </option>
+          </select>
+        </div>
+
+        <!-- ✅ Secondary Role -->
+        <div class="mb-3">
+          <label class="form-label">Secondary Role (optional)</label>
+          <select class="form-select" formControlName="role2">
+            <option value="">-- None --</option>
+            <option *ngFor="let role of roles" [value]="role.roleName">
+              {{ role.roleName }} - {{ role.description }}
+            </option>
+          </select>
+        </div>
+
+        <!-- ✅ Tertiary Role -->
+        <div class="mb-3">
+          <label class="form-label">Tertiary Role (optional)</label>
+          <select class="form-select" formControlName="role3">
+            <option value="">-- None --</option>
+            <option *ngFor="let role of roles" [value]="role.roleName">
+              {{ role.roleName }} - {{ role.description }}
+            </option>
+          </select>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button type="submit" class="jelly-btn-sky" [disabled]="isSubmitted">
+            {{ userId ? 'Update User' : 'Create User' }}
+          </button>
+          <button type="button" class="jelly-btn-sky" (click)="cancel()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+.receipt {
+  width: 80mm;
+  font-family: monospace;
+  font-size: 12px;
+  padding: 6px;
+}
+
+.center {
+  text-align: center;
+}
+
+.text-end {
+  text-align: right;
+}
+
+.item-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.item-table th,
+.item-table td {
+  padding: 2px 0;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .receipt {
+    margin: 0;
+  }
+}
+
+.row-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.row-between p {
+  margin: 0; /* remove default spacing */
+}
+
+.row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.left-note {
+  flex: 1;
+}
+
+.right-totals {
+  flex: 1;
+  text-align: right;
+}
+
+.left-note p {
+  margin: 0;
+  font-size: 0.85rem; /* smaller text for the note */
+}
+
+.summary-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 6px;
+  margin: 6px 0;
+  border-radius: 4px;
+}
+
+.receipt-note {
+  margin: 0;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.right-totals {
+  flex: 1;
+  text-align: right;
+}
+
+.right-totals p {
+  margin: 0;
+  line-height: 1.4;
+}

@@ -1,0 +1,93 @@
+<div class="header-flat">
+
+  <!-- 📅 Date Range Filters -->
+  <div class="col-12 mb-2">
+    <form (ngSubmit)="loadExpenses()">
+      <div class="input-group">
+        <input type="date" class="form-control" [(ngModel)]="startDate" name="startDate">
+        <span class="input-group-text">to</span>
+        <input type="date" class="form-control" [(ngModel)]="endDate" name="endDate">
+        <button type="submit" class="btn btn-primary ms-2">Filter</button>
+        <button type="button" class="btn btn-outline-secondary ms-2" (click)="clearFilters()">Clear</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ⏳ Loading Indicator -->
+  <div *ngIf="isLoading" class="text-center p-3">
+    Loading expenses...
+  </div>
+
+  <!-- 📋 Expenses Table -->
+  <div *ngIf="!isLoading" class="col-12 d-flex">
+    <div class="card flex-fill">
+
+      <!-- ⭐ Header Row -->
+      <div class="d-flex justify-content-between align-items-center px-3 py-2 rounded shadow-sm mb-2 header-flat">
+        <button class="btn btn-success btn-sm" (click)="goToCreateExpense()">➕ Create Expense</button>
+        <h5 class="text-center flex-grow-1 mb-0">Expense Report List</h5>
+        <div class="d-flex gap-2 ms-3">
+          <button class="btn btn-warning btn-sm" (click)="importExpenses()">📥 Import Expenses</button>
+        </div>
+      </div>
+
+      <table class="table table-hover table-sm my-0 table-flat">
+        <thead>
+          <tr>
+            <th (click)="sort('expenseId')" style="cursor:pointer">
+              ExpenseID
+              <span *ngIf="sortBy === 'expenseId'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+            </th>
+            <th (click)="sort('supplierName')" style="cursor:pointer">
+              Supplier
+              <span *ngIf="sortBy === 'supplierName'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+            </th>
+            <th (click)="sort('payerName')" style="cursor:pointer">
+              Payer
+              <span *ngIf="sortBy === 'payerName'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+            </th>
+            <th (click)="sort('totalExpense')" style="cursor:pointer">
+              Amount
+              <span *ngIf="sortBy === 'totalExpense'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+            </th>
+            <th (click)="sort('source')" style="cursor:pointer">
+              Source
+              <span *ngIf="sortBy === 'source'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+            </th>
+            <th>Date</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let exp of expenses" (dblclick)="openDetail(exp.expenseId)">
+            <td>{{ exp.expenseId }}</td>
+            <td>{{ exp.supplierName }}</td>
+            <td>{{ exp.payerName }}</td>
+            <td>{{ exp.totalAmount | currency:'USD':'symbol':'1.2-2' }}</td>
+            <td>{{ exp.source }}</td>
+            <td>{{ exp.expenseDate | date:'dd-MMM-yy' }}</td>
+            <td class="text-center">
+              <button class="btn btn-info btn-sm me-1" (click)="openDetail(exp.expenseId)">Detail</button>
+              <!-- <button class="btn btn-primary btn-sm me-1" (click)="editExpense(exp.expenseId)">Edit</button> -->
+              <!-- <button class="btn btn-danger btn-sm" (click)="cancelExpense(exp.expenseId)">Delete</button> -->
+            </td>
+          </tr>
+          <tr *ngIf="expenses.length === 0">
+            <td colspan="7" class="text-center">No expenses found</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 📑 Pagination -->
+      <div class="card-footer text-center py-2 footer-flat">
+        <button class="btn btn-secondary btn-sm me-2" [disabled]="page === 1" (click)="prevPage()">Previous</button>
+        <ng-container *ngFor="let p of pageNumbers">
+          <button class="btn btn-sm mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'" (click)="goToPage(p)">
+            {{ p }}
+          </button>
+        </ng-container>
+        <button class="btn btn-secondary btn-sm ms-2" [disabled]="page === totalPages" (click)="nextPage()">Next</button>
+      </div>
+    </div>
+  </div>
+</div>

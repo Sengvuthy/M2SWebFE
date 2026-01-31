@@ -1,0 +1,49 @@
+<div class="card card-gradient p-3">
+  <div class="card-body">
+    <div class="m-sm-3">
+      <form [formGroup]="form" (ngSubmit)="save()">
+
+        <!-- 🆔 User Dropdown -->
+        <div class="mb-3">
+          <label class="form-label fw-bold">User *</label>
+          <div *ngIf="isLoadingUsers" class="text-muted">Loading users...</div>
+          <select class="form-select form-select-lg" formControlName="userId" [disabled]="isLoadingUsers">
+            <!-- ✅ Placeholder option goes here -->
+            <option value="">-- Select User --</option>
+
+            <!-- ✅ Actual users rendered below -->
+            <option *ngFor="let u of users" [value]="u.id">
+              {{ u.id }} - {{ u.userName }}
+            </option>
+          </select>
+        </div>
+
+        <!-- 🆔 Role Dropdown -->
+        <div class="mb-3">
+          <label class="form-label fw-bold">Role *</label>
+          <div *ngIf="isLoadingRoles" class="text-muted">Loading roles...</div>
+          <select class="form-select form-select-lg" formControlName="roleId" [disabled]="isLoadingRoles">
+            <!-- ✅ Placeholder option goes here -->
+            <option value="">-- Select Role --</option>
+
+            <!-- ✅ Actual roles rendered below -->
+            <option *ngFor="let r of roles" [value]="r.id">
+              {{ r.id }} - {{ r.roleName }}
+            </option>
+          </select>
+        </div>
+
+        <!-- ❗ Error Message -->
+        <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+        <!-- ✅ Action Buttons -->
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button type="submit" class="jelly-btn-sky" [disabled]="isSubmitted || form.invalid">
+            Assign Role
+          </button>
+          <button type="button" class="jelly-btn-sky" (click)="cancel()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
