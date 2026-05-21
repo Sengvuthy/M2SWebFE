@@ -1,4 +1,7 @@
+// environment.ts (local dev)
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:8080/api'
+  apiBaseUrl: '/api',
+  backendUrl: 'http://localhost:8887',
+  visionApiKey: 'AIzaSyCK0qTBnHlwWE-vC2G6IxGQBK4PBG8sBQg'
 };

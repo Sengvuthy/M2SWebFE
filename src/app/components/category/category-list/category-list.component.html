@@ -4,20 +4,11 @@
   <div class="col-12 mb-1">
     <form (ngSubmit)="search()">
       <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search by category name..."
-          [(ngModel)]="searchName"
-          name="searchName"
-        />
+        <input type="text" class="form-control" placeholder="Search by category name..." [(ngModel)]="searchName"
+          name="searchName" />
         <button type="submit" class="btn btn-primary">Search</button>
-        <button
-          type="button"
-          class="btn btn-outline-secondary ms-2"
-          style="background-color: #a7a29d;"
-          (click)="clearSearch()"
-        >
+        <button type="button" class="btn btn-outline-secondary ms-2" style="background-color: #a7a29d;"
+          (click)="clearSearch()">
           Clear
         </button>
       </div>
@@ -25,18 +16,18 @@
   </div>
 
   <!-- ✅ Loading Indicator -->
-  <div *ngIf="isLoading" class="text-center p-3">
+  @if (isLoading) {
+  <div class="text-center p-3">
     Loading categories...
   </div>
+  }
 
   <!-- ✅ Category Table -->
-  <div *ngIf="!isLoading" class="col-12 d-flex">
+  @if (!isLoading) {
+  <div class="col-12 d-flex">
     <div class="card flex-fill">
-
       <!-- ⭐ Header Row -->
-      <div
-        class="d-flex justify-content-between align-items-center px-3 py-1 rounded shadow-sm mb-1 header-flat"
-      >
+      <div class="d-flex justify-content-between align-items-center px-3 py-1 rounded shadow-sm mb-1 header-flat">
         <button class="btn btn-success btn-sm" [routerLink]="['/category/form']">
           Create Category
         </button>
@@ -44,82 +35,61 @@
           Category List
         </h5>
         <div class="d-flex gap-2 ms-3">
-          <button
-            class="btn btn-warning btn-sm"
-            style="background-color: #f58718;"
-            (click)="importCategories()"
-          >
+          <button class="btn btn-warning btn-sm" style="background-color: #f58718;" (click)="importCategories()">
             Import Categories
           </button>
         </div>
       </div>
-
       <table class="table table-hover my-0 table-flat">
         <thead>
           <tr style="font-size: 0.9rem;">
             <th (click)="sort('name')" style="cursor:pointer">
               Name
-              <span *ngIf="sortBy === 'name'">
+              @if (sortBy === 'name') {
+              <span>
                 {{ sortDir === 'asc' ? '▼' : '▲' }}
               </span>
+              }
             </th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
-
         <tbody>
-          <tr *ngFor="let c of categories" style="font-size: 0.9rem;">
+          @for (c of categories; track c) {
+          <tr style="font-size: 0.9rem;">
             <td style="padding: 0.3rem 0.5rem;">{{ c.name }}</td>
             <td class="text-center" style="padding: 0.3rem 0.5rem;">
-              <button
-                class="btn btn-primary btn-sm me-2"
-                (click)="editCategory(c.id)"
-              >
+              <button class="btn btn-primary btn-sm me-2" (click)="editCategory(c.id)">
                 Edit
               </button>
-              <button
-                class="btn btn-danger btn-sm"
-                (click)="deleteCategory(c.id)"
-              >
+              <button class="btn btn-danger btn-sm" (click)="deleteCategory(c.id)">
                 Delete
               </button>
             </td>
           </tr>
-          <tr *ngIf="categories.length === 0">
+          }
+          @if (categories.length === 0) {
+          <tr>
             <td colspan="2" class="text-center">No categories found</td>
           </tr>
+          }
         </tbody>
       </table>
-
       <!-- ✅ Pagination UI -->
       <div class="card-footer text-center py-1 footer-flat">
-        <button
-          class="btn btn-secondary me-2"
-          [disabled]="page === 1"
-          (click)="prevPage()"
-          style="padding: 0.3rem 0.5rem;"
-        >
-          Previous
-        </button>
+        <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()">Previous</button>
+
         <ng-container *ngFor="let p of pageNumbers">
-          <button
-            class="btn mx-1"
-            [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
-            (click)="goToPage(p)"
-            style="padding: 0.3rem 0.5rem;"
-          >
+          <button *ngIf="p !== -1" class="btn mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
+            (click)="goToPage(p)">
             {{ p }}
           </button>
+          <span *ngIf="p === -1">...</span>
         </ng-container>
-        <button
-          class="btn btn-secondary ms-2"
-          [disabled]="page === totalPages"
-          (click)="nextPage()"
-          style="padding: 0.3rem 0.5rem;"
-        >
-          Next
-        </button>
+
+        <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()">Next</button>
       </div>
     </div>
   </div>
+  }
 </div>

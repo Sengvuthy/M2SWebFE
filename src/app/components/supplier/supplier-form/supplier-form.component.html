@@ -12,60 +12,64 @@
             formControlName="name"
             placeholder="Enter supplier name"
             [class.is-invalid]="supplierForm.controls['name'].invalid && supplierForm.controls['name'].touched"
-          />
-          <div class="invalid-feedback" *ngIf="supplierForm.controls['name'].errors?.['required']">
-            Supplier name is required.
+            />
+            @if (supplierForm.controls['name'].errors?.['required']) {
+              <div class="invalid-feedback">
+                Supplier name is required.
+              </div>
+            }
+            @if (supplierForm.controls['name'].errors?.['minlength']) {
+              <div class="invalid-feedback">
+                Supplier name must be at least 2 characters.
+              </div>
+            }
           </div>
-          <div class="invalid-feedback" *ngIf="supplierForm.controls['name'].errors?.['minlength']">
-            Supplier name must be at least 2 characters.
+
+          <!-- Phone -->
+          <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input
+              class="form-control form-control-lg"
+              type="text"
+              formControlName="phone"
+              placeholder="Enter phone number"
+              />
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input
+                class="form-control form-control-lg"
+                type="email"
+                formControlName="email"
+                placeholder="Enter email"
+                />
+              </div>
+
+              <!-- Address -->
+              <div class="mb-3">
+                <label class="form-label">Address</label>
+                <input
+                  class="form-control form-control-lg"
+                  type="text"
+                  formControlName="address"
+                  placeholder="Enter address"
+                  />
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                  <button
+                    type="submit"
+                    class="jelly-btn-sky"
+                    [disabled]="isSubmitted || supplierForm.invalid"
+                    >
+                    {{ supplierId ? 'Update Supplier' : 'Create Supplier' }}
+                  </button>
+                  <button type="button" class="jelly-btn-sky" (click)="cancel()">Cancel</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-
-        <!-- Phone -->
-        <div class="mb-3">
-          <label class="form-label">Phone Number</label>
-          <input
-            class="form-control form-control-lg"
-            type="text"
-            formControlName="phone"
-            placeholder="Enter phone number"
-          />
-        </div>
-
-        <!-- Email -->
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input
-            class="form-control form-control-lg"
-            type="email"
-            formControlName="email"
-            placeholder="Enter email"
-          />
-        </div>
-
-        <!-- Address -->
-        <div class="mb-3">
-          <label class="form-label">Address</label>
-          <input
-            class="form-control form-control-lg"
-            type="text"
-            formControlName="address"
-            placeholder="Enter address"
-          />
-        </div>
-
-        <!-- Buttons -->
-        <div class="d-flex justify-content-end gap-2 mt-3">
-          <button
-            type="submit"
-            class="jelly-btn-sky"
-            [disabled]="isSubmitted || supplierForm.invalid"
-          >
-            {{ supplierId ? 'Update Supplier' : 'Create Supplier' }}
-          </button>
-          <button type="button" class="jelly-btn-sky" (click)="cancel()">Cancel</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>

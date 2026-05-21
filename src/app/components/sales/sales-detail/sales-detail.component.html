@@ -1,37 +1,32 @@
+<app-customer-header></app-customer-header>
 <div class="receipt">
   <!-- Header -->
-  <h4 class="center">SUPERIOR SHOP</h4>
+  <h4 class="center">{{ 'APP_TITLE' | translate }} STORE</h4>
 
-  <!-- Invoice + Date on same row -->
+  <!-- Customer + Date -->
   <div class="row-between">
-    <p>Invoice: {{ info.invoice }}</p>
-    <p>Date: {{ info.saleDate | date:'dd-MMM-yy' }} {{ info.saleTime?.substring(0,5) }}</p>
+    <p>{{ 'CUSTOMER' | translate }}: {{ info.customerName }}</p>
+    <p>{{ 'DATE' | translate }}: {{ info.saleDate | date:'dd-MMM-yy' }} {{ info.saleTime?.substring(0,5) }}</p>
   </div>
 
-  <!-- Cashier + Customer on same row -->
-  <div class="row-between">
-    <p>Cashier: {{ info.sellerName }}</p>
-    <p>Customer: {{ info.customerName }}</p>
-  </div>
   <hr>
 
   <!-- Items Table -->
   <table class="item-table">
     <thead>
       <tr>
-        <th>Qty</th>
-        <th>Product</th>
-        <th class="text-end">Price</th>
-        <th class="text-end">Total</th>
+        <th>{{ 'PRODUCT' | translate }}</th>
+        <th>{{ 'QTY' | translate }}</th>
+        <th class="text-end">{{ 'PRICE' | translate }}</th>
+        <th class="text-end">{{ 'TOTAL' | translate }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let it of items">
+      @for (it of items; track it) {
+      <tr>
+        <td>{{ it.khmerName }}</td>
         <td>{{ it.numberOfUnit }}</td>
-        <td>{{ it.productName }}</td>
-        <td class="text-end">
-          {{ it.unitPrice | currency:'USD':'symbol':'1.2-2' }}
-        </td>
+        <td class="text-end">{{ it.unitPrice | currency:'USD':'symbol':'1.2-2' }}</td>
         <td class="text-end">
           {{
           it.soldAmount > 0
@@ -41,27 +36,29 @@
           }}
         </td>
       </tr>
+      }
     </tbody>
   </table>
   <hr>
+
+  <!-- Summary -->
   <div class="summary-box">
-    <div class="left-note">
-      <p><small>Goods sold are neither returnable nor refundable</small></p>
-    </div>
     <div class="right-totals text-end">
-      <p><b>Total:</b> {{ getTotal() | currency:'USD':'symbol':'1.2-2' }}</p>
-      <p><b>Receive:</b> {{ receivedAmount | currency:'USD':'symbol':'1.2-2' }}</p>
-      <p><b>Change:</b> {{ changeAmount | currency:'USD':'symbol':'1.2-2' }}</p>
+      <p><b>{{ 'GRAND_TOTAL' | translate }}:</b> {{ totalUSD | currency:'USD':'symbol':'1.2-2' }}
+        / {{ totalKHR }} ៛</p>
     </div>
   </div>
-  <p class="center">Thank you for shopping!</p>
-</div>
 
-<!-- Action buttons (hidden on print) -->
-<div class="no-print actions">
-  <p class="center text-muted" *ngIf="countdown > 0">
-    Returning to Sales Form in {{ countdown }} seconds...
-  </p>
-  <button class="btn btn-primary btn-sm me-2" (click)="print()">Print</button>
-  <button class="btn btn-outline-secondary btn-sm" (click)="router.navigate(['/sales'])">Back</button>
+  <!-- Action buttons -->
+  <div class="no-print actions">
+    @if (countdown > 0) {
+    <p class="center text-muted">
+      {{ 'RETURNING_TO_SALES' | translate:{ countdown: countdown } }}
+    </p>
+    }
+    <!-- ✅ Continue Shopping button -->
+    <button class="candy-btn" (click)="continueShopping()">
+      {{ 'CONTINUE_SHOPPING' | translate }}
+    </button>
+  </div>
 </div>

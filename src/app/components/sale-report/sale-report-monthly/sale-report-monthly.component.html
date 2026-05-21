@@ -40,54 +40,60 @@
 </div>
 
 <!-- ⏳ Loading -->
-<div *ngIf="isLoading" class="text-center p-3">Loading monthly summary...</div>
+@if (isLoading) {
+  <div class="text-center p-3">Loading monthly summary...</div>
+}
 
 <!-- 📊 Monthly Summary Card -->
-<div *ngIf="!isLoading && monthlySummary" class="header-flat">
-  <h5 class="card-title text-center mb-3">
-    Monthly Summary for {{ monthlySummary.reportMonth }}/{{ monthlySummary.reportYear }}
-  </h5>
-
-  <table class="table table-bordered text-center mb-3">
-    <thead class="table-light">
-      <tr>
-        <th>Total Sales Amount</th>
-        <th>Total Transactions</th>
-        <th>Total Units Sold</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ monthlySummary.totalSalesAmount | currency:'USD' }}</td>
-        <td>{{ monthlySummary.totalTransactions }}</td>
-        <td>{{ monthlySummary.totalUnitsSold }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- 📅 Daily Summaries inside Monthly -->
-  <h6 class="mt-3">Daily Summaries</h6>
-  <table class="table table-sm table-striped text-center">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Sales Amount</th>
-        <th>Transactions</th>
-        <th>Units Sold</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let d of monthlySummary.dailySummaries">
-        <td>{{ d.reportDate | date:'dd-MMM-yyyy' }}</td>
-        <td>{{ d.totalSalesAmount | currency:'USD' }}</td>
-        <td>{{ d.totalTransactions }}</td>
-        <td>{{ d.totalUnitsSold }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+@if (!isLoading && monthlySummary) {
+  <div class="header-flat">
+    <h5 class="card-title text-center mb-3">
+      Monthly Summary for {{ monthlySummary.reportMonth }}/{{ monthlySummary.reportYear }}
+    </h5>
+    <table class="table table-bordered text-center mb-3">
+      <thead class="table-light">
+        <tr>
+          <th>Total Sales Amount</th>
+          <th>Total Transactions</th>
+          <th>Total Units Sold</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ monthlySummary.totalSalesAmount | currency:'USD' }}</td>
+          <td>{{ monthlySummary.totalTransactions }}</td>
+          <td>{{ monthlySummary.totalUnitsSold }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 📅 Daily Summaries inside Monthly -->
+    <h6 class="mt-3">Daily Summaries</h6>
+    <table class="table table-sm table-striped text-center">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Sales Amount</th>
+          <th>Transactions</th>
+          <th>Units Sold</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (d of monthlySummary.dailySummaries; track d) {
+          <tr>
+            <td>{{ d.reportDate | date:'dd-MMM-yyyy' }}</td>
+            <td>{{ d.totalSalesAmount | currency:'USD' }}</td>
+            <td>{{ d.totalTransactions }}</td>
+            <td>{{ d.totalUnitsSold }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
 
 <!-- 🚫 No Summary Found -->
-<div *ngIf="!isLoading && !monthlySummary" class="text-center">
-  No monthly summary available
-</div>
+@if (!isLoading && !monthlySummary) {
+  <div class="text-center">
+    No monthly summary available
+  </div>
+}

@@ -1,0 +1,67 @@
+<div class="card card-gradient p-3">
+  <div class="card-body">
+    <form [formGroup]="customerForm" (ngSubmit)="saveCustomer()" class="m-sm-3">
+
+      <!-- Customer Name -->
+      <div class="mb-3">
+        <label class="form-label">{{ 'CUSTOMER_NAME' | translate }}</label>
+        <input type="text" class="form-control form-control-lg" formControlName="name"
+          placeholder="{{ 'ENTER_CUSTOMER_NAME' | translate }}"
+          [class.is-invalid]="customerForm.controls['name'].invalid && customerForm.controls['name'].touched" />
+        <div *ngIf="customerForm.controls['name'].errors?.['required']" class="invalid-feedback">
+          {{ 'NAME_REQUIRED' | translate }}
+        </div>
+        <div *ngIf="customerForm.controls['name'].errors?.['minlength']" class="invalid-feedback">
+          {{ 'NAME_MINLENGTH' | translate }}
+        </div>
+      </div>
+
+      <!-- Phones -->
+      <div formArrayName="phones" class="mb-3">
+        <label class="form-label">{{ 'PHONE_NUMBERS' | translate }}</label>
+        <div *ngFor="let phoneCtrl of phones.controls; let i = index" class="d-flex align-items-center mb-2">
+          <input type="text" class="form-control form-control-lg" [formControlName]="i"
+            placeholder="{{ 'ENTER_PHONE_NUMBER' | translate }}" />
+          <button type="button" class="btn btn-danger ms-2" (click)="removePhone(i)" *ngIf="phones.length > 1">
+            {{ 'REMOVE' | translate }}
+          </button>
+        </div>
+        <button type="button" class="btn btn-secondary mt-2" (click)="addPhone()">
+          {{ 'ADD_PHONE' | translate }}
+        </button>
+      </div>
+
+      <!-- Addresses -->
+      <div formArrayName="addresses" class="mb-3">
+        <label class="form-label">{{ 'ADDRESSES' | translate }}</label>
+        <div *ngFor="let addrCtrl of addresses.controls; let i = index" class="d-flex align-items-center mb-2">
+          <input type="text" class="form-control form-control-lg" [formControlName]="i"
+            placeholder="{{ 'ENTER_ADDRESS' | translate }}" (focus)="activeAddressIndex = i" />
+          <button type="button" class="btn btn-danger ms-2" (click)="removeAddress(i)" *ngIf="addresses.length > 1">
+            {{ 'REMOVE' | translate }}
+          </button>
+        </div>
+        <button type="button" class="btn btn-secondary mt-2" (click)="addAddress()">
+          {{ 'ADD_ADDRESS' | translate }}
+        </button>
+      </div>
+
+      <!-- Google Map -->
+      <div class="map-instruction p-2 mb-2" style="background-color: #fff3cd; border-radius: 4px; font-weight: bold;"
+        [innerHTML]="'MAP_INSTRUCTION' | translate">
+      </div>
+      <div id="map" style="height:400px; width:100%; margin-bottom:20px;"></div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex justify-content-end gap-2 mt-3">
+        <button type="submit" class="jelly-btn-sky" [disabled]="isSubmitted || customerForm.invalid">
+          {{ customerId ? ('UPDATE_CUSTOMER' | translate) : ('CREATE_CUSTOMER' | translate) }}
+        </button>
+        <button type="button" class="jelly-btn-sky" (click)="cancel()">
+          {{ 'CANCEL' | translate }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

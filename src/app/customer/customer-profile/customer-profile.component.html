@@ -1,0 +1,40 @@
+<app-customer-header></app-customer-header>
+<div class="profile-container" *ngIf="customer">
+  <h2>{{ 'MY_PROFILE' | translate }}</h2>
+
+  <!-- Name -->
+  <div class="profile-section">
+    <p>{{ 'NAME' | translate }}: {{ customer.name }}</p>
+  </div>
+
+  <!-- Phones -->
+  <div class="profile-section">
+    <label>{{ 'PHONES' | translate }}:</label>
+    <ng-container *ngIf="customer?.phones?.length; else noPhones">
+      <ul>
+        <li *ngFor="let p of customer.phones">{{ p }}</li>
+      </ul>
+    </ng-container>
+    <ng-template #noPhones>
+      <span>{{ 'NO_PHONES' | translate }}</span>
+    </ng-template>
+  </div>
+
+  <!-- Addresses -->
+  <div class="profile-section">
+    <label>{{ 'ADDRESSES' | translate }}:</label>
+    <ng-container *ngIf="customer?.addresses?.length; else noAddresses">
+      <ul>
+        <li *ngFor="let a of customer.addresses">{{ a }}</li>
+      </ul>
+    </ng-container>
+    <ng-template #noAddresses>
+      <span>{{ 'NO_ADDRESSES' | translate }}</span>
+    </ng-template>
+  </div>
+
+  <!-- Edit Button -->
+  <button class="btn btn-primary mt-3" (click)="editProfile()">
+    {{ 'EDIT_PROFILE' | translate }}
+  </button>
+</div>

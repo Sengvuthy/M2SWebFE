@@ -7,6 +7,14 @@
     <ul class="sidebar-nav">
       <li class="sidebar-header">Pages</li>
 
+      <!-- Exchange Rate -->
+      <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="sidebar-link" routerLink="/exchange-rate">
+          <i data-feather="bar-chart-2" class="align-middle"></i>
+          <span class="align-middle">Exchange Rate</span>
+        </a>
+      </li>
+
       <!-- Sales -->
       <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="sidebar-link" routerLink="/sales">
@@ -63,11 +71,11 @@
         </a>
       </li>
 
-      <!-- Customer -->
+      <!-- Admin Customers -->
       <li class="sidebar-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="sidebar-link" routerLink="/customer">
+        <a class="sidebar-link" routerLink="/admin/customers">
           <i data-feather="users" class="align-middle"></i>
-          <span class="align-middle">Customer</span>
+          <span class="align-middle">Customers</span>
         </a>
       </li>
 
@@ -123,10 +131,17 @@
 
       <!-- Logout -->
       <li class="sidebar-item">
-        <a class="sidebar-link text-danger fw-bold logout-link" (click)="signOut()" style="cursor: pointer;">
+        <a *ngIf="isLoggedIn; else loginLink" class="sidebar-link text-danger fw-bold logout-link" (click)="signOut()"
+          style="cursor: pointer;">
           <i data-feather="log-out" class="align-middle me-2"></i>
           <span class="align-middle">Log Out</span>
         </a>
+        <ng-template #loginLink>
+          <a class="sidebar-link fw-bold" (click)="goToLogin()" style="cursor: pointer;">
+            <i data-feather="log-in" class="align-middle me-2"></i>
+            <span class="align-middle">Log In</span>
+          </a>
+        </ng-template>
       </li>
     </ul>
   </div>

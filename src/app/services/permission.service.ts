@@ -2,6 +2,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface PermissionDTO {
   id: number;              // required for responses
@@ -11,42 +12,42 @@ export interface PermissionDTO {
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
-  private baseUrl = 'http://localhost:8080/';
+  private baseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) {}
 
-  // Create (no id in payload)
+  // ✅ Create (no id in payload)
   createPermission(data: Omit<PermissionDTO, 'id'>): Observable<PermissionDTO> {
-    return this.http.post<PermissionDTO>(`${this.baseUrl}permissions`, data);
+    return this.http.post<PermissionDTO>(`${this.baseUrl}/permissions`, data);
   }
 
-  // Get by ID
+  // ✅ Get by ID
   getPermissionById(id: number): Observable<PermissionDTO> {
-    return this.http.get<PermissionDTO>(`${this.baseUrl}permissions/${id}`);
+    return this.http.get<PermissionDTO>(`${this.baseUrl}/permissions/${id}`);
   }
 
-  // Paginated list (search + paging)
+  // ✅ Paginated list (search + paging)
   getPermissionList(params: HttpParams): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}permissions/search`, { params });
+    return this.http.get<any>(`${this.baseUrl}/permissions/search`, { params });
   }
 
-  // 🔹 NEW: Non-paginated list (for dropdowns)
+  // ✅ Non-paginated list (for dropdowns)
   getAllPermissions(): Observable<PermissionDTO[]> {
-    return this.http.get<PermissionDTO[]>(`${this.baseUrl}permissions`);
+    return this.http.get<PermissionDTO[]>(`${this.baseUrl}/permissions`);
   }
 
-  // Update by ID (no id in payload)
+  // ✅ Update by ID (no id in payload)
   updatePermission(id: number, data: Omit<PermissionDTO, 'id'>): Observable<PermissionDTO> {
-    return this.http.put<PermissionDTO>(`${this.baseUrl}permissions/${id}`, data);
+    return this.http.put<PermissionDTO>(`${this.baseUrl}/permissions/${id}`, data);
   }
 
-  // Delete by ID
+  // ✅ Delete by ID
   deletePermission(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}permissions/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.baseUrl}/permissions/${id}`, { responseType: 'text' });
   }
 
-  // Import from Excel
+  // ✅ Import from Excel
   importPermissions(): Observable<any> {
-    return this.http.post(`${this.baseUrl}permissions/import`, {}, { responseType: 'text' });
+    return this.http.post(`${this.baseUrl}/permissions/import`, {}, { responseType: 'text' });
   }
 }

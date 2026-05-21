@@ -14,14 +14,16 @@
   </div>
 
   <!-- ⏳ Loading Indicator -->
-  <div *ngIf="isLoading" class="text-center p-3">
+  @if (isLoading) {
+  <div class="text-center p-3">
     Loading expenses...
   </div>
+  }
 
   <!-- 📋 Expenses Table -->
-  <div *ngIf="!isLoading" class="col-12 d-flex">
+  @if (!isLoading) {
+  <div class="col-12 d-flex">
     <div class="card flex-fill">
-
       <!-- ⭐ Header Row -->
       <div class="d-flex justify-content-between align-items-center px-3 py-2 rounded shadow-sm mb-2 header-flat">
         <button class="btn btn-success btn-sm" (click)="goToCreateExpense()">➕ Create Expense</button>
@@ -30,36 +32,46 @@
           <button class="btn btn-warning btn-sm" (click)="importExpenses()">📥 Import Expenses</button>
         </div>
       </div>
-
       <table class="table table-hover table-sm my-0 table-flat">
         <thead>
           <tr>
             <th (click)="sort('expenseId')" style="cursor:pointer">
               ExpenseID
-              <span *ngIf="sortBy === 'expenseId'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'expenseId') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th (click)="sort('supplierName')" style="cursor:pointer">
               Supplier
-              <span *ngIf="sortBy === 'supplierName'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'supplierName') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th (click)="sort('payerName')" style="cursor:pointer">
               Payer
-              <span *ngIf="sortBy === 'payerName'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'payerName') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th (click)="sort('totalExpense')" style="cursor:pointer">
               Amount
-              <span *ngIf="sortBy === 'totalExpense'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'totalExpense') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th (click)="sort('source')" style="cursor:pointer">
               Source
-              <span *ngIf="sortBy === 'source'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'source') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th>Date</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let exp of expenses" (dblclick)="openDetail(exp.expenseId)">
+          @for (exp of expenses; track exp) {
+          <tr (dblclick)="openDetail(exp.expenseId)">
             <td>{{ exp.expenseId }}</td>
             <td>{{ exp.supplierName }}</td>
             <td>{{ exp.payerName }}</td>
@@ -72,22 +84,27 @@
               <!-- <button class="btn btn-danger btn-sm" (click)="cancelExpense(exp.expenseId)">Delete</button> -->
             </td>
           </tr>
-          <tr *ngIf="expenses.length === 0">
+          }
+          @if (expenses.length === 0) {
+          <tr>
             <td colspan="7" class="text-center">No expenses found</td>
           </tr>
+          }
         </tbody>
       </table>
-
       <!-- 📑 Pagination -->
-      <div class="card-footer text-center py-2 footer-flat">
-        <button class="btn btn-secondary btn-sm me-2" [disabled]="page === 1" (click)="prevPage()">Previous</button>
+      <div class="card-footer text-center py-1 footer-flat">
+        <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()">Previous</button>
         <ng-container *ngFor="let p of pageNumbers">
-          <button class="btn btn-sm mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'" (click)="goToPage(p)">
+          <button *ngIf="p !== -1" class="btn mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
+            (click)="goToPage(p)">
             {{ p }}
           </button>
+          <span *ngIf="p === -1">...</span>
         </ng-container>
-        <button class="btn btn-secondary btn-sm ms-2" [disabled]="page === totalPages" (click)="nextPage()">Next</button>
+        <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()">Next</button>
       </div>
     </div>
   </div>
+  }
 </div>

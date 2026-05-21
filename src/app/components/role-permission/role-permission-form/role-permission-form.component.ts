@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { ToastrService } from 'ngx-toastr';
 
 import { RolePermissionService } from '../../../services/role-permission.service';
@@ -11,7 +11,7 @@ import { PermissionService, PermissionDTO } from '../../../services/permission.s
 @Component({
   selector: 'app-role-permission-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
+  imports: [FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './role-permission-form.component.html'
 })
 export class RolePermissionFormComponent implements OnInit {

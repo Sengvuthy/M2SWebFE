@@ -1,13 +1,22 @@
+// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NotFoundComponent } from './components/not-found/not-found.component'; // create this simple component
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { LoginComponent } from './components/login/login.component';
+import { CustomerLoginComponent } from './components/customer-login/customer-login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'user', pathMatch: 'full' },
+  // Default redirect → customer browse
+  { path: '', redirectTo: 'customer/browse', pathMatch: 'full' },
+
+  // Public login routes
+  { path: 'admin/login', component: LoginComponent },          // ✅ Admin login
+  { path: 'customer/login', component: CustomerLoginComponent }, // ✅ Customer login
 
   // Lazy-loaded feature modules
   { path: 'user', loadChildren: () => import('./components/user/user.module').then(m => m.UserModule) },
-  { path: 'customer', loadChildren: () => import('./components/customer/customer.module').then(m => m.CustomerModule) },
+  { path: 'customer', loadChildren: () => import('./customer/customer.module').then(m => m.CustomerModule) },
+  { path: 'admin/customers', loadChildren: () => import('./components/admin-customer/admin-customer.module').then(m => m.AdminCustomerModule) },
   { path: 'seller', loadChildren: () => import('./components/seller/seller.module').then(m => m.SellerModule) },
   { path: 'category', loadChildren: () => import('./components/category/category.module').then(m => m.CategoryModule) },
   { path: 'role', loadChildren: () => import('./components/role/role.module').then(m => m.RoleModule) },
@@ -20,9 +29,10 @@ const routes: Routes = [
   { path: 'sale-report', loadChildren: () => import('./components/sale-report/sale-report.module').then(m => m.SaleReportModule) },
   { path: 'expense', loadChildren: () => import('./components/expense/expense.module').then(m => m.ExpenseModule) },
   { path: 'supplier', loadChildren: () => import('./components/supplier/supplier.module').then(m => m.SupplierModule) },
-  
-  // Fallback route
-  { path: '**', component: NotFoundComponent }
+  { path: 'exchange-rate', loadChildren: () => import('./components/exchange-rate/exchange-rate.module').then(m => m.ExchangeRateModule) },
+
+  // Fallback route → 404
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

@@ -1,3 +1,4 @@
+//sale-report-monthly.component.ts
 import { Component, OnInit } from '@angular/core';
 import { SaleReportService, MonthlySaleReportDTO } from '../../../services/sale-report.service';
 import { ToastrService } from 'ngx-toastr';
@@ -33,14 +34,12 @@ export class SaleReportMonthlyComponent implements OnInit {
 
     this.reportService.generateMonthlyReport(this.monthlyYear, this.monthlyMonth).subscribe({
       next: res => {
+        res.dailySummaries = res.dailySummaries.sort((a, b) =>
+          new Date(b.reportDate).getTime() - new Date(a.reportDate).getTime()
+        );
         this.monthlySummary = res;
-        // this.toastr.success(`📅 Monthly report loaded for ${res.reportMonth}/${res.reportYear}`);
         this.isLoading = false;
-
-        // 🔹 Chain: trigger yearly after monthly
         this.triggerYearlySummary(res.reportYear);
-
-        // 🔹 Optional: trigger Excel export after monthly
         this.triggerMonthlyExport();
       },
       error: () => {

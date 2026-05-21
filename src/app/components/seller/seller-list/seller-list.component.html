@@ -4,20 +4,11 @@
   <div class="col-12 mb-1">
     <form (ngSubmit)="search()">
       <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search by seller name..."
-          [(ngModel)]="searchName"
-          name="searchName"
-        />
+        <input type="text" class="form-control" placeholder="Search by seller name..." [(ngModel)]="searchName"
+          name="searchName" />
         <button type="submit" class="btn btn-primary">Search</button>
-        <button
-          type="button"
-          class="btn btn-outline-secondary ms-2"
-          style="background-color: #a7a29d;"
-          (click)="clearSearch()"
-        >
+        <button type="button" class="btn btn-outline-secondary ms-2" style="background-color: #a7a29d;"
+          (click)="clearSearch()">
           Clear
         </button>
       </div>
@@ -25,12 +16,14 @@
   </div>
 
   <!-- ⏳ Loading Indicator -->
-  <div *ngIf="isLoading" class="text-center p-3">Loading sellers...</div>
+  @if (isLoading) {
+  <div class="text-center p-3">Loading sellers...</div>
+  }
 
   <!-- 📋 Seller Table -->
-  <div *ngIf="!isLoading" class="col-12 d-flex">
+  @if (!isLoading) {
+  <div class="col-12 d-flex">
     <div class="card flex-fill">
-
       <!-- ⭐ Header Row -->
       <div class="d-flex justify-content-between align-items-center px-3 py-1 rounded shadow-sm mb-1 header-flat">
         <button class="btn btn-success btn-sm" [routerLink]="['/seller/form']">
@@ -43,31 +36,39 @@
           </button>
         </div>
       </div>
-
       <table class="table table-hover my-0 table-flat">
         <thead>
           <tr style="font-size: 0.9rem;">
             <th (click)="sort('id')" style="cursor:pointer; width: 10%;">
               ID
-              <span *ngIf="sortBy === 'id'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'id') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th (click)="sort('name')" style="cursor:pointer; width: 25%;">
               Seller Name
-              <span *ngIf="sortBy === 'name'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'name') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th (click)="sort('employeeCode')" style="cursor:pointer; width: 25%;">
               Employee Code
-              <span *ngIf="sortBy === 'employeeCode'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'employeeCode') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th (click)="sort('phone')" style="cursor:pointer; width: 20%;">
               Phone
-              <span *ngIf="sortBy === 'phone'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'phone') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th class="text-center" style="width: 20%;">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let s of sellers" style="font-size: 0.9rem;">
+          @for (s of sellers; track s) {
+          <tr style="font-size: 0.9rem;">
             <td style="padding: 0.3rem 0.5rem;">{{ s.id }}</td>
             <td style="padding: 0.3rem 0.5rem;">{{ s.name }}</td>
             <td style="padding: 0.3rem 0.5rem;">{{ s.employeeCode }}</td>
@@ -77,32 +78,27 @@
               <button class="btn btn-danger btn-sm" (click)="deleteSeller(s.id)">Delete</button>
             </td>
           </tr>
-          <tr *ngIf="sellers.length === 0">
+          }
+          @if (sellers.length === 0) {
+          <tr>
             <td colspan="5" class="text-center">No sellers found</td>
           </tr>
+          }
         </tbody>
       </table>
-
       <!-- 📑 Pagination -->
       <div class="card-footer text-center py-1 footer-flat">
-        <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()" style="padding: 0.3rem 0.5rem;">
-          Previous
-        </button>
+        <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()">Previous</button>
         <ng-container *ngFor="let p of pageNumbers">
-          <button
-            class="btn mx-1"
-            [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
-            (click)="goToPage(p)"
-            style="padding: 0.3rem 0.5rem;"
-          >
+          <button *ngIf="p !== -1" class="btn mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
+            (click)="goToPage(p)">
             {{ p }}
           </button>
+          <span *ngIf="p === -1">...</span>
         </ng-container>
-        <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()" style="padding: 0.3rem 0.5rem;">
-          Next
-        </button>
+        <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()">Next</button>
       </div>
-
     </div>
   </div>
+  }
 </div>

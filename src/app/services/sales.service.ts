@@ -2,25 +2,26 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface SaleItem {
   barcode: string;
   productName: string;
+  khmerName: string;
   numberOfUnit: number;
   unitPrice: number;
   discount: number;
   soldAmount: number;
+  imagePath?: string;
 }
 
 export interface SaleDTO {
   invoice: string;
   customerId: number;
   customerName: string;
-  sellerName: string;
   saleDate: string;
   saleTime: string;
-  receiveAmount: number;
-  changeAmount: number;
+  soldAmount: number;       // ✅ grand total
   items: SaleItem[];
 }
 
@@ -28,7 +29,7 @@ export interface SaleDTO {
   providedIn: 'root'
 })
 export class SalesService {
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -71,6 +72,13 @@ export class SalesService {
     return this.http.get<any[]>(`${this.baseUrl}/sales/range?start=${start}&end=${end}`);
   }
 
+  // 🔹 Get last price which customer used to buy
+  getLastPrice(customerId: number, productName: string) {
+    return this.http.get<number>('/api/sales/last-price', {
+      params: { customerId, productName }
+    });
+  }
+
   // 🔹 Search sales by keyword
   searchSales(keyword: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/sales/search`, {
@@ -88,7 +96,12 @@ export class SalesService {
     return this.http.get(`${this.baseUrl}/sales/export`, { responseType: 'text' });
   }
 
-  exportIncomeForDate(date: string) {
-    return this.http.post(`/sales/export-income/${date}`, null);
+  // 🔹 Export income for a specific date
+  exportIncomeForDate(date: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/sales/export-income/${date}`, null);
+  }
+
+  printReceipt(invoice: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/print-receipt`, { invoice });
   }
 }

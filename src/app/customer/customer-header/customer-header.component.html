@@ -1,0 +1,93 @@
+<div class="header-bar">
+
+  <!-- Row 1: Logo + Controls -->
+  <div class="header-row header-top d-flex justify-content-between align-items-center flex-nowrap">
+
+    <!-- Logo + Home grouped -->
+    <div class="d-flex align-items-center gap-2">
+      <!-- Logo -->
+      <div class="logo">
+        <a routerLink="/customer/browse" class="fw-bold fs-4">{{ 'APP_TITLE' | translate }}</a>
+      </div>
+
+      <!-- Home -->
+      <button class="btn btn-link text-white fw-bold" (click)="goHome()">
+        <i class="bi bi-house-fill"></i>
+      </button>
+    </div>
+
+    <!-- Right side controls -->
+    <div class="d-flex align-items-center flex-nowrap gap-3">
+      
+      <!-- Profile/Login -->
+      <div class="dropdown dropdown-list" *ngIf="customerName; else loginBlock">
+        <button class="btn btn-link dropdown-toggle fw-bold text-white" type="button" id="profileMenu"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          👤 {{ customerName }}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
+          <li><a class="dropdown-item" [routerLink]="['/customer/profile']">{{ 'MY_PROFILE' | translate }}</a></li>
+          <li><a class="dropdown-item" (click)="goToMyOrder()">{{ 'MY_ORDER' | translate }}</a></li>
+          <li>
+            <a class="dropdown-item" href="https://t.me/m2sweb" target="_blank">
+              <i class="bi bi-telegram"></i> {{ 'CHAT_TELEGRAM' | translate }}
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item text-danger" (click)="logout()">{{ 'LOGOUT' | translate }}</a></li>
+        </ul>
+      </div>
+      <ng-template #loginBlock>
+        <button class="btn btn-link text-white" (click)="goToLogin()">{{ 'LOGIN' | translate }}</button>
+      </ng-template>
+
+      <!-- Categories -->
+      <div class="dropdown dropdown-list">
+        <button class="btn btn-link dropdown-toggle fw-bold text-bright" type="button" id="categoryMenu"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-list"></i> <!-- three-line hamburger icon -->
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="categoryMenu">
+          <li><a class="dropdown-item" (click)="selectCategory(null)">{{ 'ALL' | translate }}</a></li>
+          <li *ngFor="let c of categories">
+            <a class="dropdown-item" (click)="selectCategory(c.id)">{{ c.name }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Cart -->
+      <span id="cart-icon" class="cart-link" (click)="goToSale()">
+        <i class="bi bi-cart-fill"></i>
+        <span class="badge">{{ cartCount }}</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Row 2: Search -->
+  <div class="header-row header-search">
+    <div class="input-group">
+
+      <!-- Camera button -->
+      <button type="button" class="btn-camera-3d" (click)="fileInput.click()">
+        <i class="bi bi-camera-fill"></i>
+      </button>
+      <input #fileInput type="file" accept="image/*" (change)="handleImage($event)" hidden>
+
+      <!-- Search input -->
+      <input type="text" class="form-control search-input" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"
+        [(ngModel)]="searchKeyword" name="searchKeyword" (keyup.enter)="search()">
+
+      <!-- Search button -->
+      <button type="button" class="btn btn-primary" (click)="search()">
+        <i class="bi bi-search"></i>
+      </button>
+
+      <!-- Clear button -->
+      <button type="button" class="btn btn-clear-3d" (click)="clearSearch()">
+        {{ 'CLEAR' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

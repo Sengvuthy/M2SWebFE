@@ -1,7 +1,9 @@
+//sales-detail.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SalesService, SaleDTO, SaleItem } from '../../../services/sales.service';
 import { ToastrService } from 'ngx-toastr';
+import { ExchangeRateService } from '../../../services/exchange-rate.service';
 
 @Component({
   selector: 'app-sales-detail',
@@ -15,19 +17,26 @@ export class SalesDetailComponent implements OnInit {
   info: any = {};
   countdown = 0;
 
-  receivedAmount = 0;
-  changeAmount = 0;
+  totalUSD = 0;
+  totalKHR = 0;
+  exchangeRate = 0;
 
   constructor(
     private route: ActivatedRoute,
     public router: Router,
     private salesService: SalesService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private exchangeRateService: ExchangeRateService
+  ) { }
 
   ngOnInit(): void {
     this.invoice = this.route.snapshot.paramMap.get('invoice') || '';
     this.countdown = Number(this.route.snapshot.queryParamMap.get('countdown')) || 0;
+
+    this.exchangeRateService.getRate().subscribe({
+      next: dto => this.exchangeRate = dto.rate,
+      error: () => this.exchangeRate = 4000 // fallback
+    });
 
     this.salesService.getSalesByInvoice(this.invoice).subscribe({
       next: (res: SaleDTO) => {
@@ -36,17 +45,14 @@ export class SalesDetailComponent implements OnInit {
         this.info = {
           invoice: res.invoice,
           customerName: res.customerName,
-          sellerName: res.sellerName,
           saleDate: res.saleDate,
           saleTime: res.saleTime
         };
 
-        this.receivedAmount = Number(res.receiveAmount) || 0;
-        this.changeAmount = Number(res.changeAmount) || 0;
+        this.totalUSD = this.getTotal();
+        this.totalKHR = this.roundUp100(this.totalUSD * this.exchangeRate);
       },
-      error: () => {
-        this.toastr.error('Failed to load invoice items');
-      }
+      error: () => this.toastr.error('Failed to load invoice items')
     });
 
     if (this.countdown > 0) {
@@ -54,13 +60,13 @@ export class SalesDetailComponent implements OnInit {
         this.countdown--;
         if (this.countdown === 0) {
           clearInterval(timer);
-          this.router.navigate(['/sales/form']);
+          this.router.navigate(['/product-browse']);
         }
       }, 1000);
     }
   }
 
-  getTotal(): number {
+  private getTotal(): number {
     return this.items.reduce((sum, it) => {
       const subtotal = (Number(it.unitPrice) || 0) * (Number(it.numberOfUnit) || 0);
       const discountAmount = (Number(it.discount) || 0) / 100 * subtotal;
@@ -69,22 +75,11 @@ export class SalesDetailComponent implements OnInit {
     }, 0);
   }
 
-  print(): void {
-    window.print();
+  private roundUp100(value: number): number {
+    return Math.ceil(value / 100) * 100;
   }
 
-  cancel(): void {
-    if (!confirm(`Cancel invoice ${this.invoice}? This will restore stock.`)) return;
-
-    this.salesService.cancelSale(this.invoice).subscribe({
-      next: () => {
-        this.toastr.success('Invoice cancelled');
-        this.router.navigate(['/sales']);
-      },
-      error: err => {
-        const msg = err.error?.message || 'Cancel failed';
-        this.toastr.error(msg);
-      }
-    });
+  continueShopping(): void {
+    this.router.navigate(['/customer/browse']);
   }
 }

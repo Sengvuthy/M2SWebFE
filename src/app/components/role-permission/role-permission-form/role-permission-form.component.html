@@ -6,40 +6,53 @@
         <!-- 🆔 Role Dropdown -->
         <div class="mb-3">
           <label class="form-label fw-bold">Role *</label>
-          <div *ngIf="isLoadingRoles" class="text-muted">Loading roles...</div>
+          @if (isLoadingRoles) {
+            <div class="text-muted">Loading roles...</div>
+          }
           <select class="form-select form-select-lg" formControlName="roleId" [disabled]="isLoadingRoles">
             <option value="">-- Select Role --</option>
-            <option *ngFor="let r of roles" [value]="r.id">
-              {{ r.id }} - {{ r.roleName }}
-            </option>
+            @for (r of roles; track r) {
+              <option [value]="r.id">
+                {{ r.id }} - {{ r.roleName }}
+              </option>
+            }
           </select>
         </div>
 
         <!-- 🆔 Permission Dropdowns (Static FormArray) -->
         <div class="mb-3">
           <label class="form-label fw-bold">Permissions *</label>
-          <div *ngIf="isLoadingPermissions" class="text-muted">Loading permissions...</div>
+          @if (isLoadingPermissions) {
+            <div class="text-muted">Loading permissions...</div>
+          }
 
-          <div *ngFor="let ctrl of permissionControls" class="mb-2">
-            <select
-              class="form-select form-select-lg"
-              [formControl]="ctrl"
-              [disabled]="isLoadingPermissions"
-              [class.is-invalid]="ctrl.invalid && ctrl.touched">
-              <option value="">-- Select Permission --</option>
-              <option *ngFor="let p of permissions" [value]="p.id">
-                {{ p.id }} - {{ p.permissionName }}
-              </option>
-            </select>
-
-            <div class="invalid-feedback d-block" *ngIf="ctrl.errors?.['required'] && ctrl.touched">
-              Permission is required.
+          @for (ctrl of permissionControls; track ctrl) {
+            <div class="mb-2">
+              <select
+                class="form-select form-select-lg"
+                [formControl]="ctrl"
+                [disabled]="isLoadingPermissions"
+                [class.is-invalid]="ctrl.invalid && ctrl.touched">
+                <option value="">-- Select Permission --</option>
+                @for (p of permissions; track p) {
+                  <option [value]="p.id">
+                    {{ p.id }} - {{ p.permissionName }}
+                  </option>
+                }
+              </select>
+              @if (ctrl.errors?.['required'] && ctrl.touched) {
+                <div class="invalid-feedback d-block">
+                  Permission is required.
+                </div>
+              }
             </div>
-          </div>
+          }
         </div>
 
         <!-- ❗ Error Message -->
-        <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+        @if (errorMsg) {
+          <div class="alert alert-danger">{{ errorMsg }}</div>
+        }
 
         <!-- ✅ Action Buttons -->
         <div class="d-flex justify-content-end gap-2 mt-3">

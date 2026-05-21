@@ -17,7 +17,7 @@ export class SalesListComponent implements OnInit {
   isLoading = true;
 
   page = 1;
-  limit = 15;
+  limit = 30;
   totalPages = 1;
 
   searchInvoice = '';
@@ -28,7 +28,7 @@ export class SalesListComponent implements OnInit {
     private salesService: SalesService,
     private router: Router,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadInvoices();
@@ -49,7 +49,7 @@ export class SalesListComponent implements OnInit {
 
     this.salesService.getInvoiceList(params).subscribe({
       next: (res) => {
-        this.sales = res.list; // already InvoiceSummaryDTO
+        this.sales = res.list; // InvoiceSummaryDTO objects
         this.totalPages = res.paginationDTO.totalPages;
         this.isLoading = false;
       },
@@ -69,7 +69,6 @@ export class SalesListComponent implements OnInit {
         grouped[s.invoice] = {
           invoice: s.invoice,
           customerName: s.customerName,
-          sellerName: s.sellerName,
           saleDate: s.saleDate,
           saleTime: s.saleTime,
           totalAmount: 0,
@@ -118,7 +117,22 @@ export class SalesListComponent implements OnInit {
   }
 
   get pageNumbers(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    const delta = 2;
+    const pages: number[] = [];
+    pages.push(1);
+
+    if (this.page - delta > 2) pages.push(-1);
+
+    for (let i = Math.max(2, this.page - delta);
+      i <= Math.min(this.totalPages - 1, this.page + delta);
+      i++) {
+      pages.push(i);
+    }
+
+    if (this.page + delta < this.totalPages - 1) pages.push(-1);
+    if (this.totalPages > 1) pages.push(this.totalPages);
+
+    return pages;
   }
 
   search() {
@@ -133,7 +147,7 @@ export class SalesListComponent implements OnInit {
   }
 
   openDetail(invoice: string) {
-    this.router.navigate(['/sales/sales/detail', invoice]);
+    this.router.navigate(['/sales/detail', invoice]);
   }
 
   goToCreateSale() {

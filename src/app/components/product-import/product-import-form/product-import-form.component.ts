@@ -1,4 +1,4 @@
-//product-import-form.component.ts
+// product-import-form.component.ts
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductImportService, ProductImportDTO, ProductImportItem } from '../../../services/product-import.service';
@@ -53,16 +53,14 @@ export class ProductImportFormComponent implements OnInit {
       importDate: [this.today(), Validators.required],
       barcode: [''],
       productName: [''],
+      khmerName: [''],
       importUnit: [null, [Validators.required, Validators.min(1)]],
       buyPrice: [null, [Validators.required, Validators.min(0)]],
-      salePrice: [{ value: 0, disabled: true }],
+      salePrice: [null, [Validators.required, Validators.min(0)]], // ✅ editable
       buyAmount: [{ value: 0, disabled: true }]
     });
   }
 
-  /* =========================
-     SUPPLIER / PRODUCT
-  ========================== */
   private loadSuppliers(): void {
     const params = new HttpParams().set('page', '1').set('size', '100').set('sort', 'id,asc');
     this.supplierService.getSupplierList(params).subscribe({
@@ -71,12 +69,9 @@ export class ProductImportFormComponent implements OnInit {
     });
   }
 
-  /* =========================
-     PRODUCT LOOKUP
-  ========================== */
   searchProducts(name: string): void {
     if (!name.trim()) { this.products = []; return; }
-    this.productService.search(name.trim(), 1, 10, 'name,asc').subscribe({
+    this.productService.searchProducts(name.trim(), null, 1, 10, 'name,asc').subscribe({
       next: (res: PageDTO<Product>) => this.products = res.list,
       error: () => {
         this.products = [];
@@ -92,7 +87,9 @@ export class ProductImportFormComponent implements OnInit {
         this.importForm.patchValue({
           barcode: product.barcode,
           productName: product.name,
-          buyPrice: product.buyPrice ?? 0
+          khmerName: product.khmerName,
+          buyPrice: product.buyPrice ?? 0,
+          salePrice: product.salePrice ?? 0 // ✅ set current sale price
         });
         setTimeout(() => this.focusQuantity(), 0);
       },
@@ -105,9 +102,6 @@ export class ProductImportFormComponent implements OnInit {
     input.focus(); input.select();
   }
 
-  /* =========================
-     PRODUCT DROPDOWN
-  ========================== */
   handleKeyDown(event: KeyboardEvent): void {
     if (this.products.length === 0) return;
     if (event.key === 'ArrowDown') {
@@ -126,6 +120,7 @@ export class ProductImportFormComponent implements OnInit {
     this.importForm.patchValue({
       barcode: product.barcode,
       productName: product.name,
+      khmerName: product.khmerName,
       buyPrice: product.buyPrice ?? 0,
       salePrice: product.salePrice ?? 0
     });
@@ -133,26 +128,26 @@ export class ProductImportFormComponent implements OnInit {
     setTimeout(() => this.focusQuantity(), 0);
   }
 
-  /* =========================
-     PREVIEW ITEMS
-  ========================== */
   addToPreview(): void {
     const values = this.importForm.getRawValue();
     const barcode = values.barcode?.trim();
     const productName = values.productName?.trim();
+    const khmerName = values.khmerName?.trim();
     const qty = Number(values.importUnit);
     const price = Number(values.buyPrice);
+    const sale = Number(values.salePrice);
 
-    if (!barcode || !productName || isNaN(qty) || qty <= 0 || isNaN(price) || price < 0) {
+    if (!barcode || !productName || !khmerName || isNaN(qty) || qty <= 0 || isNaN(price) || price < 0) {
       return;
     }
 
     const newItem: ProductImportItem = {
       barcode,
       productName,
+      khmerName,
       importUnit: qty,
       buyPrice: price,
-      salePrice: 0 // ✅ explicitly clear sale price
+      salePrice: sale // ✅ preserve sale price
     };
 
     if (this.editingIndex !== null) {
@@ -163,7 +158,6 @@ export class ProductImportFormComponent implements OnInit {
     }
 
     this.importForm.patchValue({ buyAmount: qty * price });
-
     this.resetProductFields();
 
     setTimeout(() => {
@@ -177,8 +171,10 @@ export class ProductImportFormComponent implements OnInit {
     this.importForm.patchValue({
       barcode: item.barcode,
       productName: item.productName,
+      khmerName: item.khmerName,
       importUnit: item.importUnit,
       buyPrice: item.buyPrice,
+      salePrice: item.salePrice, // ✅ restore sale price
       buyAmount: item.importUnit * item.buyPrice
     });
     this.editingIndex = index;
@@ -193,6 +189,7 @@ export class ProductImportFormComponent implements OnInit {
     this.importForm.patchValue({
       barcode: '',
       productName: '',
+      khmerName: '',
       importUnit: null,
       buyPrice: null,
       salePrice: null,
@@ -200,43 +197,27 @@ export class ProductImportFormComponent implements OnInit {
     });
   }
 
-  /* =========================
-     TOTALS
-  ========================== */
   getGrandTotalBuy(): number {
     return this.previewItems.reduce((sum, item) => sum + (item.buyPrice * item.importUnit), 0);
   }
 
-  /* =========================
-     SAVE
-  ========================== */
   saveOnly(): void { this.save(false); }
 
   private save(printAfter: boolean): void {
     if (this.isSubmitted) return;
-
     if (this.previewItems.length === 0) {
       this.toastr.warning('No items to save');
       return;
     }
 
     const supplierId = this.importForm.get('supplierId')?.value;
-
-    // ✅ Resolve supplier name safely, fallback to "General"
     let supplierName = 'General';
     if (supplierId) {
       const supplier = this.suppliers.find(s => String(s.id) === String(supplierId));
-      console.log('Selected supplierId:', supplierId);
-      console.log('Matched supplier:', supplier);
-      if (supplier?.name) {
-        supplierName = supplier.name;
-      }
-    } else {
-      console.log('No supplier selected — defaulting to "General"');
+      if (supplier?.name) supplierName = supplier.name;
     }
 
     this.isSubmitted = true;
-
     const now = new Date();
     const importTime = now.toTimeString().split(' ')[0];
     const importDate = this.importForm.get('importDate')?.value;
@@ -250,8 +231,6 @@ export class ProductImportFormComponent implements OnInit {
       items: this.previewItems
     };
 
-    console.log('Sending DTO:', dto);
-
     const request$ = this.importId
       ? this.importService.updateProductImport(dto)
       : this.importService.createProductImport(dto);
@@ -259,14 +238,8 @@ export class ProductImportFormComponent implements OnInit {
     request$.subscribe({
       next: res => {
         this.toastr.success('Import saved successfully');
-        if (printAfter) {
-          const importNo = res?.importId ?? this.importId;
-          this.router.navigate(['/product-import/product-import/detail', importNo], {
-            queryParams: { countdown: 5 }
-          });
-        } else {
-          this.resetForm();
-        }
+        // ✅ Always go back to Product-Import-List page 1
+        this.router.navigate(['/product-import'], { queryParams: { page: 1 } });
         this.isSubmitted = false;
       },
       error: err => {
@@ -277,36 +250,15 @@ export class ProductImportFormComponent implements OnInit {
     });
   }
 
-  private resetForm(): void {
-    this.importForm.reset();
-    this.importForm.patchValue({
-      importerName: this.loggedInUserName,
-      importDate: this.today(),
-      importUnit: 0,
-      buyPrice: 0,
-      buyAmount: 0
-    });
-    this.previewItems = [];
-    this.importId = null;
-
-    setTimeout(() => {
-      const input = document.querySelector<HTMLInputElement>('input[formControlName="productName"]');
-      if (input) {
-        input.focus();
-        input.select();
-      }
-    }, 0);
-  }
-
-  /* =========================
-     ENTER KEY HANDLING
-  ========================== */
-  @HostListener('document:keydown', ['$event'])
+    @HostListener('document:keydown', ['$event'])
   handleEnterKey(event: KeyboardEvent): void {
     const target = event.target as HTMLElement;
-    const isQtyField = target.getAttribute('formcontrolname') === 'importUnit';
-    const isBuyField = target.getAttribute('formcontrolname') === 'buyPrice';
-    const isSupplierField = target.getAttribute('formcontrolname') === 'supplierId';
+    const field = target.getAttribute('formcontrolname');
+
+    const isQtyField = field === 'importUnit';
+    const isBuyField = field === 'buyPrice';
+    const isSaleField = field === 'salePrice';
+    const isSupplierField = field === 'supplierId';
 
     // Escape key → cancel and go back to list
     if (event.key === 'Escape') {
@@ -315,13 +267,13 @@ export class ProductImportFormComponent implements OnInit {
       return;
     }
 
-    // Enter key in quantity or buy price fields → add to preview
-    if (event.key === 'Enter' && (isQtyField || isBuyField)) {
+    // Enter key in quantity, buy price, or sale price → add to preview
+    if (event.key === 'Enter' && (isQtyField || isBuyField || isSaleField)) {
       event.preventDefault();
       this.addToPreview();
     }
 
-    // Enter key in supplier field → save & print
+    // Enter key in supplier field → save
     if (event.key === 'Enter' && isSupplierField) {
       event.preventDefault();
       this.saveOnly();
@@ -350,9 +302,10 @@ export class ProductImportFormComponent implements OnInit {
           this.previewItems = res.items.map((item: ProductImportItem) => ({
             barcode: item.barcode,
             productName: item.productName,
+            khmerName: item.khmerName,
             importUnit: item.importUnit,
             buyPrice: item.buyPrice,
-            salePrice: item.salePrice
+            salePrice: item.salePrice // ✅ restore sale price
           }));
         },
         error: () => this.toastr.error('Failed to load import for edit')

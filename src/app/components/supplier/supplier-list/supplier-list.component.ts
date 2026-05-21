@@ -17,7 +17,7 @@ export class SupplierListComponent implements OnInit {
   isLoading = true;
 
   page = 1;
-  limit = 15;
+  limit = 30;
   totalPages = 1;
 
   searchName = '';
@@ -29,7 +29,7 @@ export class SupplierListComponent implements OnInit {
     private supplierService: SupplierService,
     private router: Router,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadSuppliers();
@@ -157,6 +157,21 @@ export class SupplierListComponent implements OnInit {
   }
 
   get pageNumbers(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    const delta = 2;
+    const pages: number[] = [];
+    pages.push(1);
+
+    if (this.page - delta > 2) pages.push(-1);
+
+    for (let i = Math.max(2, this.page - delta);
+      i <= Math.min(this.totalPages - 1, this.page + delta);
+      i++) {
+      pages.push(i);
+    }
+
+    if (this.page + delta < this.totalPages - 1) pages.push(-1);
+    if (this.totalPages > 1) pages.push(this.totalPages);
+
+    return pages;
   }
 }

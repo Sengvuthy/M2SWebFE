@@ -26,7 +26,6 @@ label {
   background-color: #ffffff;
   transition: border-color 0.2s ease-in-out;
 }
-
 .form-control:focus {
   border-color: #80bdff;
   box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
@@ -38,18 +37,32 @@ label {
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-collapse: collapse;
+  width: 100%;
 }
-
 .preview-table th {
   background-color: #007bff;
-  color: white;
-  font-weight: 500;
-  font-size: 0.85rem;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 0.5rem;
 }
-
-.preview-table td {
-  background-color: #f9f9f9;
-  font-size: 0.85rem;
+.preview-table tbody tr:nth-child(odd) td {
+  background-color: #fdffff !important;
+}
+.preview-table tbody tr:nth-child(even) td {
+  background-color: #fdffff !important;
+}
+.preview-table tbody tr:hover td {
+  background-color: #cce5ff !important; /* highlight on hover */
+}
+.preview-table tfoot tr td {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  text-align: right;
+  padding: 0.5rem;
 }
 
 /* 🟪 Side panels */
@@ -72,14 +85,13 @@ label {
   font-size: 1rem;
   font-weight: bold;
   box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4),
-    0 4px 8px rgba(0, 0, 0, 0.2);
+              0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 .jelly-btn-sky:hover {
   transform: scale(1.05);
   box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5),
-    0 6px 12px rgba(0, 0, 0, 0.25);
+              0 6px 12px rgba(0, 0, 0, 0.25);
 }
 
 /* 📱 Responsive tweaks */
@@ -87,7 +99,6 @@ label {
   .form-main {
     flex-direction: column;
   }
-
   .product-details,
   .financial-summary {
     width: 100%;
@@ -98,26 +109,53 @@ label {
 /* 🟦 Dropdown styling */
 .custom-dropdown {
   border-radius: 0.5rem;
-  overflow: hidden;
   max-height: 400px;
   overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 .custom-dropdown .list-group-item {
   background-color: #e9efe9;
   border: none;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-
-.custom-dropdown .list-group-item:hover,
+.custom-dropdown .list-group-item:hover {
+  background-color: #cce5ff; /* light blue */
+  color: #000;
+}
 .custom-dropdown .list-group-item.active {
-  background-color: #9f9f9e;
+  background-color: #007bff; /* darker blue */
   color: #fff;
+  font-weight: 600;
+}
+
+html, body {
+  touch-action: manipulation;
+  overscroll-behavior: none;
+}
+
+#map {
+  touch-action: none; /* ensures gestures are handled by Google Maps only */
+}
+
+/* 🧭 Locate Me button */
+.map-locate-btn {
+  background: linear-gradient(to bottom, #6fb1fc, #1e90ff); /* matches jelly-btn-sky */
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.25);
   cursor: pointer;
+  margin: 10px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.map-locate-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
-.custom-dropdown .list-group-item.active {
-  background-color: #929491;
-  color: #fff;
-}

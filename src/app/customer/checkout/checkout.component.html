@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h3>Checkout</h3>
+
+  <table *ngIf="cartItems.length > 0" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Khmer Name</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cartItems">
+        <td>{{ item.name }}</td>
+        <td>{{ item.khmerName }}</td>
+        <td>{{ item.salePrice | currency }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ (item.salePrice * item.quantity) | currency }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="cartItems.length > 0" class="mt-3 text-end">
+    <h5>Total: {{ total | currency }}</h5>
+    <button class="btn btn-success" (click)="placeOrder()">Place Order</button>
+  </div>
+
+  <div *ngIf="cartItems.length === 0" class="text-center p-3">
+    <p>Your cart is empty.</p>
+  </div>
+</div>

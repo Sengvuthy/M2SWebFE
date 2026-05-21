@@ -1,7 +1,7 @@
 <div class="card card-gradient p-3">
   <form [formGroup]="form" (ngSubmit)="save()">
 
-    <!-- 🔹 Product Details -->
+    <!--  Product Details -->
     <div class="d-flex flex-column gap-2">
 
       <!-- Supplier Dropdown -->
@@ -9,10 +9,12 @@
         <label class="mb-0 fw-medium" style="width: 140px;">Supplier *</label>
         <select class="form-select flex-grow-1" formControlName="supplierId">
           <option [ngValue]="null">-- Select Supplier --</option>
-          <option *ngFor="let s of suppliers" [ngValue]="s.id">{{ s.name }}</option>
+          @for (s of suppliers; track s) {
+          <option [ngValue]="s.id">{{ s.name }}</option>
+          }
         </select>
       </div>
-      
+
       <!-- Barcode -->
       <div class="d-flex align-items-center">
         <label class="mb-0 fw-medium" style="width: 140px;">Barcode *</label>
@@ -21,8 +23,14 @@
 
       <!-- Name -->
       <div class="d-flex align-items-center">
-        <label class="mb-0 fw-medium" style="width: 140px;">Product Name *</label>
+        <label class="mb-0 fw-medium" style="width: 140px;">English Name *</label>
         <input type="text" class="form-control" formControlName="name" />
+      </div>
+
+      <!-- Khmer Name -->
+      <div class="d-flex align-items-center">
+        <label class="mb-0 fw-medium" style="width: 140px;">Khmer Name *</label>
+        <input type="text" class="form-control" formControlName="khmerName" />
       </div>
 
       <!-- Category Dropdown -->
@@ -30,7 +38,9 @@
         <label class="mb-0 fw-medium" style="width: 140px;">Category *</label>
         <select class="form-select flex-grow-1" formControlName="categoryId">
           <option [ngValue]="null">-- Select Category --</option>
-          <option *ngFor="let c of categories" [ngValue]="c.id">{{ c.name }}</option>
+          @for (c of categories; track c) {
+          <option [ngValue]="c.id">{{ c.name }}</option>
+          }
         </select>
       </div>
 
@@ -54,19 +64,19 @@
 
       <!-- Image Upload -->
       <div class="d-flex align-items-start">
-        <label class="mb-0 fw-medium" style="width: 140px;">Image</label>
+        <label style="width: 125px;">Image</label>
         <div class="flex-grow-1">
           <input type="file" class="form-control" (change)="upload($event)" />
           <div *ngIf="form.value.imagePath" class="mt-2">
-            <img [src]="form.value.imagePath" alt="Product image" class="img-thumbnail" style="max-height: 150px;">
+            <img [src]="form.value.imagePath" class="img-thumbnail" style="max-height: 150px;">
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 🔹 Actions -->
+    <!--  Actions -->
     <div class="mt-3 text-end">
-      <button type="submit" class="btn btn-success btn-lg me-2" [disabled]="isSubmitting">💾 Save</button>
+      <button type="submit" class="btn btn-success btn-lg me-2" [disabled]="isSubmitting"> Save</button>
       <button type="button" class="btn btn-secondary btn-lg" (click)="cancel()">Cancel</button>
     </div>
   </form>

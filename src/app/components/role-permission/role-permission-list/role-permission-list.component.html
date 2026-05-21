@@ -1,86 +1,78 @@
 <div class="header-flat">
-  <div class="col-12">
 
-    <!-- ⭐ Header Row -->
-    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-      <div class="d-flex gap-2">
-        <button class="btn btn-success btn-sm" (click)="goToAssign()">
-          Assign Permission
-        </button>
-        <button class="btn btn-primary btn-sm" (click)="importRolePermissions()">
-          Import RolePermissions
-        </button>
+  <!-- ⏳ Loading / Error -->
+  @if (isLoading) {
+  <div class="text-center p-3">Loading role-permissions...</div>
+  }
+  @if (!isLoading && errorMsg) {
+  <div class="alert alert-danger">{{ errorMsg }}</div>
+  }
+
+  <!-- ✅ Table Section -->
+  @if (!isLoading && !errorMsg) {
+  <div class="col-12 d-flex">
+    <div class="card flex-fill">
+      <!-- ⭐ Header Row -->
+      <div class="d-flex justify-content-between align-items-center px-3 py-1 rounded shadow-sm mb-1 header-flat">
+        <button class="btn btn-success btn-sm" (click)="goToAssign()">Assign Permission</button>
+        <h5 class="text-center flex-grow-1 mb-0" style="font-size: 1rem;">Role-Permission List</h5>
+        <div class="d-flex gap-2 ms-3">
+          <button class="btn btn-warning btn-sm" style="background-color: #f58718;" (click)="importRolePermissions()">
+            Import Role-Permissions
+          </button>
+        </div>
       </div>
 
-      <!-- Center: Title -->
-      <div class="flex-grow-1 text-center">
-        <h5 class="mb-0">Role-Permission List</h5>
-      </div>
-
-      <!-- Right: Role Dropdown -->
-      <div class="d-flex align-items-center">
-        <label class="me-2 fw-bold">Role:</label>
-        <select class="form-select form-select-sm" style="width: 200px;" [formControl]="roleControl">
-          <option *ngFor="let role of roles" [value]="role.id">{{ role.roleName }}</option>
-        </select>
-      </div>
-    </div>
-
-
-    <!-- ⏳ Loading / Error -->
-    <div *ngIf="isLoading" class="text-center p-3">Loading role-permissions...</div>
-    <div *ngIf="!isLoading && errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
-
-    <!-- 📋 Role-Permission Table -->
-    <div class="card flex-fill" *ngIf="!isLoading && !errorMsg">
+      <!-- ✅ Unified Table -->
       <table class="table table-hover my-0 table-flat">
         <thead>
           <tr style="font-size: 0.9rem;">
-            <th style="width: 25%; cursor: pointer;" (click)="sort('id.roleId')">
+            <th style="width: 30%; cursor: pointer;" (click)="sort('id.roleId')">
               Role
-              <span *ngIf="sortBy === 'id.roleId'">
-                {{ sortDir === 'asc' ? '▼' : '▲' }}
-              </span>
+              @if (sortBy === 'id.roleId') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
-            <th style="width: 55%; cursor: pointer;" (click)="sort('id.permissionId')">
+            <th style="width: 40%; cursor: pointer;" (click)="sort('id.permissionId')">
               Permission
-              <span *ngIf="sortBy === 'id.permissionId'">
-                {{ sortDir === 'asc' ? '▼' : '▲' }}
-              </span>
+              @if (sortBy === 'id.permissionId') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
-            <th class="text-center" style="width: 20%;">Actions</th>
+            <th class="text-center" style="width: 30%;">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let m of mappings" style="font-size: 0.9rem;">
-            <td style="padding: 0.3rem 0.5rem;">{{ m.roleName || m.roleId }}</td>
-            <td style="padding: 0.3rem 0.5rem;">{{ m.permissionName || m.permissionId }}</td>
-            <td class="text-center" style="padding: 0.3rem 0.5rem;">
-              <button class="btn btn-danger btn-sm" (click)="remove(m)">
-                Remove
-              </button>
+          @for (m of mappings; track m) {
+          <tr style="font-size: 0.9rem;">
+            <td>{{ m.roleName || m.roleId }}</td>
+            <td>{{ m.permissionName || m.permissionId }}</td>
+            <td class="text-center">
+              <button class="btn btn-danger btn-sm" (click)="remove(m)">Delete</button>
             </td>
           </tr>
-          <tr *ngIf="mappings.length === 0">
+          }
+          @if (mappings.length === 0) {
+          <tr>
             <td colspan="3" class="text-center">No mappings found</td>
           </tr>
+          }
         </tbody>
       </table>
 
-      <!-- 📑 Pagination -->
+      <!-- ✅ Pagination UI -->
       <div class="card-footer text-center py-1 footer-flat">
-        <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()">
-          Previous
-        </button>
+        <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()">Previous</button>
         <ng-container *ngFor="let p of pageNumbers">
-          <button class="btn mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'" (click)="goToPage(p)">
+          <button *ngIf="p !== -1" class="btn mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
+            (click)="goToPage(p)">
             {{ p }}
           </button>
+          <span *ngIf="p === -1">...</span>
         </ng-container>
-        <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()">
-          Next
-        </button>
+        <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()">Next</button>
       </div>
     </div>
   </div>
+  }
 </div>

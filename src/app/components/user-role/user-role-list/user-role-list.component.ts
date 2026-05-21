@@ -1,3 +1,4 @@
+//user-role-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -18,7 +19,7 @@ export class UserRoleListComponent implements OnInit {
   errorMsg = '';
 
   page = 1;
-  limit = 15;
+  limit = 30;
   totalPages = 1;
 
   searchName = '';
@@ -130,6 +131,21 @@ export class UserRoleListComponent implements OnInit {
   }
 
   get pageNumbers(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    const delta = 2;
+    const pages: number[] = [];
+    pages.push(1);
+
+    if (this.page - delta > 2) pages.push(-1);
+
+    for (let i = Math.max(2, this.page - delta);
+      i <= Math.min(this.totalPages - 1, this.page + delta);
+      i++) {
+      pages.push(i);
+    }
+
+    if (this.page + delta < this.totalPages - 1) pages.push(-1);
+    if (this.totalPages > 1) pages.push(this.totalPages);
+
+    return pages;
   }
 }

@@ -8,10 +8,13 @@
         <div class="col">
           <select class="form-select" formControlName="supplierId">
             <option value="">-- Select Supplier --</option>
-            <option *ngFor="let s of suppliers" [value]="s.id">{{ s.name }}</option>
+            @for (s of suppliers; track s) {
+            <option [value]="s.id">{{ s.name }}</option>
+            }
           </select>
-          <div *ngIf="importForm.get('supplierId')?.invalid && importForm.get('supplierId')?.touched"
-            class="text-danger"> Supplier is required. </div>
+          @if (importForm.get('supplierId')?.invalid && importForm.get('supplierId')?.touched) {
+          <div class="text-danger"> Supplier is required. </div>
+          }
         </div>
 
         <div class="col-auto"><label class="mb-0 fw-medium">Importer</label></div>
@@ -32,17 +35,20 @@
         </div>
 
         <div class="d-flex align-items-start">
-          <label class="me-2 mb-0" style="width: 105px;">Product Name</label>
+          <label class="me-2 mb-0" style="width: 117px;">Product Name</label>
           <div class="position-relative flex-grow-1">
             <input #productInput class="form-control" formControlName="productName"
               (input)="searchProducts(productInput.value)" (keydown)="handleKeyDown($event)" />
-            <ul *ngIf="products.length > 0" class="list-group position-absolute w-100 custom-dropdown"
-              style="z-index: 1000; top: 100%; left: 0;">
-              <li *ngFor="let p of products; let i = index" class="list-group-item list-group-item-action"
-                [class.active]="i === highlightedIndex" (click)="selectProduct(p)">
+            @if (products.length > 0) {
+            <ul class="list-group position-absolute w-100 custom-dropdown" style="z-index: 1000; top: 100%; left: 0;">
+              @for (p of products; track p; let i = $index) {
+              <li class="list-group-item list-group-item-action" [class.active]="i === highlightedIndex"
+                (click)="selectProduct(p)">
                 {{ p.name }}
               </li>
+              }
             </ul>
+            }
           </div>
         </div>
 
@@ -59,7 +65,7 @@
 
         <div class="d-flex align-items-center">
           <label class="me-2 mb-0" style="width: 140px;">Sale Price $</label>
-          <input type="number" class="form-control" formControlName="salePrice" readonly />
+          <input type="number" class="form-control" formControlName="salePrice" />
         </div>
       </div>
 
@@ -72,10 +78,12 @@
     </div>
 
     <!-- Preview Table -->
-    <div class="mt-3 border-top pt-3" *ngIf="previewItems.length > 0">
-      <table class="table table-sm table-bordered">
+    @if (previewItems.length > 0) {
+    <div class="mt-3 border-top pt-3">
+      <table class="table table-sm table-bordered preview-table">
         <thead>
           <tr>
+            <th>No.</th>
             <th>Barcode</th>
             <th>Product</th>
             <th>Qty</th>
@@ -86,9 +94,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of previewItems; let i = index">
+          @for (item of previewItems; track item; let i = $index) {
+          <tr>
+            <td>{{ i + 1 }}</td>
             <td>{{ item.barcode }}</td>
-            <td>{{ item.productName }}</td>
+            <td>{{ item.khmerName }}</td>
             <td>{{ item.importUnit }}</td>
             <td>{{ item.buyPrice | currency }}</td>
             <td>{{ item.salePrice | currency }}</td> <!-- ✅ show sale price -->
@@ -99,6 +109,7 @@
               <button type="button" class="btn btn-sm btn-danger" (click)="removePreviewItem(i)">🗑️ Delete</button>
             </td>
           </tr>
+          }
         </tbody>
         <tfoot>
           <tr class="table-secondary">
@@ -109,6 +120,7 @@
         </tfoot>
       </table>
     </div>
+    }
 
     <!-- Actions -->
     <div class="mt-3 text-end">

@@ -1,8 +1,20 @@
+:host {
+  display: block;
+  margin-top: 90px; /* matches header height */
+}
+
+@media (max-width: 576px) {
+  :host {
+    margin-top: 110px; /* extra space for stacked header */
+  }
+}
+
 .receipt {
   width: 80mm;
-  font-family: monospace;
-  font-size: 12px;
-  padding: 6px;
+  font-family: "Noto Sans Khmer", "Khmer OS", Arial, sans-serif;
+  font-size: 11px;
+  padding: 500;
+  padding: 4px;
 }
 
 .center {
@@ -27,12 +39,68 @@
   margin-top: 10px;
 }
 
+/* 80x80 Receipt */
+/* @media print {
+  .receipt, .receipt p, .receipt td, .receipt th {
+    font-weight: bold;
+    font-size: 12px;
+  }
+} */
+
+/* A5 Receipt */
+/* @media print {
+  .receipt {
+    width: 148mm;
+    height: 210mm;
+    margin: auto;
+    padding: 10mm;
+    font-size: 12px;
+  }
+} */
+
+/* Base receipt style for screen */
+.receipt {
+  width: 80mm; /* thermal roll default */
+  font-family: "Noto Sans Khmer", "Khmer OS", Arial, sans-serif;
+  font-size: 11px;
+  padding: 4px;
+}
+
+/* Base receipt style for screen */
+.receipt {
+  width: 100%; /* let it expand on screen */
+  max-width: 210mm; /* cap at A4 width */
+  font-family: "Noto Sans Khmer", "Khmer OS", Arial, sans-serif;
+  font-size: 14px;
+  margin: auto;
+  padding: 10mm;
+  box-sizing: border-box;
+}
+
+/* A4 Receipt for printing */
 @media print {
+  .receipt {
+    width: 210mm;       /* A4 width */
+    height: 297mm;      /* A4 height */
+    margin: auto;
+    padding: 20mm;      /* generous padding */
+    font-size: 14px;    /* larger text for readability */
+  }
+
+  .item-table th,
+  .item-table td {
+    padding: 6px;
+    font-size: 13px;
+  }
+
+  .summary-box {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* Hide buttons when printing */
   .no-print {
     display: none !important;
-  }
-  .receipt {
-    margin: 0;
   }
 }
 
@@ -42,7 +110,8 @@
 }
 
 .row-between p {
-  margin: 0; /* remove default spacing */
+  margin: 0;
+  /* remove default spacing */
 }
 
 .row-between {
@@ -62,7 +131,8 @@
 
 .left-note p {
   margin: 0;
-  font-size: 0.85rem; /* smaller text for the note */
+  font-size: 0.85rem;
+  /* smaller text for the note */
 }
 
 .summary-box {
@@ -91,4 +161,30 @@
 .right-totals p {
   margin: 0;
   line-height: 1.4;
+}
+
+/* Candy / 3D button style */
+.candy-btn {
+  background: linear-gradient(145deg, #4facfe, #00f2fe); /* shiny gradient */
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.25),
+              inset 0 -3px 6px rgba(255,255,255,0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.candy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.3),
+              inset 0 -3px 6px rgba(255,255,255,0.4);
+}
+
+.candy-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 5px rgba(0,0,0,0.2),
+              inset 0 -2px 4px rgba(255,255,255,0.3);
 }

@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+/* Global spacing for Angular root */
+app-root {
+  display: block;
+  padding-top: 220px; /* matches header height */
+}
+
+@media (max-width: 576px) {
+  app-root {
+    padding-top: 240px; /* extra space for stacked header */
+  }
+}

@@ -1,3 +1,4 @@
+//sale-report-daily.component.ts
 import { Component, OnInit } from '@angular/core';
 import { SaleReportService, SaleReportDTO } from '../../../services/sale-report.service';
 import { ToastrService } from 'ngx-toastr';
@@ -64,5 +65,29 @@ export class SaleReportDailyComponent implements OnInit {
   clearSummary() {
     this.dailySummary = null;
     this.dailyDate = '';
+  }
+
+  private groupSalesByInvoice(sales: any[]): any[] {
+    const grouped: { [invoice: string]: any } = {};
+    for (const s of sales) {
+      if (!grouped[s.invoice]) {
+        grouped[s.invoice] = {
+          invoice: s.invoice,
+          saleDate: s.saleDate,
+          saleTime: s.saleTime,
+          totalAmount: 0,
+          totalUnits: 0
+        };
+      }
+      grouped[s.invoice].totalAmount += Number(s.soldAmount);
+      grouped[s.invoice].totalUnits += Number(s.numberOfUnit || 0);
+    }
+
+    // 🔹 Sort by date + time (latest first)
+    return Object.values(grouped).sort((a, b) => {
+      const dateA = new Date(a.saleDate + 'T' + a.saleTime);
+      const dateB = new Date(b.saleDate + 'T' + b.saleTime);
+      return dateB.getTime() - dateA.getTime(); // descending
+    });
   }
 }

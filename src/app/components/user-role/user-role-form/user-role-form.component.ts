@@ -4,7 +4,7 @@ import {
   FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { UserRoleService } from '../../../services/user-role.service';
 import { RoleService, RoleDTO } from '../../../services/role.service';
 import { UserService } from '../../../services/user.service';
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-role-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule],
+  imports: [ReactiveFormsModule, FormsModule, RouterModule],
   templateUrl: './user-role-form.component.html'
 })
 export class UserRoleFormComponent implements OnInit {

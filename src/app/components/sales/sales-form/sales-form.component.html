@@ -1,162 +1,70 @@
-<div class="card card-gradient p-3">
-  <form [formGroup]="saleForm" (ngSubmit)="saveAndPrint()">
+<app-customer-header></app-customer-header>
 
-    <!-- 🔹 Part 1: Customer, Seller, Date -->
+<div class="card p-3">
+  <form (ngSubmit)="Checkout()">
+
+    <!-- Customer + Date -->
     <div class="mb-3 border-bottom pb-2">
-      <div class="row g-2 align-items-center">
-
-        <!-- Customer -->
-        <div class="col-auto">
-          <label class="mb-0 fw-medium">Customer</label>
-        </div>
-        <div class="col">
-          <select class="form-select" formControlName="customerId" (change)="onCustomerChange()">
-            <option value="">-- Select Customer --</option>
-            <option *ngFor="let c of customers" [value]="c.id">{{ c.name }}</option>
-          </select>
-        </div>
-
-        <!-- Seller -->
-        <div class="col-auto">
-          <label class="mb-0 fw-medium">Seller</label>
-        </div>
-        <div class="col">
-          <input class="form-control" formControlName="sellerName" readonly />
-        </div>
-
-        <!-- Date -->
-        <div class="col-auto">
-          <label class="mb-0 fw-medium">Date</label>
-        </div>
-        <div class="col">
-          <input type="date" class="form-control" formControlName="saleDate" />
-        </div>
+      <div class="d-flex align-items-center justify-content-between flex-nowrap">
+        <span class="fw-medium">{{ 'CUSTOMER' | translate }}: {{ selectedCustomerName }}</span>
+        <span class="fw-medium">{{ 'DATE' | translate }}: {{ saleForm.get('saleDate')?.value }}</span>
       </div>
     </div>
 
-    <!-- 🔹 Part 2 + Part 4 side by side -->
-    <div class="d-flex gap-4">
-
-      <!-- Part 2: Product Details -->
-      <div class="flex-grow-1 d-flex flex-column gap-2">
-
-        <!-- Barcode -->
-        <div class="d-flex align-items-center">
-          <label class="me-2 mb-0" style="width: 140px;">Barcode</label>
-          <input #barcodeInput class="form-control" formControlName="barcode"
-                 (input)="lookupByBarcode(saleForm.value.barcode)" />
-        </div>
-
-        <!-- Product Name with dropdown -->
-        <div class="d-flex align-items-center">
-          <label class="me-2 mb-0" style="width: 105px;">Product Name</label>
-          <div class="position-relative flex-grow-1">
-            <input #productInput class="form-control" formControlName="productName"
-                   (input)="searchProducts(productInput.value)" (keydown)="handleKeyDown($event)" />
-
-            <ul *ngIf="products.length > 0"
-                class="list-group position-absolute w-100 custom-dropdown"
-                style="z-index: 1000; top: 100%; left: 0;">
-              <li *ngFor="let p of products; let i = index"
-                  class="list-group-item list-group-item-action"
-                  [class.active]="i === highlightedIndex"
-                  (click)="selectProduct(p)">
-                {{ p.name }} - {{ p.salePrice | currency }}
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Discount -->
-        <div class="d-flex align-items-center">
-          <label class="me-2 mb-0" style="width: 140px;">Disc. (%)</label>
-          <input type="number" class="form-control" formControlName="discount" />
-        </div>
-
-        <!-- Quantity -->
-        <div class="d-flex align-items-center">
-          <label class="me-2 mb-0" style="width: 140px;">Qty</label>
-          <input #quantityInput type="number" class="form-control" formControlName="numberOfUnit"
-                 (keydown.enter)="addToPreview()" />
-        </div>
-
-        <!-- Unit Price -->
-        <div class="d-flex align-items-center">
-          <label class="me-2 mb-0" style="width: 140px;">Unit Price $</label>
-          <input #unitPriceInput type="number" class="form-control" formControlName="unitPrice"
-                 (keydown.enter)="addToPreview()" />
-        </div>
-      </div>
-
-      <!-- Part 4: Financial Summary -->
-      <div class="financial-summary d-flex flex-column gap-2" style="max-width: 300px;">
-        <div class="d-flex align-items-center">
-          <label class="me-2 mb-0" style="width: 100px;">Total $</label>
-          <input type="number" class="form-control form-control-sm" [value]="getGrandTotal()" readonly />
-        </div>
-        <div class="d-flex align-items-center">
-          <label class="me-2 mb-0" style="width: 100px;">Receive $</label>
-          <input type="number" class="form-control form-control-sm" formControlName="receiveAmount" />
-        </div>
-        <div class="d-flex align-items-center">
-          <label class="me-2 mb-0" style="width: 100px;">Change $</label>
-          <input type="number" class="form-control form-control-sm" [value]="getChange()" readonly />
-        </div>
-      </div>
-    </div>
-    
-    <!-- 🔹 Part 3: Preview Table -->
-    <div class="mt-3 border-top pt-3" *ngIf="previewItems.length > 0">
-      <table class="table table-sm table-bordered">
+    <!-- Preview Table -->
+    <div *ngIf="previewItems.length > 0" class="mt-3 border-top pt-3 table-responsive">
+      <table class="table table-sm preview-table align-middle text-center table-bordered">
         <thead>
           <tr>
-            <th>Barcode</th>
-            <th>Product</th>
-            <th>Discount</th>
-            <th>Qty</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-            <th>Action</th>
+            <th>{{ 'NO' | translate }}</th>
+            <th>{{ 'IMAGE' | translate }}</th>
+            <th>{{ 'INFORMATION' | translate }}</th>
+            <th>{{ 'ACTION' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of previewItems; let i = index">
-            <td>{{ item.barcode }}</td>
-            <td>{{ item.productName }}</td>
-            <td>{{ item.discount }}%</td>
-            <td>{{ item.numberOfUnit }}</td>
-            <td>{{ item.unitPrice | currency }}</td>
+            <td>{{ i + 1 }}</td>
             <td>
-              {{
-                (item.unitPrice * item.numberOfUnit) -
-                ((item.discount / 100) * (item.unitPrice * item.numberOfUnit))
-                | currency
-              }}
+              <img [src]="item.imagePath || 'assets/placeholder.png'" alt="{{ item.productName }}"
+                style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+            </td>
+            <td class="text-start">
+              <div><strong>{{ item.khmerName }}</strong></div>
+              <div>{{ 'PRICE' | translate }}: {{ item.unitPrice | currency:'USD':'symbol':'1.2-2' }}</div>
+              <div>
+                {{ 'QTY' | translate }}:
+                <span class="qty-control" (click)="decreaseQty(i)">−</span>
+                <span class="fw-bold">{{ item.numberOfUnit }}</span>
+                <span class="qty-control" (click)="increaseQty(i)">+</span>
+              </div>
+              <div>{{ 'DISCOUNT' | translate }}: {{ item.discount }}%</div>
             </td>
             <td>
-              <button type="button" class="btn btn-sm btn-warning me-1" (click)="editPreviewItem(item, i)">
-                ✏️ Edit
-              </button>
               <button type="button" class="btn btn-sm btn-danger" (click)="removePreviewItem(i)">
-                🗑️ Delete
+                {{ 'REMOVE' | translate }}
               </button>
             </td>
           </tr>
         </tbody>
         <tfoot>
-          <tr class="table-secondary">
-            <td colspan="5" class="text-end fw-bold">Grand Total</td>
-            <td class="fw-bold">{{ getGrandTotal() | currency }}</td>
+          <tr>
+            <td colspan="2" class="text-end fw-bold">{{ 'GRAND_TOTAL' | translate }}</td>
+            <td class="fw-bold">
+              {{ getGrandTotal() | currency:'USD':'symbol':'1.2-2' }} <br>
+              ៛ {{ getGrandTotalKHR() }}
+            </td>
             <td></td>
           </tr>
         </tfoot>
       </table>
     </div>
 
-    <!-- 🔹 Actions -->
-    <div class="mt-3 text-end">
-      <button type="button" class="btn btn-success btn-lg me-2" (click)="saveOnly()">💾 Save</button>
-      <button type="submit" class="btn btn-primary btn-lg">🖨️ Save & Print</button>
+    <!-- ✅ Checkout button -->
+    <div class="mt-3 text-end d-grid gap-2 d-md-block">
+      <button type="submit" class="candy-btn w-100 w-md-auto">
+        {{ 'CHECKOUT' | translate }}
+      </button>
     </div>
   </form>
 </div>

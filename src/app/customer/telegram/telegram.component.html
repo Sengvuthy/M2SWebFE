@@ -1,0 +1,21 @@
+<app-customer-header></app-customer-header>
+
+<div class="card card-gradient p-3">
+  <div class="card-body text-center">
+    <h5 class="mb-3">Connect Your Telegram</h5>
+
+    <!-- Phone input -->
+    <input type="text" class="form-control form-control-lg mb-3" [(ngModel)]="telegramPhone"
+      placeholder="Enter Telegram phone number" (keyup.enter)="connectTelegram()" />
+
+    <!-- Connect button -->
+    <button class="btn btn-primary" (click)="connectTelegram()">Connect Telegram</button>
+
+    <h5 class="mb-3">Chat with us here</h5>
+    <!-- Bot link button -->
+    <button class="btn btn-info mb-3" onclick="window.open('https://t.me/m2sweb_bot','_blank')">
+      <i class="bi bi-telegram"></i> Open Telegram Bot
+    </button>
+
+  </div>
+</div>

@@ -25,44 +25,51 @@
 </div>
 
 <!-- ⏳ Loading Indicator -->
-<div *ngIf="isLoading" class="text-center p-3">
-  Loading reports...
-</div>
+@if (isLoading) {
+  <div class="text-center p-3">
+    Loading reports...
+  </div>
+}
 
 <!-- 📋 Daily Sales Table -->
-<div *ngIf="!isLoading && sales.length > 0" class="col-12 mb-3">
-  <div class="d-flex justify-content-between align-items-center px-3 py-1 rounded shadow-sm mb-1 header-flat">
-    <h5 class="text-center flex-grow-1 mb-0" style="font-size: 1rem;">
-      Daily Income on {{ dailyDate | date:'dd-MMM-yyyy' }}
-    </h5>
+@if (!isLoading && sales.length > 0) {
+  <div class="col-12 mb-3">
+    <div class="d-flex justify-content-between align-items-center px-3 py-1 rounded shadow-sm mb-1 header-flat">
+      <h5 class="text-center flex-grow-1 mb-0" style="font-size: 1rem;">
+        Daily Income on {{ dailyDate | date:'dd-MMM-yyyy' }}
+      </h5>
+    </div>
+    <table class="table table-hover my-0 table-flat">
+      <thead>
+        <tr style="font-size: 0.9rem;">
+          <th>Invoice</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of sales; track s) {
+          <tr style="font-size: 0.9rem;">
+            <td style="padding: 0.3rem 0.5rem;">{{ s.invoice }}</td>
+            <td style="padding: 0.3rem 0.5rem;">{{ s.totalAmount | currency:'USD' }}</td>
+            <td style="padding: 0.3rem 0.5rem;">{{ s.saleDate | date:'dd-MMM-yyyy' }}</td>
+            <td style="padding: 0.3rem 0.5rem;">{{ s.saleTime?.substring(0, 5) }}</td>
+          </tr>
+        }
+        <tr class="fw-bold">
+          <td>Total</td>
+          <td>{{ dailyIncome | currency:'USD' }}</td>
+          <td colspan="2"></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-  <table class="table table-hover my-0 table-flat">
-    <thead>
-      <tr style="font-size: 0.9rem;">
-        <th>Invoice</th>
-        <th>Amount</th>
-        <th>Date</th>
-        <th>Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let s of sales" style="font-size: 0.9rem;">
-        <td style="padding: 0.3rem 0.5rem;">{{ s.invoice }}</td>
-        <td style="padding: 0.3rem 0.5rem;">{{ s.totalAmount | currency:'USD' }}</td>
-        <td style="padding: 0.3rem 0.5rem;">{{ s.saleDate | date:'dd-MMM-yyyy' }}</td>
-        <td style="padding: 0.3rem 0.5rem;">{{ s.saleTime?.substring(0, 5) }}</td>
-      </tr>
-      <tr class="fw-bold">
-        <td>Total</td>
-        <td>{{ dailyIncome | currency:'USD' }}</td>
-        <td colspan="2"></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+}
 
 <!-- 🚫 No Reports Found -->
-<div *ngIf="!isLoading && reports.length === 0 && sales.length === 0" class="text-center">
-  No reports found
-</div>
+@if (!isLoading && reports.length === 0 && sales.length === 0) {
+  <div class="text-center">
+    No reports found
+  </div>
+}

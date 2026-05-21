@@ -1,0 +1,124 @@
+:host {
+  display: block;
+  margin-top: 90px; /* matches header height */
+}
+
+@media (max-width: 576px) {
+  :host {
+    margin-top: 110px; /* extra space for stacked header */
+  }
+}
+
+/* Promotion carousel images */
+#promotionCarousel img {
+  width: 100%;
+  height: 300px;        /* desktop height */
+  object-fit: cover;    /* fills space neatly */
+}
+
+@media (max-width: 768px) {
+  #promotionCarousel img {
+    height: 160px;      /* tablets */
+  }
+}
+
+@media (max-width: 576px) {
+  #promotionCarousel img {
+    height: 140px;      /* phones */
+  }
+}
+
+/* Product card */
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-body {
+  flex-grow: 1;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  background-color: #fff;
+}
+
+.card-body h6 {
+  font-size: 0.9rem;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-body small {
+  font-size: 0.8rem;
+  display: block;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.card-body .btn-sm,
+.card-body .form-control-sm {
+  height: 32px;
+  padding: 4px 8px;
+}
+
+.card-body .d-flex {
+  gap: 0.5rem;
+}
+
+.card-body .form-control-sm {
+  text-align: center;
+  flex: 1;
+  font-size: 16px; /* prevents mobile zoom */
+  max-width: 80px;
+}
+
+.card-body .btn-success {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+/* Floating Telegram Button */
+.telegram-fab {
+  position: fixed;
+  bottom: 80px;       /* adjust for footer */
+  right: 20px;        /* spacing from edge */
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #0088cc; /* Telegram blue */
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.telegram-fab:hover {
+  background-color: #0077b5; /* darker hover */
+}
+
+/* Cart bounce animation */
+@keyframes cart-bounce {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.3); }
+  60%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+#cart-icon.cart-bounce {
+  animation: cart-bounce 0.5s;
+}

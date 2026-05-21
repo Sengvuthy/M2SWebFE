@@ -1,0 +1,40 @@
+<!-- Row 1: Customer Header -->
+<app-customer-header></app-customer-header>
+
+<!-- Loading state -->
+<div *ngIf="isLoading" class="text-center my-3">
+  {{ 'LOADING_PRODUCT' | translate }}
+</div>
+
+<!-- Product Detail Card -->
+<div *ngIf="product" class="card shadow-sm product-detail text-center">
+  <!-- Product Image -->
+  <img [src]="product.imagePath || 'assets/placeholder.png'" 
+       class="card-img-top mb-3"
+       [attr.data-barcode]="product.barcode"
+       alt="{{ product.name }}">
+
+  <div class="card-body">
+    <!-- Product Name -->
+    <h4 class="fw-bold mb-2">
+      {{ product.name }} <br>({{ product.khmerName }})
+    </h4>
+
+    <!-- Price -->
+    <small class="text-muted d-block mb-3">
+      $ {{ product.salePrice | number:'1.2-2' }} / ៛ {{ toKHR(product.salePrice) }}
+    </small>
+
+    <!-- Quantity + Add to Cart -->
+    <form (ngSubmit)="addToSale()" class="d-flex justify-content-center gap-2">
+      <input id="qty" type="number"
+             [(ngModel)]="quantity"
+             name="quantity"
+             min="1"
+             class="form-control form-control-sm text-center">
+      <button type="submit" class="btn btn-success btn-sm">
+        {{ 'ADD_TO_CART' | translate }}
+      </button>
+    </form>
+  </div>
+</div>

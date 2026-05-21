@@ -1,3 +1,4 @@
+//sale-report-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { SaleReportService, SaleReportDTO } from '../../../services/sale-report.service';
 import { ToastrService } from 'ngx-toastr';
@@ -87,7 +88,8 @@ export class SaleReportListComponent implements OnInit {
   clearResults() {
     this.reports = [];
     this.sales = [];
-    this.dailyDate = '';
+    const today = new Date();
+    this.dailyDate = today.toISOString().split('T')[0];
   }
 
   /** 🔹 Calculate daily income */
@@ -112,9 +114,9 @@ export class SaleReportListComponent implements OnInit {
       grouped[s.invoice].totalUnits += Number(s.numberOfUnit || 0);
     }
     return Object.values(grouped).sort((a, b) => {
-      const numA = parseInt(a.invoice.replace('INV-', ''));
-      const numB = parseInt(b.invoice.replace('INV-', ''));
-      return numB - numA;
+      const dateA = new Date(a.saleDate + 'T' + a.saleTime);
+      const dateB = new Date(b.saleDate + 'T' + b.saleTime);
+      return dateB.getTime() - dateA.getTime(); // descending
     });
   }
 

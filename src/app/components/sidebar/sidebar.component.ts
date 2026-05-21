@@ -1,5 +1,5 @@
 // sidebar.component.ts
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
@@ -10,6 +10,7 @@ import { UserService } from '../../services/user.service';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  @Input() isLoggedIn = false;
   @Output() logoutEvent = new EventEmitter<boolean>();
 
   constructor(private router: Router, private userService: UserService) {}
@@ -17,6 +18,10 @@ export class SidebarComponent {
   signOut() {
     this.userService.logout();
     this.logoutEvent.emit(false);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/admin/login']);
+  }
+
+  goToLogin() {
+    this.router.navigate(['/admin/login']);
   }
 }

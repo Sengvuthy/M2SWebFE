@@ -1,3 +1,4 @@
+//category.component.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CategoryComponent } from './category.component';

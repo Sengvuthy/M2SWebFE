@@ -4,60 +4,69 @@
   <div class="col-12 mb-1">
     <form (ngSubmit)="search()">
       <div class="input-group">
-        <input type="text"
-               class="form-control"
-               placeholder="Search by ImportID..."
-               [(ngModel)]="searchImportId"
-               name="searchImportId">
+        <input type="text" class="form-control" placeholder="Search by ImportID..." [(ngModel)]="searchImportId"
+          name="searchImportId">
         <button type="submit" class="btn btn-primary">Search</button>
-        <button type="button" class="btn btn-outline-secondary ms-2" style="background-color: #a7a29d;" (click)="clearSearch()">Clear</button>
+        <button type="button" class="btn btn-outline-secondary ms-2" style="background-color: #a7a29d;"
+          (click)="clearSearch()">Clear</button>
       </div>
     </form>
   </div>
 
   <!-- ⏳ Loading Indicator -->
-  <div *ngIf="isLoading" class="text-center p-3">
+  @if (isLoading) {
+  <div class="text-center p-3">
     Loading product imports...
   </div>
+  }
 
   <!-- 📋 Imports Table -->
-  <div *ngIf="!isLoading" class="col-12 d-flex">
+  @if (!isLoading) {
+  <div class="col-12 d-flex">
     <div class="card flex-fill">
-
       <!-- ⭐ Header Row -->
       <div class="d-flex justify-content-between align-items-center px-3 py-1 rounded shadow-sm mb-1 header-flat">
         <button class="btn btn-success btn-sm" (click)="goToCreateImport()">Create Import</button>
         <h5 class="text-center flex-grow-1 mb-0" style="font-size: 1rem;">Product Import List</h5>
         <div class="d-flex gap-2 ms-3">
-          <button class="btn btn-warning btn-sm" style="background-color: #f58718;" (click)="importProductImports()">Import ProductImports</button>
+          <button class="btn btn-warning btn-sm" style="background-color: #f58718;"
+            (click)="importProductImports()">Import ProductImports</button>
         </div>
       </div>
-
       <table class="table table-hover my-0 table-flat">
         <thead>
           <tr style="font-size: 0.9rem;">
             <th (click)="sort('importId')" style="cursor:pointer">
               ImportID
-              <span *ngIf="sortBy === 'importId'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'importId') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th (click)="sort('supplierName')" style="cursor:pointer">
               Supplier
-              <span *ngIf="sortBy === 'supplierName'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'supplierName') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th (click)="sort('importerName')" style="cursor:pointer">
               Importer
-              <span *ngIf="sortBy === 'importerName'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'importerName') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th (click)="sort('buyAmount')" style="cursor:pointer">
               Amount
-              <span *ngIf="sortBy === 'buyAmount'">{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              @if (sortBy === 'buyAmount') {
+              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+              }
             </th>
             <th>Date</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let imp of imports" style="font-size: 0.9rem;" (dblclick)="openDetail(imp.importId)">
+          @for (imp of imports; track imp) {
+          <tr style="font-size: 0.9rem;" (dblclick)="openDetail(imp.importId)">
             <td style="padding: 0.3rem 0.5rem;">{{ imp.importId }}</td>
             <td style="padding: 0.3rem 0.5rem;">{{ imp.supplierName }}</td>
             <td style="padding: 0.3rem 0.5rem;">{{ imp.importerName }}</td>
@@ -69,26 +78,29 @@
               <button class="btn btn-danger btn-sm" (click)="cancelProductImport(imp.importId)">Delete</button>
             </td>
           </tr>
-          <tr *ngIf="imports.length === 0">
+          }
+          @if (imports.length === 0) {
+          <tr>
             <td colspan="6" class="text-center">No imports found</td>
           </tr>
+          }
         </tbody>
       </table>
-
       <!-- 📑 Pagination -->
       <div class="card-footer text-center py-1 footer-flat">
-        <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()" style="padding: 0.3rem 0.5rem;">
-          Previous
-        </button>
+        <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()">Previous</button>
+
         <ng-container *ngFor="let p of pageNumbers">
-          <button class="btn mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'" (click)="goToPage(p)" style="padding: 0.3rem 0.5rem;">
+          <button *ngIf="p !== -1" class="btn mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
+            (click)="goToPage(p)">
             {{ p }}
           </button>
+          <span *ngIf="p === -1">...</span>
         </ng-container>
-        <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()" style="padding: 0.3rem 0.5rem;">
-          Next
-        </button>
+
+        <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()">Next</button>
       </div>
     </div>
   </div>
+  }
 </div>

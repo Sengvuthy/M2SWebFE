@@ -1,6 +1,8 @@
+//sale-report.service.ts
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface SaleReportDTO {
   reportDate: string;
@@ -38,52 +40,52 @@ export interface ImportSummary {
   providedIn: 'root'
 })
 export class SaleReportService {
-  private baseUrl = 'http://localhost:8080/';
+  private baseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) { }
 
   /** 🔹 Daily Reports */
   getDailyReport(date: string): Observable<SaleReportDTO> {
-    return this.http.get<SaleReportDTO>(`${this.baseUrl}sale_report/report/daily?date=${date}`);
+    return this.http.get<SaleReportDTO>(`${this.baseUrl}/sale_report/report/daily?date=${date}`);
   }
 
   saveDailyReport(report: SaleReportDTO): Observable<string> {
-    return this.http.post(`${this.baseUrl}sale_report/report/daily`, report, { responseType: 'text' });
+    return this.http.post(`${this.baseUrl}/sale_report/report/daily`, report, { responseType: 'text' });
   }
 
   exportDailyReport(date: string): Observable<Blob> {
-    return this.http.get(`${this.baseUrl}sale_report/export/daily?date=${date}`, { responseType: 'blob' });
+    return this.http.get(`${this.baseUrl}/sale_report/export/daily?date=${date}`, { responseType: 'blob' });
   }
 
   importDailyReport(): Observable<ImportSummary> {
-    return this.http.post<ImportSummary>(`${this.baseUrl}api/excel/sale-reports/import`, {});
+    return this.http.post<ImportSummary>(`${this.baseUrl}/excel/sale-reports/import`, {});
   }
 
   /** 🔹 Monthly Reports */
   generateMonthlyReport(year: number, month: number): Observable<MonthlySaleReportDTO> {
     return this.http.get<MonthlySaleReportDTO>(
-      `${this.baseUrl}sale_report/report/monthly?year=${year}&month=${month}`
+      `${this.baseUrl}/sale_report/report/monthly?year=${year}&month=${month}`
     );
   }
 
   exportMonthlyReport(): Observable<string> {
-    return this.http.get(`${this.baseUrl}api/excel/sale-reports/export/monthly`, { responseType: 'text' });
+    return this.http.get(`${this.baseUrl}/excel/sale-reports/export/monthly`, { responseType: 'text' });
   }
 
   importMonthlyReport(): Observable<ImportSummary> {
-    return this.http.post<ImportSummary>(`${this.baseUrl}api/excel/sale-reports/import/monthly`, {});
+    return this.http.post<ImportSummary>(`${this.baseUrl}/excel/sale-reports/import/monthly`, {});
   }
 
   /** 🔹 Yearly Reports */
   generateYearlyReport(year: number): Observable<YearlySaleReportDTO> {
-    return this.http.get<YearlySaleReportDTO>(`${this.baseUrl}sale_report/report/yearly?year=${year}`);
+    return this.http.get<YearlySaleReportDTO>(`${this.baseUrl}/sale_report/report/yearly?year=${year}`);
   }
 
   exportYearlyReport(): Observable<string> {
-    return this.http.get(`${this.baseUrl}api/excel/sale-reports/export/yearly`, { responseType: 'text' });
+    return this.http.get(`${this.baseUrl}/excel/sale-reports/export/yearly`, { responseType: 'text' });
   }
 
   importYearlyReport(): Observable<ImportSummary> {
-    return this.http.post<ImportSummary>(`${this.baseUrl}sale_report/import/yearly`, {});
+    return this.http.post<ImportSummary>(`${this.baseUrl}/sale_report/import/yearly`, {});
   }
 }

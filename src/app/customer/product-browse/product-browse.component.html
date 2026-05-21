@@ -1,0 +1,81 @@
+<!-- Row 1: Customer Header -->
+<app-customer-header></app-customer-header>
+
+<!-- Row 2: Promotion Slide -->
+<div id="promotionCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="assets/promo1.png" class="d-block w-100" alt="Promotion 1">
+    </div>
+    <div class="carousel-item">
+      <img src="assets/promo2.png" class="d-block w-100" alt="Promotion 2">
+    </div>
+    <div class="carousel-item">
+      <img src="assets/promo3.png" class="d-block w-100" alt="Promotion 3">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#promotionCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#promotionCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+<!-- Row 3: Product Grid -->
+<div *ngIf="isLoading" class="text-center my-3">
+  {{ 'LOADING_PRODUCT' | translate }}
+</div>
+
+<div class="row">
+  <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3" *ngFor="let p of products">
+    <div class="card shadow-sm h-100">
+      <!-- Product Image -->
+      <img [src]="p.imagePath || 'assets/placeholder.png'" class="card-img-top img-fluid"
+        [attr.data-barcode]="p.barcode" alt="{{ p.name }}" (click)="viewDetail(p)" style="cursor:pointer">
+
+      <!-- Product Info -->
+      <div class="card-body text-center p-2">
+        <h6 class="fw-bold mb-1">
+          {{ p.name }} <br>({{ p.khmerName }})
+        </h6>
+        <small class="text-muted d-block mb-2">
+          $ {{ p.salePrice | number:'1.2-2' }} / ៛ {{ toKHR(p.salePrice) }}
+        </small>
+
+        <!-- Add to Cart -->
+        <div class="d-flex justify-content-center gap-1 mt-2">
+          <input type="number" [(ngModel)]="p.selectedQty" min="1"
+            class="form-control form-control-sm text-center flex-fill">
+          <button class="btn btn-success btn-sm flex-fill" (click)="addToSale(p)">
+            {{ 'Add' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Telegram Button -->
+<button *ngIf="isLoggedIn" class="telegram-fab" appDraggable (click)="openTelegram()">
+  <i class="bi bi-telegram"></i>
+</button>
+
+<!-- Pagination -->
+<div class="text-center mt-3" *ngIf="totalPages > 1">
+  <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()">
+    {{ 'PREVIOUS' | translate }}
+  </button>
+
+  <ng-container *ngFor="let p of pageNumbers">
+    <button *ngIf="p !== -1" class="btn mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
+      (click)="goToPage(p)">
+      {{ p }}
+    </button>
+    <span *ngIf="p === -1">...</span>
+  </ng-container>
+
+  <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()">
+    {{ 'NEXT' | translate }}
+  </button>
+</div>

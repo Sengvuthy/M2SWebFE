@@ -2,10 +2,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ProductImportItem {
   barcode: string;
   productName: string;
+  khmerName: string;
   importUnit: number;
   buyPrice: number;
   salePrice: number;
@@ -26,69 +28,69 @@ export interface ProductImportDTO {
   providedIn: 'root'
 })
 export class ProductImportService {
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) { }
 
-  // 🔹 Create a new product import
+  // ✅ Create a new product import
   createProductImport(productImport: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/product-imports`, productImport);
   }
 
-  // 🔹 Update an existing product import
+  // ✅ Update an existing product import
   updateProductImport(productImport: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/product-imports/update`, productImport);
   }
 
-  // 🔹 Cancel a product import by ID
+  // ✅ Cancel a product import by ID
   cancelProductImport(importId: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/product-imports/cancel`, { importId });
   }
 
-  // 🔹 Get product import by importID
+  // ✅ Get product import by importID
   getProductImportByImportId(importId: string): Observable<ProductImportDTO> {
     return this.http.get<ProductImportDTO>(`${this.baseUrl}/product-imports/importId/${importId}`);
   }
 
-  // 🔹 Get product imports list with pagination + sorting
+  // ✅ Get product imports list with pagination + sorting
   getProductImportsList(params: HttpParams): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/product-imports/list`, { params });
   }
 
-  // 🔹 Get import IDs list (search)
+  // ✅ Get import IDs list (search)
   getImportIdList(params: HttpParams): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/product-imports/search`, { params });
   }
 
-// 🔹 Get product imports by date
+  // ✅ Get product imports by date
   getProductImportsByDate(date: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/product-imports/date/${date}`);
   }
 
-  // 🔹 Get product imports by date range
+  // ✅ Get product imports by date range
   getProductImportsByDateRange(start: string, end: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/product-imports/range?start=${start}&end=${end}`);
   }
 
-  // 🔹 Search product imports by keyword
+  // ✅ Search product imports by keyword
   searchProductImports(keyword: string): Observable<any> {
     return this.http.get<any[]>(`${this.baseUrl}/product-imports/search-by-keyword`, {
       params: { keyword }
     });
   }
   
-  // 🔹 Import product imports from Excel
+  // ✅ Import product imports from Excel
   importProductImports(): Observable<any> {
     return this.http.post(`${this.baseUrl}/product-imports/import`, {}, { responseType: 'text' });
   }
 
-  // 🔹 Export product imports to Excel
+  // ✅ Export product imports to Excel
   exportProductImports(): Observable<any> {
     return this.http.get(`${this.baseUrl}/product-imports/export`, { responseType: 'text' });
   }
 
-  // 🔹 Export income for a specific date
-  exportIncomeForDate(date: string) {
-    return this.http.post(`/product-imports/export-income/${date}`, null);
+  // ✅ Export income for a specific date
+  exportIncomeForDate(date: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/product-imports/export-income/${date}`, null);
   }
 }

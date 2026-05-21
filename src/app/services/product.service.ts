@@ -1,12 +1,14 @@
-// src/app/services/product.service.ts
+// product.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 // Product DTO
 export interface Product {
   barcode: string;
   name: string;
+  khmerName: string;
   categoryId: number;
   supplierId: number;
   availableUnit?: number;
@@ -15,15 +17,23 @@ export interface Product {
   imagePath?: string;
   categoryName?: string;
   supplierName?: string;
+  selectedQty?: number;
 }
 
-// Generic PageDTO (matches backend)
+export interface PaginationDTO {
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  numberOfElements: number;
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+}
+
 export interface PageDTO<T> {
   list: T[];
-  totalElements: number;
-  totalPages: number;
-  page: number;
-  size: number;
+  paginationDTO: PaginationDTO;
 }
 
 // Product Import DTO
@@ -31,6 +41,7 @@ export interface ProductImport {
   id: number;
   productBarcode: string;
   productName: string;
+  khmerName: string;
   importUnit: number;
   buyPrice: number;
   salePrice: number;
@@ -39,74 +50,89 @@ export interface ProductImport {
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  // ✅ Use only the root base URL
-  private readonly baseUrl = 'http://localhost:8080/';
+  private readonly baseUrl = environment.apiBaseUrl;
+  private readonly backendUrl = environment.backendUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  uploadImage(file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${this.baseUrl}/products/upload-image`, formData, { responseType: 'text' })
+      .pipe(map(filename => {
+        // For preview in Angular
+        return `${this.backendUrl}/uploads/products/${filename}`;
+      }));
+  }
 
   // ✅ Create product
   create(product: Product): Observable<Product> {
-    return this.http.post<Product>(`${this.baseUrl}products`, product);
+    return this.http.post<Product>(`${this.baseUrl}/products`, product);
   }
 
   // ✅ Update product by barcode
   update(barcode: string, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.baseUrl}products/${barcode}`, product);
+    return this.http.put<Product>(`${this.baseUrl}/products/${barcode}`, product);
   }
 
   // ✅ Get product by barcode
   getByBarcode(barcode: string): Observable<Product> {
-    return this.http.get<Product>(`${this.baseUrl}products/${barcode}`);
+    return this.http.get<Product>(`${this.baseUrl}/products/${barcode}`);
   }
 
   // ✅ Delete product by barcode
   delete(barcode: string): Observable<string> {
-    return this.http.delete(`${this.baseUrl}products/${barcode}`, { responseType: 'text' });
+    return this.http.delete(`${this.baseUrl}/products/${barcode}`, { responseType: 'text' });
   }
 
-  // ✅ Search products (paginated + filter by name)
-  search(name: string | null, page: number, size: number, sort: string): Observable<PageDTO<Product>> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString())
-      .set('sort', sort);
+  // ✅ Search products (paginated + filter by name, optional lat/lng)
+  searchProducts(
+    keyword: string | null,
+    categoryId?: number | null,   // ✅ optional
+    page?: number,
+    size?: number,
+    sort?: string
+  ): Observable<PageDTO<Product>> {
+    let params = new HttpParams();
 
-    if (name && name.trim() !== '') {
-      params = params.set('name', name.trim());
+    if (page !== undefined) params = params.set('page', page.toString());
+    if (size !== undefined) params = params.set('size', size.toString());
+    if (sort !== undefined) params = params.set('sort', sort);
+
+    if (keyword && keyword.trim() !== '') {
+      params = params.set('keyword', keyword.trim());
     }
 
-    return this.http.get<PageDTO<Product>>(`${this.baseUrl}products/search`, { params });
+    if (categoryId !== undefined && categoryId !== null) {
+      params = params.set('categoryId', categoryId.toString());
+    }
+
+    return this.http.get<PageDTO<Product>>(`${this.baseUrl}/products`, { params });
   }
 
   // ✅ Get all products (for dropdowns, large size, sorted by name)
-  getAllProducts(params: HttpParams): Observable<any> {    
-    return this.http.get<any>(`${this.baseUrl}products/search`, { params });
-  }
-
-  // ✅ Upload product image
-  uploadImage(file: File): Observable<string> {
-    const formData = new FormData();
-    formData.append('file', file);
-    return this.http.post(`${this.baseUrl}products/upload-image`, formData, { responseType: 'text' });
+  getAllProducts(params: HttpParams): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/products/search`, { params });
   }
 
   // ✅ Import products from Excel
   importExcel(): Observable<string> {
-    return this.http.post(`${this.baseUrl}products/import`, {}, { responseType: 'text' });
+    return this.http.post(`${this.baseUrl}/products/import`, {}, { responseType: 'text' });
   }
 
   // ✅ Export products to Excel
   exportExcel(): Observable<string> {
-    return this.http.get(`${this.baseUrl}products/export`, { responseType: 'text' });
+    return this.http.get(`${this.baseUrl}/products/export`, { responseType: 'text' });
   }
 
   // ✅ Import history by barcode
   getImportHistoryByBarcode(barcode: string): Observable<ProductImport[]> {
-    return this.http.get<ProductImport[]>(`${this.baseUrl}products/import-history/barcode/${encodeURIComponent(barcode)}`);
+    return this.http.get<ProductImport[]>(`${this.baseUrl}/products/import-history/barcode/${encodeURIComponent(barcode)}`);
   }
 
   // ✅ Import history by product name
   getImportHistoryByName(name: string): Observable<ProductImport[]> {
-    return this.http.get<ProductImport[]>(`${this.baseUrl}products/import-history/name/${encodeURIComponent(name)}`);
+    return this.http.get<ProductImport[]>(`${this.baseUrl}/products/import-history/name/${encodeURIComponent(name)}`);
   }
 }

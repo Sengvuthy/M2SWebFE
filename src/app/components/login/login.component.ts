@@ -1,17 +1,23 @@
+//login.component.ts
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: false,
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 
 export class LoginComponent implements OnInit {
-  constructor(private userService: UserService, private fb: FormBuilder) { }
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
+
   loginForm!: FormGroup;
   @Output() loginEvent = new EventEmitter<boolean>();
 
@@ -19,7 +25,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       username: [''],
       password: ['']
-    })
+    });
   }
 
   signIn() {
@@ -30,6 +36,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("refreshToken", res.refreshToken);
         localStorage.setItem("username", loginData.username);
         this.loginEvent.emit(true);
+
+        // ✅ Navigate to Sales after successful login
+        this.router.navigate(['/sales']);
       },
       error: err => console.error("Login failed", err)
     });
