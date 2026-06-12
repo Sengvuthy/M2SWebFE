@@ -1,4 +1,5 @@
 //customer.service.ts
+/// <reference types="google.maps" />
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
