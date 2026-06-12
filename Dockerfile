@@ -11,7 +11,7 @@ RUN npx ng build --configuration production
 FROM nginx:alpine
 
 # Copy Angular build output into Nginx's default html directory
-COPY --from=build /app/dist/fe /usr/share/nginx/html
+COPY --from=build /app/dist/M2SWebFE /usr/share/nginx/html
 
 # Copy your custom Nginx config into the container
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
