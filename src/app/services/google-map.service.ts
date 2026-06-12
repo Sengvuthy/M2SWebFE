@@ -1,4 +1,5 @@
 // src/app/services/google-maps.service.ts
+/// <reference types="google.maps" />
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
