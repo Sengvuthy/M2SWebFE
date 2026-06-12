@@ -21,7 +21,7 @@ export class SalesListComponent implements OnInit {
   totalPages = 1;
 
   searchInvoice = '';
-  sortBy = 'invoice';
+  sortBy = 'dateTime';   // ✅ default sort by dateTime
   sortDir: 'asc' | 'desc' = 'desc';
 
   constructor(
@@ -71,6 +71,7 @@ export class SalesListComponent implements OnInit {
           customerName: s.customerName,
           saleDate: s.saleDate,
           saleTime: s.saleTime,
+          dateTime: s.dateTime,
           totalAmount: 0,
           totalUnits: 0
         };
@@ -79,10 +80,9 @@ export class SalesListComponent implements OnInit {
       grouped[s.invoice].totalUnits += Number(s.numberOfUnit);
     }
 
+    // ✅ sort by dateTime instead of invoice string
     return Object.values(grouped).sort((a, b) => {
-      const numA = parseInt(a.invoice.replace('INV-', ''));
-      const numB = parseInt(b.invoice.replace('INV-', ''));
-      return numB - numA;
+      return new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime();
     });
   }
 
@@ -147,7 +147,7 @@ export class SalesListComponent implements OnInit {
   }
 
   openDetail(invoice: string) {
-    this.router.navigate(['/sales/detail', invoice]);
+    this.router.navigate(['/sales//sales/detail', invoice]);
   }
 
   goToCreateSale() {

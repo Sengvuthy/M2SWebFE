@@ -9,9 +9,12 @@ const routes: Routes = [
   // Default redirect → customer browse
   { path: '', redirectTo: 'customer/browse', pathMatch: 'full' },
 
-  // Public login routes
-  { path: 'admin/login', component: LoginComponent },          // ✅ Admin login
-  { path: 'customer/login', component: CustomerLoginComponent }, // ✅ Customer login
+  // Admin routes
+  { path: 'admin', redirectTo: 'admin/login', pathMatch: 'full' },
+  { path: 'admin/login', component: LoginComponent },
+
+  // Customer routes
+  { path: 'customer/login', component: CustomerLoginComponent },
 
   // Lazy-loaded feature modules
   { path: 'user', loadChildren: () => import('./components/user/user.module').then(m => m.UserModule) },

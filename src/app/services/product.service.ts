@@ -55,15 +55,12 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  uploadImage(file: File): Observable<string> {
+  uploadImage(file: File, barcode: string): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post(`${this.baseUrl}/products/upload-image`, formData, { responseType: 'text' })
-      .pipe(map(filename => {
-        // For preview in Angular
-        return `${this.backendUrl}/uploads/products/${filename}`;
-      }));
+    return this.http.post(`${this.baseUrl}/products/${barcode}/upload-image`, formData, { responseType: 'text' })
+      .pipe(map(filename => this.buildImageUrl(filename)));
   }
 
   // ✅ Create product
@@ -134,5 +131,23 @@ export class ProductService {
   // ✅ Import history by product name
   getImportHistoryByName(name: string): Observable<ProductImport[]> {
     return this.http.get<ProductImport[]>(`${this.baseUrl}/products/import-history/name/${encodeURIComponent(name)}`);
+  }
+
+  buildImageUrl(filename?: string): string {
+    if (!filename) return '';
+    const cleanBackend = this.backendUrl.replace(/\/$/, '');
+    const cleanFile = filename.replace(/^\/+/, '');
+    return `${cleanBackend}/uploads/products/${encodeURIComponent(cleanFile)}`;
+  }
+
+  normalizeImagePath(product: Product): Product {
+    if (product.imagePath && !product.imagePath.startsWith('http')) {
+      product.imagePath = this.buildImageUrl(product.imagePath);
+    }
+    return product;
+  }
+
+  normalizeImagePaths(products: Product[]): Product[] {
+    return products.map(p => this.normalizeImagePath(p));
   }
 }

@@ -1,4 +1,4 @@
-//src/app/components/sales-routing.module.ts
+//sales-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SalesComponent } from './sales.component';
@@ -10,10 +10,11 @@ const routes: Routes = [
   {
     path: '', component: SalesComponent,
     children: [
-      { path: '', component: SalesListComponent },          // /sales → list
-      { path: 'sales-form', component: SalesFormComponent }, // /sales/sales-form → create
-      { path: 'sales-form/:invoice', component: SalesFormComponent }, // /sales/sales-form/:invoice → edit
-      { path: 'detail/:invoice', component: SalesDetailComponent }    // /sales/detail/:invoice → detail
+      { path: '', redirectTo: 'list', pathMatch: 'full' },
+      { path: 'list', component: SalesListComponent },
+      { path: 'form', component: SalesFormComponent },
+      { path: 'form/:invoice', component: SalesFormComponent },
+      { path: 'sales/detail/:invoice', component: SalesDetailComponent }
     ]
   }
 ];

@@ -41,7 +41,7 @@ export class ProductFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -78,7 +78,10 @@ export class ProductFormComponent implements OnInit {
 
   private loadProduct(barcode: string): void {
     this.productService.getByBarcode(barcode).subscribe({
-      next: (p: Product) => this.form.patchValue(p),
+      next: (p: Product) => {
+        this.form.patchValue(this.productService.normalizeImagePath(p));
+        console.log('Final image URL:', this.form.value.imagePath);
+      },
       error: err => this.toastr.error(err.error?.message || 'Failed to load product')
     });
   }
@@ -114,9 +117,14 @@ export class ProductFormComponent implements OnInit {
     const file = (e.target as HTMLInputElement).files?.[0];
     if (!file) return;
 
-    this.productService.uploadImage(file).subscribe({
+    const barcode = this.form.value.barcode;
+    if (!barcode) {
+      this.toastr.error('Please enter a barcode before uploading an image');
+      return;
+    }
+
+    this.productService.uploadImage(file, barcode).subscribe({
       next: fullUrl => {
-        // ✅ store preview URL in form for immediate display
         this.form.patchValue({ imagePath: fullUrl });
         this.toastr.success('Image uploaded');
       },
@@ -133,7 +141,7 @@ export class ProductFormComponent implements OnInit {
 
     const payload = this.form.getRawValue() as Product;
 
-    // ✅ Normalize imagePath to just the filename before sending
+    // ✅ Strip back to filename before sending to backend
     if (payload.imagePath) {
       payload.imagePath = extractFilename(payload.imagePath);
     }
@@ -152,6 +160,7 @@ export class ProductFormComponent implements OnInit {
             sort: this.sort
           }
         });
+        console.log('Payload:', payload);
       },
       error: err => {
         this.toastr.error(err.error?.message || 'Save failed');

@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
         this.loginEvent.emit(true);
 
         // ✅ Navigate to Sales after successful login
-        this.router.navigate(['/sales']);
+        this.router.navigate(['/sales/list']);
       },
       error: err => console.error("Login failed", err)
     });

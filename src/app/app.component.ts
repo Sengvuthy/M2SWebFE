@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
   switchView(isSignIn: boolean) {
     this.isLoggedIn = isSignIn;
     if (isSignIn) {
-      this.router.navigate(['/sales']);
+      this.router.navigate(['/sales/list']);
     } else {
       this.router.navigate(['/customer/browse']);
     }

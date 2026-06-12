@@ -15,77 +15,80 @@
 
   <!-- ⏳ Loading Indicator -->
   @if (isLoading) {
-  <div class="text-center p-3">
-    Loading sales...
-  </div>
+    <div class="text-center p-3">
+      Loading sales...
+    </div>
   }
 
   <!-- 📋 Sales Table -->
   @if (!isLoading) {
-  <div class="col-12 d-flex">
-    <div class="card flex-fill">
-      <!-- ⭐ Header Row -->
-      <div class="d-flex justify-content-between align-items-center px-3 py-1 rounded shadow-sm mb-1 header-flat">
-        <button class="btn btn-success btn-sm" [routerLink]="['/sales/form']">Create Sale</button>
-        <h5 class="text-center flex-grow-1 mb-0" style="font-size: 1rem;">Sales List</h5>
-        <div class="d-flex gap-2 ms-3">
-          <button class="btn btn-warning btn-sm" style="background-color: #f58718;" (click)="importSales()">Import
-            Sales</button>
+    <div class="col-12 d-flex">
+      <div class="card flex-fill">
+        <!-- ⭐ Header Row -->
+        <div class="d-flex justify-content-between align-items-center px-3 py-1 rounded shadow-sm mb-1 header-flat">
+          <button class="btn btn-success btn-sm" [routerLink]="['/sales/form']">Create Sale</button>
+          <h5 class="text-center flex-grow-1 mb-0" style="font-size: 1rem;">Sales List</h5>
+          <div class="d-flex gap-2 ms-3">
+            <button class="btn btn-warning btn-sm" style="background-color: #f58718;" (click)="importSales()">Import Sales</button>
+          </div>
+        </div>
+
+        <table class="table table-hover my-0 table-flat">
+          <thead>
+            <tr style="font-size: 0.9rem;">
+              <th (click)="sort('invoice')" style="cursor:pointer">
+                Invoice
+                @if (sortBy === 'invoice') {
+                  <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
+                }
+              </th>
+              <th>Customer</th>
+              <th>Amount</th>
+              <!-- <th>Date</th>
+              <th>Time</th> -->
+              <th>DateTime</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of sales; track s) {
+              <tr style="font-size: 0.9rem;" (dblclick)="openDetail(s.invoice)">
+                <td style="padding: 0.3rem 0.5rem;">{{ s.invoice }}</td>
+                <td style="padding: 0.3rem 0.5rem;">{{ s.customerName }}</td>
+                <td style="padding: 0.3rem 0.5rem;">{{ s.totalAmount | currency:'USD':'symbol':'1.3-3' }}</td>
+                <!-- <td style="padding: 0.3rem 0.5rem;">{{ s.saleDate | date:'dd-MMM-yy' }}</td>
+                <td style="padding: 0.3rem 0.5rem;">{{ s.saleTime?.substring(0, 5) }}</td> -->
+                <td style="padding: 0.3rem 0.5rem;">{{ s.dateTime | date:'dd-MMM-yy | HH:mm' }}</td>
+                <td class="text-center" style="padding: 0.3rem 0.5rem;">
+                  <button class="btn btn-info btn-sm me-2" (click)="openDetail(s.invoice)">Detail</button>
+                  <button class="btn btn-primary btn-sm me-2" (click)="editSale(s.invoice)">Edit</button>
+                  <button class="btn btn-danger btn-sm" (click)="cancelSale(s.invoice)">Cancel</button>
+                </td>
+              </tr>
+            }
+            @if (sales.length === 0) {
+              <tr>
+                <td colspan="7" class="text-center">No sales found</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <!-- 📑 Pagination -->
+        <div class="card-footer text-center py-1 footer-flat">
+          <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()">Previous</button>
+
+          <ng-container *ngFor="let p of pageNumbers">
+            <button *ngIf="p !== -1" class="btn mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
+              (click)="goToPage(p)">
+              {{ p }}
+            </button>
+            <span *ngIf="p === -1">...</span>
+          </ng-container>
+
+          <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()">Next</button>
         </div>
       </div>
-      <table class="table table-hover my-0 table-flat">
-        <thead>
-          <tr style="font-size: 0.9rem;">
-            <th (click)="sort('invoice')" style="cursor:pointer">
-              Invoice
-              @if (sortBy === 'invoice') {
-              <span>{{ sortDir === 'asc' ? '▼' : '▲' }}</span>
-              }
-            </th>
-            <th>Customer</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th class="text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (s of sales; track s) {
-          <tr style="font-size: 0.9rem;" (dblclick)="openDetail(s.invoice)">
-            <td style="padding: 0.3rem 0.5rem;">{{ s.invoice }}</td>
-            <td style="padding: 0.3rem 0.5rem;">{{ s.customerName }}</td>
-            <td style="padding: 0.3rem 0.5rem;">{{ s.totalAmount | currency:'USD':'symbol':'1.3-3' }}</td>
-            <td style="padding: 0.3rem 0.5rem;">{{ s.saleDate | date:'dd-MMM-yy' }}</td>
-            <td style="padding: 0.3rem 0.5rem;">{{ s.saleTime?.substring(0, 5) }}</td>
-            <td class="text-center" style="padding: 0.3rem 0.5rem;">
-              <button class="btn btn-info btn-sm me-2" (click)="openDetail(s.invoice)">Detail</button>
-              <button class="btn btn-primary btn-sm me-2" (click)="editSale(s.invoice)">Edit</button>
-              <button class="btn btn-danger btn-sm" (click)="cancelSale(s.invoice)">Cancel</button>
-            </td>
-          </tr>
-          }
-          @if (sales.length === 0) {
-          <tr>
-            <td colspan="6" class="text-center">No sales found</td>
-          </tr>
-          }
-        </tbody>
-      </table>
-      <!-- 📑 Pagination -->
-      <div class="card-footer text-center py-1 footer-flat">
-        <button class="btn btn-secondary me-2" [disabled]="page === 1" (click)="prevPage()">Previous</button>
-
-        <ng-container *ngFor="let p of pageNumbers">
-          <button *ngIf="p !== -1" class="btn mx-1" [ngClass]="page === p ? 'btn-primary' : 'btn-outline-primary'"
-            (click)="goToPage(p)">
-            {{ p }}
-          </button>
-          <span *ngIf="p === -1">...</span>
-        </ng-container>
-
-        <button class="btn btn-secondary ms-2" [disabled]="page === totalPages" (click)="nextPage()">Next</button>
-      </div>
     </div>
-  </div>
   }
 </div>

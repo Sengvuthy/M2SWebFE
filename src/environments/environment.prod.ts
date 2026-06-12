@@ -2,6 +2,6 @@
 export const environment = {
   production: true,
   apiBaseUrl: '/api',
-  backendUrl: 'http://superiorpos.yourdomain.com:8887',
+  backendUrl: 'https://m2swebbe.onrender.com',
   visionApiKey: 'AIzaSyCK0qTBnHlwWE-vC2G6IxGQBK4PBG8sBQg'
 };
