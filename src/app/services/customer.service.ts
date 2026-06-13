@@ -122,4 +122,13 @@ export class CustomerService {
   exportCustomers(): Observable<any> {
     return this.http.post(`${this.baseUrl}/excel/customers/export`, {}, { responseType: 'json' });
   }
+
+  login(phone: string) {
+    const normalized = phone.startsWith('0')
+      ? '+855' + phone.substring(1)
+      : phone;
+    return this.http.get<CustomerDTO>(
+      `/api/customers/search-by-phone?phone=${normalized}`
+    );
+  }
 }
