@@ -123,12 +123,13 @@ export class CustomerService {
     return this.http.post(`${this.baseUrl}/excel/customers/export`, {}, { responseType: 'json' });
   }
 
-  login(phone: string) {
+  login(phone: string): Observable<CustomerDTO> {
     const normalized = phone.startsWith('0')
       ? '+855' + phone.substring(1)
       : phone;
     return this.http.get<CustomerDTO>(
-      `/api/customers/search-by-phone?phone=${normalized}`
+      `${this.baseUrl}/customers/search-by-phone`,
+      { params: { phone: normalized } }
     );
   }
 }
