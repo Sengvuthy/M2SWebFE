@@ -1,3 +1,4 @@
+//user-role-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserRoleListComponent } from './user-role-list/user-role-list.component';

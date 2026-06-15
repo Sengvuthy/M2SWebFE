@@ -127,12 +127,15 @@ export class CustomerFormComponent implements OnInit {
 
   private reverseGeocodeFromAddress(address: string): void {
     const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ address }, (results, status) => {
-      if (status === 'OK' && results && results.length > 0) {
-        const loc = results[0].geometry.location;
-        this.setupMap(loc.lat(), loc.lng());
+    geocoder.geocode({ address }, (results: google.maps.GeocoderResult[] | null, status: google.maps.GeocoderStatus) => {
+      if (status === google.maps.GeocoderStatus.OK && results && results[0]) {
+        const formatted = results[0].formatted_address;
+
+        // ✅ Clear existing addresses and set the new one
+        this.addresses.clear();
+        this.addresses.push(this.fb.control(formatted, Validators.required));
       } else {
-        this.toastr.warning('Could not resolve coordinates from address');
+        console.error('Geocoder failed: ' + status);
       }
     });
   }
