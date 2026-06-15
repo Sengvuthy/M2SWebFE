@@ -98,21 +98,7 @@ export class ProductService {
     if (keyword && keyword.trim() !== '') params = params.set('keyword', keyword.trim());
     if (categoryId !== undefined && categoryId !== null) params = params.set('categoryId', categoryId.toString());
 
-    return this.http.get<any>(`${this.baseUrl}/products`, { params }).pipe(
-      map(res => ({
-        list: this.normalizeImagePaths(res.content || []),
-        paginationDTO: {
-          pageNumber: res.number,
-          pageSize: res.size,
-          totalPages: res.totalPages,
-          totalElements: res.totalElements,
-          numberOfElements: res.numberOfElements,
-          first: res.first,
-          last: res.last,
-          empty: res.empty
-        }
-      }))
-    );
+    return this.http.get<PageDTO<Product>>(`${this.baseUrl}/products`, { params });
   }
 
   // ✅ Get all products (for dropdowns, large size, sorted by name)
