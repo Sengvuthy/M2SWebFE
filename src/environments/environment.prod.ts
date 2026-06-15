@@ -1,7 +1,7 @@
 // environment.prod.ts (docker/prod)
 export const environment = {
   production: true,
-  apiBaseUrl: '/api',
+  apiBaseUrl: 'https://m2swebbe.onrender.com/api',
   backendUrl: 'https://m2swebbe.onrender.com',
-  visionApiKey: 'AIzaSyCK0qTBnHlwWE-vC2G6IxGQBK4PBG8sBQg'
+  visionApiKey: 'YOUR_KEY'
 };
