@@ -35,7 +35,7 @@ export class ProductBrowseComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private exchangeRateService: ExchangeRateService,
-    private cartService: CartService   // ✅ inject CartService
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {

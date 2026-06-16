@@ -86,24 +86,17 @@ export class ProductService {
   // ✅ Search products (paginated + filter by name, optional lat/lng)
   searchProducts(
     keyword: string | null,
-    categoryId?: number | null,   // ✅ optional
+    categoryId?: number | null,
     page?: number,
     size?: number,
     sort?: string
   ): Observable<PageDTO<Product>> {
     let params = new HttpParams();
-
     if (page !== undefined) params = params.set('page', page.toString());
     if (size !== undefined) params = params.set('size', size.toString());
     if (sort !== undefined) params = params.set('sort', sort);
-
-    if (keyword && keyword.trim() !== '') {
-      params = params.set('keyword', keyword.trim());
-    }
-
-    if (categoryId !== undefined && categoryId !== null) {
-      params = params.set('categoryId', categoryId.toString());
-    }
+    if (keyword && keyword.trim() !== '') params = params.set('keyword', keyword.trim());
+    if (categoryId !== undefined && categoryId !== null) params = params.set('categoryId', categoryId.toString());
 
     return this.http.get<PageDTO<Product>>(`${this.baseUrl}/products`, { params });
   }
