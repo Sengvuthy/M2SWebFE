@@ -1,0 +1,6 @@
+{
+  "root": "dist/fe",
+  "routes": {
+    "/**": "index.html"
+  }
+}
