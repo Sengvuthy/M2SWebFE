@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
         this.showSidebar = !(
           url.startsWith('/customer') ||
           url.startsWith('/sales/sales-form') ||
-          url.startsWith('/sales/detail') ||
+          url.startsWith('/sales/sales-detail') ||
           url.startsWith('/admin/customers/form')
         );
       });
