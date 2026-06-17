@@ -12,8 +12,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'list', pathMatch: 'full' },
       { path: 'list', component: SalesListComponent },
-      { path: 'form', component: SalesFormComponent },
-      { path: 'form/:invoice', component: SalesFormComponent },
+      { path: 'sales-form', component: SalesFormComponent },
+      { path: 'sales-form/:invoice', component: SalesFormComponent },
       { path: 'sales/detail/:invoice', component: SalesDetailComponent }
     ]
   }
@@ -23,4 +23,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SalesRoutingModule {}
+export class SalesRoutingModule { }
