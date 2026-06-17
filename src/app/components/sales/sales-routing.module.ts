@@ -14,7 +14,7 @@ const routes: Routes = [
       { path: 'list', component: SalesListComponent },
       { path: 'sales-form', component: SalesFormComponent },
       { path: 'sales-form/:invoice', component: SalesFormComponent },
-      { path: 'sales/detail/:invoice', component: SalesDetailComponent }
+      { path: 'sales/sales-detail/:invoice', component: SalesDetailComponent }
     ]
   }
 ];
