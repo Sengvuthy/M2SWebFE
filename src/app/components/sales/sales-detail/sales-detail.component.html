@@ -24,15 +24,20 @@
     <tbody>
       @for (it of items; track it) {
       <tr>
-        <td>{{ it.khmerName }}</td>
+        <td class="text-start">
+          <img [src]="it.imagePath ? '/uploads/products/' + it.imagePath : 'assets/placeholder.png'"
+               alt="{{ it.productName }}"
+               style="width:40px; height:40px; object-fit:cover; border-radius:4px; margin-right:6px;">
+          {{ it.khmerName }}
+        </td>
         <td>{{ it.numberOfUnit }}</td>
         <td class="text-end">{{ it.unitPrice | currency:'USD':'symbol':'1.2-2' }}</td>
         <td class="text-end">
           {{
-          it.soldAmount > 0
-          ? it.soldAmount
-          : (it.unitPrice * it.numberOfUnit * (1 - (it.discount || 0)/100))
-          | currency:'USD':'symbol':'1.2-2'
+            it.soldAmount > 0
+              ? it.soldAmount
+              : (it.unitPrice * it.numberOfUnit * (1 - (it.discount || 0)/100))
+            | currency:'USD':'symbol':'1.2-2'
           }}
         </td>
       </tr>
