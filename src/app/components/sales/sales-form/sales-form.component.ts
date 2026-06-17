@@ -153,7 +153,7 @@ export class SalesFormComponent implements OnInit {
         const invoiceNo = res?.invoice;
         if (invoiceNo) {
           localStorage.setItem('lastInvoice', invoiceNo);
-          this.router.navigate(['/sales/detail', invoiceNo]);
+          this.router.navigate(['/sales/sales-detail', invoiceNo]);
         }
         this.resetForm();
         this.isSubmitted = false;

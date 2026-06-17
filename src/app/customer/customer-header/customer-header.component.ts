@@ -103,7 +103,7 @@ export class CustomerHeaderComponent implements OnInit {
   goToMyOrder(): void {
     const lastInvoice = localStorage.getItem('lastInvoice');
     if (lastInvoice) {
-      this.router.navigate(['/sales/detail', lastInvoice]);
+      this.router.navigate(['/sales/sales-detail', lastInvoice]);
     } else {
       this.router.navigate(['/customer/browse']);
     }
