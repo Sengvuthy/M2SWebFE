@@ -68,7 +68,7 @@
 
 .dropdown-list .dropdown-menu {
   position: absolute;
-  top: calc(100% + 10px); /* balanced gap */
+  top: calc(100% + 8px); /* smaller gap */
   left: 0;
   border: 1px solid #ff9900;
   border-radius: 5px;
@@ -81,7 +81,7 @@
 /* My Profile row spacing */
 .dropdown-list .dropdown-item:first-child {
   display: block;
-  margin-top: 8px;       /* moderate spacing */
+  margin-top: 10px;       /* reduced spacing */
   border-top: 1px solid #eee; /* subtle divider */
 }
 
