@@ -32,9 +32,13 @@
 
 /* Logo */
 .logo a {
-  font-size: 1.1rem; /* slightly smaller logo text */
+  color: #f5a52d;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-shadow: 1px 1px 0 #000, 2px 2px 2px rgba(0,0,0,0.5);
 }
-
 .logo a:hover { color: #ffb733; }
 
 /* Controls */
@@ -69,8 +73,8 @@
 }
 
 .dropdown-list .dropdown-item {
-  padding: 3px 8px;  /* even slimmer rows */
-  font-size: 0.75rem;
+  padding: 4px 10px;         /* tighter row height */
+  font-size: 0.8rem;
 }
 
 .dropdown-list .dropdown-item:hover,
