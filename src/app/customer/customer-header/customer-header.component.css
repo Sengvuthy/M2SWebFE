@@ -50,6 +50,10 @@
 }
 
 /* Dropdowns */
+.dropdown-list {
+  position: relative; /* anchor for absolute menu */
+}
+
 .dropdown-list .dropdown-toggle {
   color: #f6a519 !important;
   font-weight: 600;
