@@ -55,28 +55,29 @@
 }
 
 .dropdown-list .dropdown-toggle {
-  padding: 2px 6px;          /* slimmer button */
-  font-size: 0.8rem;         /* smaller text */
+  padding: 2px 6px;
+  font-size: 0.8rem;
   border-radius: 4px;
+  position: relative;
+  z-index: 2000; /* keep toggle above */
 }
 
 .dropdown-list .dropdown-menu {
   position: absolute;
-  top: 100%;          /* sits directly behind the button */
+  top: calc(100% + 12px); /* bigger gap below button */
   left: 0;
   border: 1px solid #ff9900;
   border-radius: 5px;
-  z-index: 1500;      /* below toggle */
+  z-index: 1500; /* menu below toggle */
   background-color: #fff;
-  min-width: 140px;   /* compact width */
+  min-width: 140px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 /* My Profile row spacing */
 .dropdown-list .dropdown-item:first-child {
-  display: block;
-  margin-top: 14px;       /* reduced spacing */
-  border-top: 1px solid #eee; /* subtle divider */
+  margin-top: 0; /* remove extra spacing that caused overlap */
+  border-top: none;
 }
 
 .dropdown-list .dropdown-item {
