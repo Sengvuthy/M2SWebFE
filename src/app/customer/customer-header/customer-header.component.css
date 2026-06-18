@@ -68,9 +68,8 @@
 
 .dropdown-list .dropdown-menu {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 10px); /* clear the button neatly */
   left: 0;
-  margin-top: 4px;
   border: 1px solid #ff9900;
   border-radius: 5px;
   z-index: 2000;
