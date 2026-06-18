@@ -61,8 +61,15 @@
 }
 
 .dropdown-list .dropdown-menu {
-  top: calc(100% + 6px);     /* neat gap below button */
-  min-width: 140px;          /* compact width */
+  position: absolute;
+  top: 100%;          /* sits directly behind the button */
+  left: 0;
+  border: 1px solid #ff9900;
+  border-radius: 5px;
+  z-index: 1500;      /* below toggle */
+  background-color: #fff;
+  min-width: 140px;   /* compact width */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 /* My Profile row spacing */
