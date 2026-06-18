@@ -17,11 +17,6 @@
   margin-bottom: 8px;
 }
 
-/* Add this right below */
-.header-row:first-child {
-  margin-top: 6px; /* small gap between header bar and first row */
-}
-
 /* Row 1: Logo + Controls */
 .header-top {
   background: linear-gradient(145deg, #504f4f, #474444);
