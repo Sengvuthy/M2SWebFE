@@ -81,7 +81,7 @@
 /* My Profile row spacing */
 .dropdown-list .dropdown-item:first-child {
   display: block;
-  margin-top: 8px;       /* reduced spacing */
+  margin-top: 14px;       /* reduced spacing */
   border-top: 1px solid #eee; /* subtle divider */
 }
 
