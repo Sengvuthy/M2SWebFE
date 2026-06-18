@@ -86,6 +86,13 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+/* My Profile row spacing */
+.dropdown-list .dropdown-item:first-child {
+  display: block;
+  margin-top: 8px;       /* moderate spacing */
+  border-top: 1px solid #eee; /* subtle divider */
+}
+
 .dropdown-list .dropdown-item:hover,
 .dropdown-list .dropdown-item:focus,
 .dropdown-list .dropdown-item.active {
