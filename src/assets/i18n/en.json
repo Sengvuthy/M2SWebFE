@@ -5,7 +5,6 @@
   "CHAT_TELEGRAM": "Chat on Telegram",
   "LOGOUT": "Logout",
   "LOGIN": "Login",
-  "ALL": "All",
   "SEARCH_PLACEHOLDER": "Search name or barcode...",
   "CLEAR": "Clear",
   "CHOOSE_LANGUAGE": "Please choose your language",
@@ -63,5 +62,9 @@
   "SIGN_UP_PROMPT": "New Register",
   "PREVIOUS": "Previous",
   "NEXT": "Next",
-  "MAP_INSTRUCTION": "-> Click this 📍 to show your location<br>-> Please use two fingers to drag the map<br>-> Use one finger to drag the red pin"
+  "MAP_INSTRUCTION": "-> Click this 📍 to show your location<br>-> Please use two fingers to drag the map<br>-> Use one finger to drag the red pin",
+  "CATEGORY_ALL": "All",
+  "CATEGORY_BEER": "Beer",
+  "CATEGORY_NOODLE": "Noodle",
+  "CATEGORY_WATER": "Water"
 }

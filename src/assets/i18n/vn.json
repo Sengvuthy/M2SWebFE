@@ -5,7 +5,6 @@
   "CHAT_TELEGRAM": "Trò chuyện trên Telegram",
   "LOGOUT": "Đăng xuất",
   "LOGIN": "Đăng nhập",
-  "ALL": "Tất cả",
   "SEARCH_PLACEHOLDER": "Tìm kiếm theo tên hoặc mã vạch...",
   "CLEAR": "Xóa",
   "CHOOSE_LANGUAGE": "Vui lòng chọn ngôn ngữ của bạn",
@@ -63,5 +62,9 @@
   "SIGN_UP_PROMPT": "Đăng ký mới",
   "PREVIOUS": "Trước",
   "NEXT": "Tiếp",
-  "MAP_INSTRUCTION": "-> Nhấn vào 📍 để hiển thị vị trí của bạn<br>-> Vui lòng dùng hai ngón tay để kéo bản đồ<br>-> Dùng một ngón tay để kéo ghim đỏ"
+  "MAP_INSTRUCTION": "-> Nhấn vào 📍 để hiển thị vị trí của bạn<br>-> Vui lòng dùng hai ngón tay để kéo bản đồ<br>-> Dùng một ngón tay để kéo ghim đỏ",
+  "CATEGORY_ALL": "Tất cả",
+  "CATEGORY_BEER": "Bia",
+  "CATEGORY_NOODLE": "Mì",
+  "CATEGORY_WATER": "Nước"
 }

@@ -5,7 +5,6 @@
   "CHAT_TELEGRAM": "在Telegram聊天",
   "LOGOUT": "退出",
   "LOGIN": "登录",
-  "ALL": "全部",
   "SEARCH_PLACEHOLDER": "按名称或条码搜索...",
   "CLEAR": "清除",
   "CHOOSE_LANGUAGE": "请选择您的语言",
@@ -63,5 +62,9 @@
   "SIGN_UP_PROMPT": "新注册",
   "PREVIOUS": "上一页",
   "NEXT": "下一页",
-  "MAP_INSTRUCTION": "-> 点击 📍 以显示您的位置<br>-> 请用两根手指拖动地图<br>-> 用一根手指拖动红色图钉"
+  "MAP_INSTRUCTION": "-> 点击 📍 以显示您的位置<br>-> 请用两根手指拖动地图<br>-> 用一根手指拖动红色图钉",
+  "CATEGORY_ALL": "全部",
+  "CATEGORY_BEER": "啤酒",
+  "CATEGORY_NOODLE": "面条",
+  "CATEGORY_WATER": "水"
 }
