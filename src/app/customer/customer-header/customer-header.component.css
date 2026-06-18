@@ -68,7 +68,7 @@
 
 .dropdown-list .dropdown-menu {
   position: absolute;
-  top: calc(100% + 6px); /* neat gap below button */
+  top: calc(100% + 20px); /* neat gap below button */
   left: 0;
   border: 1px solid #ff9900;
   border-radius: 5px;
