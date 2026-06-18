@@ -49,40 +49,43 @@
   gap: 10px;
 }
 
-/* Dropdowns */
+/* Dropdown container */
 .dropdown-list {
-  position: relative; /* anchor for absolute menu */
-}
-
-.dropdown-list .dropdown-toggle {
-  padding: 2px 6px;
-  font-size: 0.8rem;
-  border-radius: 4px;
   position: relative;
-  z-index: 2000; /* keep toggle above */
 }
 
+/* Toggle button */
+.dropdown-list .dropdown-toggle {
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #ff9900;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #f5f5f5, #e0e0e0);
+  color: #f6a519 !important;
+  z-index: 2000;
+}
+
+/* Dropdown menu */
 .dropdown-list .dropdown-menu {
   position: absolute;
-  top: calc(100% + 12px); /* bigger gap below button */
+  top: calc(100% + 12px); /* clear gap below button */
   left: 0;
   border: 1px solid #ff9900;
   border-radius: 5px;
-  z-index: 1500; /* menu below toggle */
   background-color: #fff;
-  min-width: 140px;
+  min-width: 160px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1500;
+  padding: 4px 0;
 }
 
-/* My Profile row spacing */
-.dropdown-list .dropdown-item:first-child {
-  margin-top: 0; /* remove extra spacing that caused overlap */
-  border-top: none;
-}
-
+/* Dropdown items */
 .dropdown-list .dropdown-item {
-  padding: 4px 10px;         /* tighter row height */
+  padding: 6px 12px;
   font-size: 0.8rem;
+  color: #333;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .dropdown-list .dropdown-item:hover,
@@ -92,6 +95,7 @@
   color: #fff !important;
 }
 
+/* Danger item */
 .dropdown-list .dropdown-item.text-danger {
   color: #d9534f !important;
 }
