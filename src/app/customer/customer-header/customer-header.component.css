@@ -68,7 +68,7 @@
 
 .dropdown-list .dropdown-menu {
   position: absolute;
-  top: calc(100% + 2px); /* drop neatly below toggle */
+  top: calc(100% + 12px); /* push menu further down */
   left: 0;
   border: 1px solid #ff9900;
   border-radius: 5px;
@@ -76,6 +76,13 @@
   background-color: #fff;
   min-width: 100%; /* match toggle width */
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Force My Profile to start on second row */
+.dropdown-list .dropdown-item:first-child {
+  display: block;
+  margin-top: 8px;       /* space above */
+  border-top: 1px solid #eee; /* divider line */
 }
 
 .dropdown-list .dropdown-item {
