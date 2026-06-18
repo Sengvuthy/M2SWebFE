@@ -32,13 +32,9 @@
 
 /* Logo */
 .logo a {
-  color: #f5a52d;
-  font-weight: 700;
-  font-size: 1.3rem;
-  letter-spacing: 1px;
-  text-decoration: none;
-  text-shadow: 1px 1px 0 #000, 2px 2px 2px rgba(0,0,0,0.5);
+  font-size: 1.1rem; /* slightly smaller logo text */
 }
+
 .logo a:hover { color: #ffb733; }
 
 /* Controls */
@@ -55,27 +51,14 @@
 }
 
 .dropdown-list .dropdown-toggle {
-  color: #f6a519 !important;
-  font-weight: 600;
-  border: 1px solid #ff9900;
-  border-radius: 5px;
-  padding: 4px 8px;
-  background: linear-gradient(145deg, #f5f5f5, #e0e0e0);
-  font-size: 0.85rem;
-  position: relative;
-  z-index: 2000; /* ensure toggle stays above */
+  padding: 2px 6px;          /* slimmer button */
+  font-size: 0.8rem;         /* smaller text */
+  border-radius: 4px;
 }
 
 .dropdown-list .dropdown-menu {
-  position: absolute;
-  top: calc(100% + 8px); /* smaller gap */
-  left: 0;
-  border: 1px solid #ff9900;
-  border-radius: 5px;
-  z-index: 1500; /* below toggle */
-  background-color: #fff;
-  min-width: 100%; /* match toggle width */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  top: calc(100% + 6px);     /* neat gap below button */
+  min-width: 140px;          /* compact width */
 }
 
 /* My Profile row spacing */
@@ -86,10 +69,8 @@
 }
 
 .dropdown-list .dropdown-item {
-  padding: 6px 12px;
-  font-size: 0.85rem;
-  color: #333;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  padding: 3px 8px;  /* even slimmer rows */
+  font-size: 0.75rem;
 }
 
 .dropdown-list .dropdown-item:hover,
