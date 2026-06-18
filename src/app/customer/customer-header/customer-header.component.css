@@ -4,7 +4,7 @@
 .header-bar {
   background: linear-gradient(145deg, #f5a52d, #d4881f); /* orange gradient */
   color: #fff;
-  padding: 16px 20px 12px 20px; /* more top padding, keep bottom compact */
+  padding: 12px 20px;
   position: fixed;
   top: 0;
   left: 0;
@@ -68,7 +68,7 @@
 
 .dropdown-list .dropdown-menu {
   position: absolute;
-  top: calc(100% + 10px); /* neat gap below button */
+  top: calc(100% + 14px); /* bigger gap to clear button */
   left: 0;
   border: 1px solid #ff9900;
   border-radius: 5px;
