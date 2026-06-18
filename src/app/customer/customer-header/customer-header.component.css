@@ -68,7 +68,7 @@
 
 .dropdown-list .dropdown-menu {
   position: absolute;
-  top: calc(100% + 12px); /* push menu further down */
+  top: calc(100% + 18px); /* push menu further down */
   left: 0;
   border: 1px solid #ff9900;
   border-radius: 5px;
@@ -81,7 +81,7 @@
 /* Force My Profile to start on second row */
 .dropdown-list .dropdown-item:first-child {
   display: block;
-  margin-top: 8px;       /* space above */
+  margin-top: 12px;       /* space above */
   border-top: 1px solid #eee; /* divider line */
 }
 
