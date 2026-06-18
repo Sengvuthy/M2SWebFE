@@ -68,7 +68,7 @@
 
 .dropdown-list .dropdown-menu {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 6px);
   left: 0;
   margin-top: 4px;
   border: 1px solid #ff9900;
