@@ -79,13 +79,6 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-.dropdown-list .dropdown-item {
-  padding: 6px 12px;
-  font-size: 0.85rem;
-  color: #333;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
 /* My Profile row spacing */
 .dropdown-list .dropdown-item:first-child {
   display: block;
