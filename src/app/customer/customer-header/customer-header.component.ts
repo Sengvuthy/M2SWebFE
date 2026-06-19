@@ -39,7 +39,7 @@ export class CustomerHeaderComponent implements OnInit {
     private categoryService: CategoryService,
     private cartService: CartService,
     private visionService: VisionService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.customerName = localStorage.getItem('customerName');
@@ -49,7 +49,12 @@ export class CustomerHeaderComponent implements OnInit {
 
   loadCategories(): void {
     this.categoryService.getAllCategories().subscribe({
-      next: res => (this.categories = res.list),
+      next: res => {
+        this.categories = res.list.map((c: any) => ({
+          ...c,
+          translationKey: `CATEGORY_${c.name.toUpperCase()}`
+        }));
+      },
       error: err => console.error('Error loading categories:', err)
     });
   }
