@@ -51,6 +51,9 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="categoryMenu">
           <li><a class="dropdown-item" (click)="selectCategory(null)">{{ 'CATEGORY_ALL' | translate }}</a></li>
+          <li><a class="dropdown-item" (click)="selectCategory(null)">{{ 'CATEGORY_​BEER' | translate }}</a></li>
+          <li><a class="dropdown-item" (click)="selectCategory(null)">{{ 'CATEGORY_NOODLE' | translate }}</a></li>
+          <li><a class="dropdown-item" (click)="selectCategory(null)">{{ 'CATEGORY_​WATER' | translate }}</a></li>
           <li *ngFor="let c of categories">
             <a class="dropdown-item" (click)="selectCategory(c.id)">{{ c.name }}</a>
           </li>
