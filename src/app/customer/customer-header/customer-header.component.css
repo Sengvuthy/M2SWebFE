@@ -120,17 +120,18 @@
 /* Mobile overrides */
 @media (max-width: 576px) {
   .dropdown-list .dropdown-menu.dropdown-grid {
-    position: fixed;     /* fix to viewport */
-    top: 60px;           /* below header bar */
-    left: 0;             /* anchor left */
-    right: 0;            /* span full width */
-    width: 100%;         /* full width */
-    max-width: 100%;
-    max-height: 70vh;    /* scrollable area */
+    position: fixed !important;   /* override Bootstrap */
+    top: 60px !important;         /* below header bar */
+    left: 0 !important;           /* anchor left edge */
+    right: 0 !important;          /* anchor right edge */
+    width: auto !important;       /* let left+right define width */
+    min-width: 100% !important;   /* force full width */
+    max-width: 100% !important;
+    max-height: 70vh;
     overflow-y: auto;
   }
   .dropdown-menu.dropdown-grid .dropdown-item {
-    flex: 0 0 50%;       /* 2 columns on phone */
+    flex: 0 0 50%;                /* 2 columns on phone */
   }
 }
 
