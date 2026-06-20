@@ -92,20 +92,25 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+/* Default Bootstrap keeps dropdown hidden */
 .dropdown-menu.dropdown-grid {
-  width: 600px;        /* rectangle width */
-  max-height: 300px;   /* fixed height */
-  overflow-y: auto;    /* scroll bar */
+  width: 600px;
+  max-height: 300px;
+  overflow-y: auto;
   padding: 10px;
-  display: flex;
+}
+
+/* Apply grid layout only when dropdown is visible */
+.dropdown-menu.dropdown-grid.show {
+  display: flex;        /* grid only when open */
   flex-wrap: wrap;
-  align-content: flex-start; /* keep items aligned at the top */
+  align-content: flex-start;
 }
 
 .dropdown-menu.dropdown-grid .dropdown-item {
-  flex: 0 0 33%;       /* 3 columns */
+  flex: 0 0 33%;        /* 3 columns */
   box-sizing: border-box;
-  text-align: left;    /* align text neatly */
+  text-align: left;
 }
 
 .dropdown-list .dropdown-item:hover,
