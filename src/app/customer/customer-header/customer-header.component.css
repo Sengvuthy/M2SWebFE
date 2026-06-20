@@ -49,11 +49,12 @@
   gap: 10px;
 }
 
-/* Dropdowns */
+/* Dropdown container */
 .dropdown-list {
   position: relative; /* anchor for absolute menu */
 }
 
+/* Toggle button */
 .dropdown-list .dropdown-toggle {
   color: #f6a519 !important;
   font-weight: 600;
@@ -66,25 +67,28 @@
   z-index: 2000; /* ensure toggle stays above */
 }
 
+/* Dropdown menu base */
 .dropdown-list .dropdown-menu {
   position: absolute;
-  top: calc(100% + 8px); /* smaller gap */
-  left: 0;
+  top: calc(100% + 8px); /* gap below toggle */
+  left: 0;               /* force left alignment */
+  right: auto;           /* prevent overflow to right */
   border: 1px solid #ff9900;
   border-radius: 5px;
-  z-index: 1500; /* below toggle */
+  z-index: 1500;
   background-color: #fff;
-  min-width: 100%; /* match toggle width */
+  min-width: 100%;       /* match toggle width */
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* My Profile row spacing */
+/* Profile dropdown spacing */
 .dropdown-list .dropdown-item:first-child {
   display: block;
-  margin-top: 14px;       /* reduced spacing */
-  border-top: 1px solid #eee; /* subtle divider */
+  margin-top: 14px;
+  border-top: 1px solid #eee;
 }
 
+/* Dropdown items */
 .dropdown-list .dropdown-item {
   padding: 6px 12px;
   font-size: 0.85rem;
@@ -92,27 +96,29 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Default Bootstrap keeps dropdown hidden */
+/* Rectangle grid dropdown with scroll */
 .dropdown-menu.dropdown-grid {
-  width: 600px;
-  max-height: 300px;
-  overflow-y: auto;
+  width: 600px;        /* rectangle width */
+  max-height: 300px;   /* fixed height */
+  overflow-y: auto;    /* scroll bar */
   padding: 10px;
 }
 
-/* Apply grid layout only when dropdown is visible */
+/* Apply grid layout only when visible */
 .dropdown-menu.dropdown-grid.show {
-  display: flex;        /* grid only when open */
+  display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
 }
 
+/* Grid items */
 .dropdown-menu.dropdown-grid .dropdown-item {
-  flex: 0 0 33%;        /* 3 columns */
+  flex: 0 0 33%;       /* 3 columns */
   box-sizing: border-box;
   text-align: left;
 }
 
+/* Hover states */
 .dropdown-list .dropdown-item:hover,
 .dropdown-list .dropdown-item:focus,
 .dropdown-list .dropdown-item.active {
@@ -120,6 +126,7 @@
   color: #fff !important;
 }
 
+/* Danger item styles */
 .dropdown-list .dropdown-item.text-danger {
   color: #d9534f !important;
 }
@@ -128,6 +135,17 @@
 .dropdown-list .dropdown-item.text-danger.active {
   background-color: #d9534f !important;
   color: #fff !important;
+}
+
+/* Responsive tweak for mobile */
+@media (max-width: 576px) {
+  .dropdown-menu.dropdown-grid {
+    width: 100%;       /* full width on phone */
+    max-width: 100%;
+  }
+  .dropdown-menu.dropdown-grid .dropdown-item {
+    flex: 0 0 50%;     /* 2 columns on small screens */
+  }
 }
 
 /* Cart badge */
