@@ -49,6 +49,10 @@
   gap: 10px;
 }
 
+/* ===========================
+   Dropdown Styles
+=========================== */
+
 /* Dropdown container */
 .dropdown-list {
   position: relative; /* anchor for absolute menu */
@@ -64,7 +68,7 @@
   background: linear-gradient(145deg, #f5f5f5, #e0e0e0);
   font-size: 0.85rem;
   position: relative;
-  z-index: 2000; /* ensure toggle stays above */
+  z-index: 2000;
 }
 
 /* Dropdown menu base */
@@ -77,30 +81,14 @@
   border-radius: 5px;
   z-index: 1500;
   background-color: #fff;
-  min-width: 100%;       /* match toggle width */
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-/* Profile dropdown spacing */
-.dropdown-list .dropdown-item:first-child {
-  display: block;
-  margin-top: 14px;
-  border-top: 1px solid #eee;
-}
-
-/* Dropdown items */
-.dropdown-list .dropdown-item {
-  padding: 6px 12px;
-  font-size: 0.85rem;
-  color: #333;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Rectangle grid dropdown with scroll */
 .dropdown-menu.dropdown-grid {
-  width: 600px;        /* rectangle width */
-  max-height: 300px;   /* fixed height */
-  overflow-y: auto;    /* scroll bar */
+  width: 600px;          /* desktop rectangle width */
+  max-height: 300px;     /* fixed height */
+  overflow-y: auto;      /* scroll bar */
   padding: 10px;
 }
 
@@ -113,9 +101,13 @@
 
 /* Grid items */
 .dropdown-menu.dropdown-grid .dropdown-item {
-  flex: 0 0 33%;       /* 3 columns */
+  flex: 0 0 33%;         /* 3 columns desktop */
   box-sizing: border-box;
   text-align: left;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  color: #333;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Hover states */
@@ -139,12 +131,14 @@
 
 /* Responsive tweak for mobile */
 @media (max-width: 576px) {
-  .dropdown-menu.dropdown-grid {
-    width: 100%;       /* full width on phone */
+  .dropdown-list .dropdown-menu.dropdown-grid {
+    width: 100%;         /* full width on phone */
     max-width: 100%;
+    left: 0;             /* anchor left */
+    right: auto;
   }
   .dropdown-menu.dropdown-grid .dropdown-item {
-    flex: 0 0 50%;     /* 2 columns on small screens */
+    flex: 0 0 50%;       /* 2 columns on small screens */
   }
 }
 
