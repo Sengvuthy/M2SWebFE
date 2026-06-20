@@ -55,7 +55,7 @@
 
 /* Dropdown container */
 .dropdown-list {
-  position: relative; /* anchor for absolute menu */
+  position: relative;
 }
 
 /* Toggle button */
@@ -72,27 +72,24 @@
 }
 
 /* Dropdown menu base */
-.dropdown-list .dropdown-menu {
+.dropdown-list .dropdown-menu.dropdown-grid {
   position: absolute;
-  top: calc(100% + 8px); /* gap below toggle */
-  left: 0;               /* force left alignment */
-  right: auto;           /* prevent overflow to right */
+  top: calc(100% + 8px);
+  left: 0;               /* always anchor left */
+  right: auto;
   border: 1px solid #ff9900;
   border-radius: 5px;
   z-index: 1500;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-/* Rectangle grid dropdown with scroll */
-.dropdown-menu.dropdown-grid {
   width: 600px;          /* desktop rectangle width */
   max-height: 300px;     /* fixed height */
   overflow-y: auto;      /* scroll bar */
   padding: 10px;
+  display: none;         /* hidden by default */
 }
 
-/* Apply grid layout only when visible */
+/* Show grid only when dropdown is open */
 .dropdown-menu.dropdown-grid.show {
   display: flex;
   flex-wrap: wrap;
@@ -134,7 +131,7 @@
   .dropdown-list .dropdown-menu.dropdown-grid {
     width: 100%;         /* full width on phone */
     max-width: 100%;
-    left: 0;             /* anchor left */
+    left: 0;
     right: auto;
   }
   .dropdown-menu.dropdown-grid .dropdown-item {
