@@ -72,7 +72,7 @@
   position: absolute;
   top: calc(100% + 8px);
   left: 0;               /* always anchor left */
-  right: auto;           /* prevent overflow to right */
+  right: auto;
   border: 1px solid #ff9900;
   border-radius: 5px;
   z-index: 1500;
@@ -120,11 +120,14 @@
 /* Mobile overrides */
 @media (max-width: 576px) {
   .dropdown-list .dropdown-menu.dropdown-grid {
-    width: 100%;         /* full width on phone */
+    position: fixed;     /* fix to viewport */
+    top: 60px;           /* below header bar */
+    left: 0;             /* anchor left */
+    right: 0;            /* span full width */
+    width: 100%;         /* full width */
     max-width: 100%;
-    left: 0;
-    right: auto;
     max-height: 70vh;    /* scrollable area */
+    overflow-y: auto;
   }
   .dropdown-menu.dropdown-grid .dropdown-item {
     flex: 0 0 50%;       /* 2 columns on phone */
