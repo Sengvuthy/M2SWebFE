@@ -49,10 +49,6 @@
   gap: 10px;
 }
 
-/* ===========================
-   Dropdown Styles
-=========================== */
-
 /* Dropdown container */
 .dropdown-list {
   position: relative;
@@ -83,8 +79,8 @@
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   width: 600px;          /* desktop rectangle width */
-  max-height: 300px;     /* fixed height */
-  overflow-y: auto;      /* scroll bar */
+  max-height: 300px;
+  overflow-y: auto;
   padding: 10px;
   display: none;         /* hidden by default */
 }
@@ -126,16 +122,20 @@
   color: #fff !important;
 }
 
-/* Responsive tweak for mobile */
+/* Mobile overrides */
 @media (max-width: 576px) {
   .dropdown-list .dropdown-menu.dropdown-grid {
-    width: 100%;         /* full width on phone */
+    position: fixed;     /* make it fixed to viewport */
+    top: 60px;           /* below header bar */
+    left: 0;             /* anchor left edge */
+    right: 0;            /* span full width */
+    width: 100%;         /* full width */
     max-width: 100%;
-    left: 0;
-    right: auto;
+    max-height: 70vh;    /* use viewport height */
+    overflow-y: auto;
   }
   .dropdown-menu.dropdown-grid .dropdown-item {
-    flex: 0 0 50%;       /* 2 columns on small screens */
+    flex: 0 0 50%;       /* 2 columns on phone */
   }
 }
 
