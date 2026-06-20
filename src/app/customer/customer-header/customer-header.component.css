@@ -92,19 +92,20 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Categories dropdown rectangle with scroll */
 .dropdown-menu.dropdown-grid {
-  width: 600px;        /* rectangle width for 3 columns */
+  width: 600px;        /* rectangle width */
   max-height: 300px;   /* fixed height */
-  overflow-y: auto;    /* vertical scroll bar */
+  overflow-y: auto;    /* scroll bar */
   padding: 10px;
   display: flex;
-  flex-wrap: wrap;     /* allow items to wrap into columns */
+  flex-wrap: wrap;
+  align-content: flex-start; /* keep items aligned at the top */
 }
 
 .dropdown-menu.dropdown-grid .dropdown-item {
-  flex: 0 0 33%;       /* 3 columns (33% each) */
+  flex: 0 0 33%;       /* 3 columns */
   box-sizing: border-box;
+  text-align: left;    /* align text neatly */
 }
 
 .dropdown-list .dropdown-item:hover,
