@@ -216,12 +216,12 @@ export class CustomerFormComponent implements OnInit {
             this.reverseGeocode(pos.lat, pos.lng);
             this.customerForm.patchValue({ lat: pos.lat, lng: pos.lng });
             localStorage.setItem("userLocation", JSON.stringify(pos));
-            this.toastr.info('📍 Centered on your location');
+            this.toastr.info("📍 Location updated");
           },
-          () => this.toastr.error("Unable to fetch your location")
+          (err) => {
+            this.toastr.error("Location access denied or unavailable");
+          }
         );
-      } else {
-        this.toastr.warning("Geolocation not supported by this browser");
       }
     });
   }
