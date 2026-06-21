@@ -1,0 +1,8 @@
+#map {
+  touch-action: none;       /* Prevent Safari from hijacking drag gestures */
+  -webkit-user-select: none; /* Stop accidental text selection */
+  -webkit-touch-callout: none; /* Disable long-press callouts */
+}
+html, body {
+  overscroll-behavior: none; /* Prevent page scroll interference */
+}
