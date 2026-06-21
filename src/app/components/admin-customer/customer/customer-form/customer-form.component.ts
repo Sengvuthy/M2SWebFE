@@ -163,7 +163,12 @@ export class CustomerFormComponent implements OnInit {
 
     // ✅ Update address + form when pin is dragged
     this.marker.addListener('dragend', () => {
-      console.log('Drag event fired on iphone Safari')
+      // Show a popup alert
+      alert('📍 Drag event fired!');
+
+      // Or use Toastr instead of alert
+      this.toastr.info('📍 Pin moved on the map');
+
       const pos = this.marker.getPosition();
       if (!pos) return;
       this.reverseGeocode(pos.lat(), pos.lng());
