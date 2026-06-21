@@ -151,7 +151,8 @@ export class CustomerFormComponent implements OnInit {
       draggable: true,
       icon: {
         url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-        scaledSize: new google.maps.Size(40, 40)
+        scaledSize: new google.maps.Size(40, 40),
+        anchor: new google.maps.Point(20, 40)
       },
       title: this.translate.instant('MAP_PIN_INSTRUCTION')
     });
@@ -162,6 +163,7 @@ export class CustomerFormComponent implements OnInit {
 
     // ✅ Update address + form when pin is dragged
     this.marker.addListener('dragend', () => {
+      console.log('Drag event fired on iphone Safari')
       const pos = this.marker.getPosition();
       if (!pos) return;
       this.reverseGeocode(pos.lat(), pos.lng());
