@@ -141,18 +141,17 @@ export class CustomerFormComponent implements OnInit {
   }
 
   private setupMap(lat: number, lng: number): void {
-    // ✅ Create map
+    // Create map
     this.map = this.googleMaps.createMap('map', lat, lng);
 
-    // ✅ Create marker
+    // Create marker
     this.marker = new google.maps.Marker({
       position: { lat, lng },
       map: this.map,
       draggable: true,
       icon: {
         url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-        scaledSize: new google.maps.Size(40, 40),
-        anchor: new google.maps.Point(20, 40)
+        scaledSize: new google.maps.Size(40, 40)
       },
       title: this.translate.instant('MAP_PIN_INSTRUCTION')
     });
@@ -168,19 +167,6 @@ export class CustomerFormComponent implements OnInit {
       this.reverseGeocode(pos.lat(), pos.lng());
       this.customerForm.patchValue({ lat: pos.lat(), lng: pos.lng() });
       localStorage.setItem('userLocation', JSON.stringify({ lat: pos.lat(), lng: pos.lng() }));
-      this.toastr.info('📍 Pin moved by drag');
-    });
-
-    // ✅ Tap-to-set fallback for Safari/iOS
-    this.map.addListener('click', (event: google.maps.MapMouseEvent) => {
-      if (event.latLng) {
-        const pos = event.latLng;
-        this.marker.setPosition(pos);
-        this.reverseGeocode(pos.lat(), pos.lng());
-        this.customerForm.patchValue({ lat: pos.lat(), lng: pos.lng() });
-        localStorage.setItem('userLocation', JSON.stringify({ lat: pos.lat(), lng: pos.lng() }));
-        this.toastr.info('📍 Pin set by tap');
-      }
     });
 
     // ✅ Add "Locate Me" button styled like Google Maps
@@ -196,13 +182,17 @@ export class CustomerFormComponent implements OnInit {
     locateButton.style.display = "flex";
     locateButton.style.alignItems = "center";
     locateButton.style.justifyContent = "center";
-    locateButton.classList.add("map-locate-btn");
+    locateButton.title = "Find my location";
+
+    // Add crosshair icon
+    locateButton.classList.add("map-locate-btn"); // use CSS class
     locateButton.title = this.translate.instant("LOCATE_ME");
     locateButton.innerHTML = "📍";
 
+    // Place button on map
     this.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locateButton);
 
-    // ✅ Handle click → center map on user location
+    // Handle click → center map on user location
     locateButton.addEventListener("click", () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -216,12 +206,11 @@ export class CustomerFormComponent implements OnInit {
             this.reverseGeocode(pos.lat, pos.lng);
             this.customerForm.patchValue({ lat: pos.lat, lng: pos.lng });
             localStorage.setItem("userLocation", JSON.stringify(pos));
-            this.toastr.info("📍 Location updated");
           },
-          (err) => {
-            this.toastr.error("Location access denied or unavailable");
-          }
+          () => this.toastr.error("Unable to fetch your location")
         );
+      } else {
+        this.toastr.warning("Geolocation not supported by this browser");
       }
     });
   }
