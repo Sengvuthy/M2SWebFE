@@ -132,4 +132,10 @@ export class CustomerService {
       { params: { phone: normalized } }
     );
   }
+
+  downloadCustomersExcel(): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/excel/customers/export/download`, {
+      responseType: 'blob'  // ✅ important: treat response as binary file
+    });
+  }
 }

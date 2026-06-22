@@ -29,7 +29,7 @@ export class CustomerListComponent implements OnInit {
     private customerService: CustomerService,
     private router: Router,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadCustomers();
@@ -171,6 +171,24 @@ export class CustomerListComponent implements OnInit {
       error: (err) => {
         const msg = err.error || "Export failed";
         this.toastr.error(msg, "Export Error");
+      }
+    });
+  }
+
+  downloadCustomers() {
+    this.customerService.downloadCustomersExcel().subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Customers.xlsx';  // ✅ filename
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.toastr.success("Customers Excel downloaded!", "Download Success");
+      },
+      error: (err) => {
+        const msg = err.error || "Download failed";
+        this.toastr.error(msg, "Download Error");
       }
     });
   }

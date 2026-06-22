@@ -30,9 +30,15 @@
           Create Customer
         </button>
         <h5 class="text-center flex-grow-1 mb-0" style="font-size: 1rem;">Customer List</h5>
-        <div class="d-flex gap-2 ms-3">
-          <button class="btn btn-warning btn-sm" style="background-color: #f58718;" (click)="importCustomers()">
-            Import Customers
+        <div class="btn-group mb-3">
+          <button (click)="importCustomers()" class="btn btn-success">
+            📥 Import Customers
+          </button>
+          <button (click)="exportCustomers()" class="btn btn-warning">
+            📤 Export Customers
+          </button>
+          <button (click)="downloadCustomers()" class="btn btn-primary">
+            ⬇️ Download Customers Excel
           </button>
         </div>
       </div>
