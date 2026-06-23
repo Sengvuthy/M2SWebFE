@@ -150,6 +150,7 @@ export class CustomerListComponent implements OnInit {
     });
   }
 
+  //Import = /data/excel/Customers/Customers.xlsx (on Render)  → DB on Render 
   importCustomers() {
     this.customerService.importCustomers().subscribe({
       next: (res) => {
@@ -163,6 +164,7 @@ export class CustomerListComponent implements OnInit {
     });
   }
 
+  //Export = DB on Render → /data/excel/Customers/Customers.xlsx (on Render)
   exportCustomers() {
     this.customerService.exportCustomers().subscribe({
       next: (res) => {
@@ -175,6 +177,7 @@ export class CustomerListComponent implements OnInit {
     });
   }
 
+  //Render Container → Excel (on Download folder of Computer)
   downloadCustomers() {
     this.customerService.downloadCustomersExcel().subscribe({
       next: (blob) => {
