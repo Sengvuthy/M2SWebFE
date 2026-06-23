@@ -31,14 +31,14 @@
         </button>
         <h5 class="text-center flex-grow-1 mb-0" style="font-size: 1rem;">Customer List</h5>
         <div class="btn-group mb-3">
-          <button (click)="importCustomers()" class="btn btn-success">
+          <button (click)="importCustomers()" class="btn btn-success"> //Import = /data/excel/Customers/Customers.xlsx (on Render)  → DB on Render 
             📥 Import Customers
           </button>
-          <button (click)="exportCustomers()" class="btn btn-warning">
+          <button (click)="exportCustomers()" class="btn btn-warning"> //Export = DB on Render → /data/excel/Customers/Customers.xlsx (on Render)
             📤 Export Customers
           </button>
-          <button (click)="downloadCustomers()" class="btn btn-primary">
-            ⬇️ Download Customers Excel
+          <button (click)="downloadCustomers()" class="btn btn-primary"> //Render Container → Excel (on Download folder of Computer)
+            ⬇️ Download Excel
           </button>
         </div>
       </div>
